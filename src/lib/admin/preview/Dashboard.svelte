@@ -11,7 +11,7 @@
 		DashboardSquare01Icon,
 		DeliveryTruck01Icon,
 		Invoice01Icon,
-		Notification03Icon,
+		Notification01Icon,
 		PackageIcon,
 		Search01Icon,
 		Settings01Icon,
@@ -118,7 +118,7 @@
 			>
 			<span class="top-right">
 				<span class="round"
-					><HugeiconsIcon icon={Notification03Icon} size={17} strokeWidth={stroke} /></span
+					><HugeiconsIcon icon={Notification01Icon} size={17} strokeWidth={stroke} /></span
 				>
 				<span class="face">রহ</span>
 			</span>
@@ -260,7 +260,8 @@
 	.app {
 		display: grid;
 		grid-template-columns: 228px minmax(0, 1fr);
-		min-height: 760px;
+		height: 100dvh;
+		overflow: hidden;
 		background: var(--d-shell);
 		color: var(--d-ink);
 		font-size: 13.5px;
@@ -312,6 +313,9 @@
 		flex-direction: column;
 		gap: 2px;
 		padding: 22px 12px;
+		height: 100dvh;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 
 	.brand {
@@ -406,13 +410,40 @@
 		background: var(--d-sheet);
 		border-radius: var(--d-r);
 		box-shadow: var(--d-soft);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	/* A thin, quiet scrollbar: on a screen this pale a default one is a bar of
+	   furniture down the side. */
+	.body::-webkit-scrollbar,
+	.rail::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	.body::-webkit-scrollbar-thumb,
+	.rail::-webkit-scrollbar-thumb {
+		border: 3px solid transparent;
+		border-radius: 10px;
+		background-clip: content-box;
+		background-color: rgba(120, 124, 136, 0.28);
+	}
+
+	.body::-webkit-scrollbar-track,
+	.rail::-webkit-scrollbar-track {
+		background: transparent;
 	}
 
 	.top {
+		position: sticky;
+		top: -18px;
+		z-index: 2;
 		display: flex;
 		align-items: center;
 		gap: 14px;
-		margin-bottom: 24px;
+		margin: -18px -22px 24px;
+		padding: 18px 22px 12px;
+		background: var(--d-sheet);
 	}
 
 	.search {
