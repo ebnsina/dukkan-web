@@ -11,11 +11,8 @@
 
 	let { seed = 0, tone = 'currentColor', base = 'white', class: className = '' }: Props = $props();
 
-	/**
-	 * Stands in for photography inside a mock: a soft aurora mixed from the
-	 * surrounding palette. Everything blends toward `base` rather than white, so
-	 * the wash stays light on a light theme and stays dark on a dark one.
-	 */
+	/* Stands in for photography: an aurora mixed from the surrounding palette,
+	   blended toward `base` so it suits a light or a dark theme. */
 	const arrangements = [
 		[
 			['18% 8%', 55],

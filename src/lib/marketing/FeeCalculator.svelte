@@ -2,34 +2,32 @@
 	import { reveal } from './motion';
 	import MkSectionHead from './ui/MkSectionHead.svelte';
 	import Frame from './ui/Frame.svelte';
+	import { taka } from './money';
 
-	/** Median order value across our merchants — drives the transaction count. */
-	const AVERAGE_ORDER = 40;
-	const LEGACY_RATE = 0.029;
-	const LEGACY_PER_TXN = 0.3;
+	/* Local figures, not converted ones — and still placeholders. Confirm against
+	   real gateway and platform pricing before launch. */
+	const AVERAGE_ORDER = 1200;
+	const LEGACY_RATE = 0.03;
+	const LEGACY_PER_ORDER = 5;
 	const DUKKAN_RATE = 0.019;
-	const DUKKAN_FLAT = 29;
+	const DUKKAN_FLAT = 2900;
 
-	/**
-	 * A flat fee only wins above a certain volume. Rather than let the slider
-	 * reach a range where the answer is "we cost you more", the range starts
-	 * above break-even and the threshold is stated outright. Derived from the
-	 * rates, so changing any of them moves the floor with it.
-	 */
-	const BREAK_EVEN = DUKKAN_FLAT / (LEGACY_RATE + LEGACY_PER_TXN / AVERAGE_ORDER - DUKKAN_RATE);
-	const STEP = 1000;
+	/* A flat fee only wins above a certain volume, so the range starts above
+	   break-even and says so rather than showing a loss. */
+	const BREAK_EVEN = DUKKAN_FLAT / (LEGACY_RATE + LEGACY_PER_ORDER / AVERAGE_ORDER - DUKKAN_RATE);
+	const STEP = 10000;
 	const FLOOR = Math.ceil(BREAK_EVEN / STEP) * STEP;
-	const CEILING = 250000;
+	const CEILING = 3000000;
 
-	let sales = $state(25000);
+	let sales = $state(600000);
 
 	let transactions = $derived(Math.round(sales / AVERAGE_ORDER));
-	let legacy = $derived(sales * LEGACY_RATE + transactions * LEGACY_PER_TXN);
+	let legacy = $derived(sales * LEGACY_RATE + transactions * LEGACY_PER_ORDER);
 	let dukkan = $derived(sales * DUKKAN_RATE + DUKKAN_FLAT);
 	// Never negative: the floor is above break-even, and this is the backstop.
 	let saved = $derived(Math.max(0, (legacy - dukkan) * 12));
 
-	const money = (value: number) => `$${Math.round(value).toLocaleString('en-US')}`;
+	const money = (value: number) => taka(Math.round(value));
 
 	// Both bars share one scale, so the taller cost is always the full width.
 	let peak = $derived(Math.max(legacy, dukkan));
@@ -42,7 +40,7 @@
 		<MkSectionHead
 			kicker="The math"
 			heading="Legacy platforms charge per transaction. We charge once."
-			sub="Drag your monthly sales. Assumes a $40 average order."
+			sub="Drag your monthly sales. Assumes a {money(AVERAGE_ORDER)} average order."
 		/>
 
 		<div use:reveal class="grid grid-cols-1 gap-5 lg:grid-cols-[0.85fr_1.15fr]">
@@ -75,7 +73,7 @@
 					</div>
 					<div class="flex items-baseline justify-between">
 						<dt class="text-mk-muted">Average order</dt>
-						<dd class="mk-num">${AVERAGE_ORDER}</dd>
+						<dd class="mk-num">{money(AVERAGE_ORDER)}</dd>
 					</div>
 				</dl>
 			</Frame>
@@ -83,7 +81,7 @@
 			<Frame eyebrow="Cost a month" bodyClass="p-7">
 				<!-- Both bars share one scale, so the taller cost is the full width. -->
 				<div class="flex flex-col gap-7">
-					{#each [{ label: 'Legacy platform', value: legacy, width: legacyWidth, fill: 'bg-mk-ink/30', note: '2.9% + $0.30 per transaction' }, { label: 'Dukkàn', value: dukkan, width: dukkanWidth, fill: 'bg-mk-lime', note: '1.9% + $29 flat, per month' }] as row (row.label)}
+					{#each [{ label: 'Legacy platform', value: legacy, width: legacyWidth, fill: 'bg-mk-ink/30', note: `3% + ${money(LEGACY_PER_ORDER)} an order` }, { label: 'Dukkàn', value: dukkan, width: dukkanWidth, fill: 'bg-mk-lime', note: `1.9% + ${money(DUKKAN_FLAT)} flat, per month` }] as row (row.label)}
 						<div>
 							<div class="mb-2.5 flex items-baseline justify-between gap-4">
 								<span class="mk-mono text-mk-muted">{row.label}</span>

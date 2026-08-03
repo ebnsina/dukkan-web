@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowRight02Icon, CheckmarkBadge01Icon, Globe02Icon } from '@hugeicons/core-free-icons';
+	import * as v from 'valibot';
 	import { reveal, scramble } from './motion';
 	import Frame from './ui/Frame.svelte';
 
-	/**
-	 * Front-end only. It shapes the handle the way the real signup does and
-	 * checks it against a short list of names already in use — the server is the
-	 * authority, this only saves the visitor a round trip on obvious cases.
-	 */
+	/* Front-end only, and a courtesy: the server is the authority on whether a
+	   handle is free. */
 	const TAKEN = ['shop', 'store', 'dukkan', 'test', 'admin', 'demo', 'marigold'];
 	const SUFFIX = '.dukkan.store';
 
@@ -26,15 +24,16 @@
 			.slice(0, 32)
 	);
 
-	let status = $derived(
-		handle.length === 0
-			? 'empty'
-			: handle.length < 3
-				? 'short'
-				: TAKEN.includes(handle)
-					? 'taken'
-					: 'free'
+	// One schema, one message per failure — the field shows what the schema says.
+	const HandleSchema = v.pipe(
+		v.string(),
+		v.nonEmpty('Type a name to check it'),
+		v.minLength(3, 'Three characters or more'),
+		v.check((value) => !TAKEN.includes(value), 'That one is taken — try another')
 	);
+
+	let result = $derived(v.safeParse(HandleSchema, handle));
+	let problem = $derived(result.success ? '' : result.issues[0].message);
 
 	// The field grows with what you type: a fixed-width input scrolls its own
 	// start out of view, which hides the beginning of the address.
@@ -50,9 +49,8 @@
 </script>
 
 <!--
-	No tinted panel: a wash of the brand colour behind body text just muddies
-	both. The section is the field — centred, on paper, with the domain set as
-	one continuous line so it reads as an address rather than a form.
+	The section is the field: centred, on paper, the domain set as one continuous
+	line so it reads as an address rather than a form.
 -->
 <section class="py-[clamp(64px,8vw,104px)]">
 	<div class="mk-wrap">
@@ -64,12 +62,8 @@
 			</p>
 
 			<!--
-				Input and action share one frame, the way a browser bar does. The
-				button is inset by the same 2 units on every side rather than butting
-				the panel edge — flush, it reads as a second panel welded on; inset, it
-				reads as a control sitting in a field. Focus warms the panel edge
-				rather than blackening it: a full-ink 1px rule around a wide field is
-				a slab, and the keyboard cue is the focus-visible outline anyway.
+				Input and action share one frame; the button is inset on all four sides
+				because flush it reads as a second panel welded on.
 			-->
 			<Frame
 				eyebrow="Your address"
@@ -103,7 +97,7 @@
 
 					<button
 						type="button"
-						disabled={status !== 'free'}
+						disabled={!result.success}
 						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch bg-mk-lime px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-ink uppercase transition-colors duration-200 hover:bg-mk-lime-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
 					>
 						Claim it
@@ -122,12 +116,8 @@
 			>
 				{#if checking}
 					<span class="text-mk-muted">Checking…</span>
-				{:else if status === 'empty'}
-					<span class="text-mk-muted">Type a name to check it</span>
-				{:else if status === 'short'}
-					<span class="text-mk-muted">Three characters or more</span>
-				{:else if status === 'taken'}
-					<span class="text-mk-muted">That one is taken — try another</span>
+				{:else if problem}
+					<span class="text-mk-muted">{problem}</span>
 				{:else}
 					<span class="text-mk-lime-ink">
 						<HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} strokeWidth={1.8} />

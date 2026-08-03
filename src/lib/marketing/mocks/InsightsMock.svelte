@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { taka } from '../money';
+
 	const bars = [34, 52, 41, 66, 58, 79, 71, 88, 62, 94, 83, 100];
 	const kpis = [
-		{ label: 'AOV', value: '$62' },
+		{ label: 'AOV', value: taka(1240) },
 		{ label: 'Repeat', value: '38%' },
 		{ label: 'Returns', value: '6.2%' }
 	];

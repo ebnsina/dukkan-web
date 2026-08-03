@@ -1,19 +1,30 @@
 <script lang="ts">
+	import * as v from 'valibot';
 	import { reveal, scramble } from './motion';
 	import WordmarkCycle from './ui/WordmarkCycle.svelte';
 
+	// The server is the real validator; this only catches typos before a round trip.
+	const EmailSchema = v.pipe(
+		v.string(),
+		v.trim(),
+		v.nonEmpty('Enter your email address.'),
+		v.email('That does not look like an email address.')
+	);
+
 	let email = $state('');
 	let done = $state(false);
-	let invalid = $state(false);
+	let error = $state('');
 
 	function submit(event: SubmitEvent) {
 		event.preventDefault();
-		// Deliberately loose: the server is the real validator, this only catches typos.
-		if (!/^\S+@\S+\.\S+$/.test(email)) {
-			invalid = true;
+		const result = v.safeParse(EmailSchema, email);
+
+		if (!result.success) {
+			error = result.issues[0].message;
 			return;
 		}
-		invalid = false;
+
+		error = '';
 		done = true;
 	}
 </script>
@@ -48,10 +59,10 @@
 					bind:value={email}
 					placeholder="you@yourshop.com"
 					aria-label="Email address"
-					aria-invalid={invalid}
-					required
-					class="flex-1 border bg-transparent px-4 py-[15px] text-[15px] text-mk-cream placeholder:text-mk-cream/35 focus:border-mk-lime focus:outline-none {invalid
-						? 'border-[#d9614a]'
+					aria-invalid={Boolean(error)}
+					aria-describedby={error ? 'mk-signup-error' : undefined}
+					class="flex-1 border bg-transparent px-4 py-[15px] text-[15px] text-mk-cream placeholder:text-mk-cream/35 focus:border-mk-lime focus:outline-none {error
+						? 'border-mk-lime'
 						: 'border-mk-cream/30'}"
 				/>
 				<button
@@ -60,6 +71,16 @@
 					>Start free</button
 				>
 			</form>
+
+			{#if error}
+				<p
+					id="mk-signup-error"
+					aria-live="polite"
+					class="mt-3 font-mk-mono text-[11px] tracking-[0.12em] text-mk-lime uppercase"
+				>
+					{error}
+				</p>
+			{/if}
 		{/if}
 
 		<p

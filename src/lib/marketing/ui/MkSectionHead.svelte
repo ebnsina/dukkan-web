@@ -18,11 +18,8 @@
 	let { kicker, heading, sub, tone = 'light', centered = false, aside, children }: Props = $props();
 </script>
 
-<!--
-	Heading left, sub-copy right, both on one baseline. Stacking them in a narrow
-	left column leaves half the width empty, which reads like an article rather
-	than a product page.
--->
+<!-- Heading left, sub-copy right, one baseline: stacked, half the width sits
+	empty and it reads like an article. -->
 <div class="mb-14 {centered ? 'text-center' : ''}">
 	<p
 		use:reveal

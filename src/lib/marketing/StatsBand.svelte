@@ -3,18 +3,14 @@
 
 	// Read as one sentence: figure, then what it is, then the next.
 	const stats = [
-		{ to: 4.2, decimals: 1, prefix: '$', suffix: 'B', label: 'processed last year' },
+		{ to: 1200, prefix: '৳', suffix: ' cr', label: 'processed last year' },
 		{ to: 48000, suffix: '+', label: 'shops trading' },
-		{ to: 32, label: 'markets, paid locally' },
+		{ to: 64, label: 'districts delivered to' },
 		{ to: 99.99, decimals: 2, suffix: '%', label: 'checkout uptime' }
 	];
 </script>
 
-<!--
-	No header row, no rules, no cells. The figures are the section: a single
-	typographic run where the numbers carry the weight and the words between
-	them are just enough to say what each one is.
--->
+<!-- No cells, no rules: one typographic run where the figures carry it. -->
 <section class="bg-mk-dark py-[clamp(80px,10vw,136px)] text-mk-cream">
 	<div class="mk-wrap">
 		<p class="flex flex-wrap items-baseline gap-x-6 gap-y-7">

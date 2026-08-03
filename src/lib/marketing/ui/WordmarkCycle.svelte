@@ -15,11 +15,8 @@
 	let index = $state(0);
 	let display = $state(words[0]);
 
-	/**
-	 * The word decodes into place the way the kickers do, but scrambled from its
-	 * own glyphs — Latin noise in front of Bangla would read as a rendering bug
-	 * rather than an effect.
-	 */
+	/* Scrambled from its own glyphs: Latin noise in front of Bangla reads as a
+	   rendering bug rather than an effect. */
 	function decode(word: string, onDone: () => void) {
 		const glyphs = [...new Set([...word.replace(/\s/g, '')])];
 		const noise = () => glyphs[(Math.random() * glyphs.length) | 0];

@@ -1,11 +1,5 @@
-/**
- * Motion primitives for the marketing surface.
- *
- * Each action toggles a `data-mk-*` attribute that layout.css styles, so the
- * animation lives in CSS and only the trigger lives here. Every one of them
- * lands on the finished state when the visitor asks for reduced motion — the
- * page never needs animation to become readable.
- */
+/* Each action toggles a `data-mk-*` attribute that layout.css styles, so only
+   the trigger lives here. All land finished under reduced motion. */
 
 import type { Action } from 'svelte/action';
 
@@ -105,7 +99,7 @@ export interface CountUpOptions {
 }
 
 const group = (value: number, decimals: number) =>
-	value.toLocaleString('en-US', {
+	value.toLocaleString('en-IN', {
 		minimumFractionDigits: decimals,
 		maximumFractionDigits: decimals
 	});

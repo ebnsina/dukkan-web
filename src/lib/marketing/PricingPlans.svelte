@@ -3,6 +3,7 @@
 	import MkSectionHead from './ui/MkSectionHead.svelte';
 	import MkButton from './ui/MkButton.svelte';
 	import MkLink from './ui/MkLink.svelte';
+	import { taka } from './money';
 
 	const tiers = [
 		{
@@ -22,8 +23,8 @@
 		},
 		{
 			name: 'Atelier',
-			monthly: 29,
-			annual: 23,
+			monthly: 2900,
+			annual: 2320,
 			blurb: 'The working shop. Own domain, the full payment stack, couriers and staff logins.',
 			features: [
 				'3 storefronts',
@@ -38,8 +39,8 @@
 		},
 		{
 			name: 'Empire',
-			monthly: 99,
-			annual: 79,
+			monthly: 9900,
+			annual: 7920,
 			blurb: 'Multi-market operations. Separate catalogues, currencies and warehouses, one roof.',
 			features: [
 				'10 storefronts',
@@ -134,7 +135,7 @@
 							<span
 								class="inline-block mk-num transition-[opacity,transform] duration-200 {flipping
 									? '-translate-y-2 opacity-0'
-									: ''}">${annual ? tier.annual : tier.monthly}</span
+									: ''}">{taka(annual ? tier.annual : tier.monthly)}</span
 							>
 							<i
 								class="font-mk-mono text-[12px] tracking-[0.1em] not-italic {tier.featured
@@ -182,7 +183,7 @@
 			use:reveal
 			class="mt-6 text-center font-mk-mono text-[11px] tracking-[0.14em] text-mk-faint uppercase"
 		>
-			Billed in your local currency &middot; cancel anytime
+			Billed in taka &middot; cancel anytime
 		</p>
 
 		<div

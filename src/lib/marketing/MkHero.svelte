@@ -17,12 +17,8 @@
 			</p>
 
 			<!--
-				Two masked lines, each rising out of its own overflow box, and one colour
-				each — the claim in ink, the counter-claim in lime. Both lines must stay
-				on one line at every width or the mask clips a wrapped remainder, which
-				is what caps the size. Between md and lg the preview drops below the
-				copy and the headline gets the whole width, so it takes a larger size
-				for that band only.
+				Two masked lines, one colour each. Neither may wrap — a wrapped line is a
+				clipped line inside the mask, which is what caps the size.
 			-->
 			<h1 class="text-mk-h1 md:max-lg:text-[clamp(40px,5.2vw,58px)]">
 				<span use:lineMask class="block overflow-hidden"
@@ -44,12 +40,7 @@
 				Money settles in 24 hours.
 			</p>
 
-			<!--
-				Auto columns at 1fr take the width of the longer label, so the two
-				buttons always match without hard-coding a width. No max-width on the
-				stack: capping it short of the column leaves the buttons ending inside
-				the paragraph above them, which reads as a broken right margin.
-			-->
+			<!-- Auto columns at 1fr keep both buttons the width of the longer label. -->
 			<div
 				use:reveal={180}
 				class="mt-8 grid w-full gap-3 sm:w-fit sm:auto-cols-fr sm:grid-flow-col"
@@ -71,7 +62,7 @@
 				</div>
 				<p class="text-[13px] text-mk-muted">
 					<b class="mk-num text-mk-ink">48,000+</b> merchants,
-					<b class="mk-num text-mk-ink">32</b> markets
+					<b class="mk-num text-mk-ink">64</b> districts
 				</p>
 			</div>
 		</div>

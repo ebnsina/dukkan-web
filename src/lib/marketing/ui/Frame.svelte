@@ -43,13 +43,8 @@
 </script>
 
 <!--
-	Two layers, not one box: a tinted shell carries the header and footer, and
-	the content sits in its own panel inset by a 3px rail of that shell — a
-	single pixel reads as a rendering artefact rather than a deliberate inset.
-	The panel is always paper, whatever the shell's tone, so the inset is legible
-	on both. The shell grey is a solid warm neutral rather than ink at low alpha:
-	ink is a green-black, and tinting it lands on a cold grey that fights the
-	lime. No radius, no shadow.
+	Two layers: a warm grey shell carries the header and footer, and the paper
+	panel sits inset by a 3px rail. Square, flat, no shadow.
 -->
 <div class="group/frame flex flex-col p-[3px] {dark ? 'bg-mk-dark-2' : 'bg-mk-shell'} {className}">
 	{#if head || eyebrow || title || action}

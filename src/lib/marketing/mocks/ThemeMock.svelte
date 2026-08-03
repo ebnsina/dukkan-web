@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ArtSlot from '../ui/ArtSlot.svelte';
+	import { taka } from '../money';
 
 	interface Props {
 		name: string;
@@ -18,18 +19,18 @@
 	// Nav in the reading direction the theme actually ships.
 	const nav = { ltr: ['Shop', 'Journal', 'Cart (2)'], rtl: ['المتجر', 'المجلة', 'السلة (٢)'] };
 
-	// A shop puts the price and the buy on the product, not one bar under the
-	// whole grid — that reads as a checkout, and no catalogue page has one.
+	// Price and buy belong on the product. One bar under the whole grid reads as
+	// a checkout, and no catalogue page has one.
 	const products = {
 		ltr: [
-			{ name: 'Woven throw', price: '$52.00' },
-			{ name: 'Linen scarf', price: '$29.00' },
-			{ name: 'Clay vessel', price: '$38.00' }
+			{ name: 'Woven throw', price: taka(2450) },
+			{ name: 'Linen scarf', price: taka(1190) },
+			{ name: 'Clay vessel', price: taka(980) }
 		],
 		rtl: [
-			{ name: 'بطانية منسوجة', price: '$52.00' },
-			{ name: 'وشاح كتان', price: '$29.00' },
-			{ name: 'إناء فخاري', price: '$38.00' }
+			{ name: 'بطانية منسوجة', price: taka(2450) },
+			{ name: 'وشاح كتان', price: taka(1190) },
+			{ name: 'إناء فخاري', price: taka(980) }
 		]
 	};
 
@@ -41,12 +42,8 @@
 </script>
 
 <!--
-	A storefront rendered in the theme's own palette — the same object the hero
-	preview shows. Nothing here transitions its colour: the accent reaches the
-	art through gradient stops, which cannot interpolate, so a fade would land
-	the new accent on the old ground for half a second. It repaints in one frame
-	instead. A photograph would say nothing about what the theme actually
-	does with type, colour and spacing.
+	The theme's own palette on the same storefront. Colour never transitions:
+	gradients cannot interpolate, so a fade would show a theme that does not exist.
 -->
 <div {style} class="border border-mk-ink/10 bg-[var(--t-bg)] text-[var(--t-fg)]">
 	<div class="flex items-center gap-2 border-b border-current/10 px-5 py-3.5">
@@ -72,11 +69,7 @@
 
 		<ArtSlot seed={motif} tone={palette.art} base={palette.bg} class="aspect-21/9" />
 
-		<!--
-			Each card carries its own name, price and buy. The accent lands three
-			times at card scale instead of once in a slab, which is a truer read of
-			what the theme does with colour anyway.
-		-->
+		<!-- Each card carries its own name, price and buy. -->
 		<div class="mt-5 grid grid-cols-3 gap-5">
 			{#each rtl ? products.rtl : products.ltr as product, i (product.name)}
 				<article class="flex flex-col">
@@ -86,10 +79,7 @@
 						base={palette.bg}
 						class="aspect-5/4 w-full"
 					/>
-					<!--
-						Wraps rather than truncates: in a narrow frame these cards are ~90px
-						wide, and a truncated name is worse than a price on its own line.
-					-->
+					<!-- Wraps rather than truncates: ~90px cards in a narrow frame. -->
 					<div
 						class="mt-2.5 flex flex-1 flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5"
 					>

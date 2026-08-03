@@ -78,13 +78,8 @@
 			</nav>
 		</div>
 
-		<!--
-			A watermark, not a logo: oversized, hollow, sitting behind the base rule.
-			The outline is a text stroke rather than a fill, so it reads as a ground
-			texture instead of competing with the mark at the top of the footer.
-			No bold: Instrument Serif ships one weight, and the synthetic bold makes
-			the stroke trace both edges of every stem, which doubles the outline.
-		-->
+		<!-- A watermark, not a logo. No bold: Instrument Serif has one weight, and
+			synthetic bold makes the stroke trace both edges of every stem. -->
 		<p
 			aria-hidden="true"
 			class="wordmark mt-14 mb-4 text-center font-mk-serif text-[clamp(96px,22vw,300px)] leading-[0.8] tracking-[-0.03em]"

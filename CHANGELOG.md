@@ -64,6 +64,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Every figure on the landing page is taka, formatted with `Intl` through
+  `marketing/money.ts`. The fee calculator compares against local rates rather
+  than a US card rate, and the payment feed shows bKash and Nagad.
+- `formatMinor` renders `en-IN`, not `en-BD`: Bangladesh groups digits South
+  Asian style and `en-BD` carries no such grouping in ICU, so amounts were
+  printing as ৳150,000 instead of ৳1,50,000.
+- Geist Mono replaces IBM Plex Mono on the landing page, and carries numerals on
+  both surfaces. One less webfont, one less family.
+- The sign-up and address fields validate with valibot instead of hand-rolled
+  checks, with one message per failure written for a shop owner.
+
 - New marketing landing page on the root route, built from `src/lib/marketing/*`:
   header with centred nav, interactive storefront preview, five feature panels
   with hand-built CSS mocks, theme switcher, fee calculator, testimonials,

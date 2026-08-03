@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { takaExact } from '../money';
+
+	/* The arithmetic holds: 1.9% of ৳3,640 is ৳69.16, leaving ৳3,570.84. A mock
+	   that does not add up is the one thing a merchant will check. */
 	const lines = [
-		{ label: 'Wallet', value: '$81.00', highlight: true },
-		{ label: 'Platform fee 1.9%', value: '− $1.54', highlight: false },
-		{ label: 'Per-transaction fee', value: '$0.00', highlight: false }
+		{ label: 'bKash', value: takaExact(3640), highlight: true },
+		{ label: 'Platform fee 1.9%', value: `− ${takaExact(69.16)}`, highlight: false },
+		{ label: 'Per-order fee', value: takaExact(0), highlight: false }
 	];
 </script>
 
@@ -12,7 +16,7 @@
 		<span class="mk-mono text-mk-faint">#91442</span>
 	</div>
 
-	<p class="mt-3 mb-4 mk-num text-[32px] tracking-[-0.03em]">$81.00</p>
+	<p class="mt-3 mb-4 mk-num text-[32px] tracking-[-0.03em]">{takaExact(3640)}</p>
 
 	<ul>
 		{#each lines as line (line.label)}
@@ -29,6 +33,6 @@
 
 	<div class="mt-3.5 flex items-center justify-between pt-3.5 text-[13px] text-mk-lime">
 		<span>Payout &middot; tomorrow</span>
-		<span class="mk-num">$79.46</span>
+		<span class="mk-num">{takaExact(3570.84)}</span>
 	</div>
 </div>

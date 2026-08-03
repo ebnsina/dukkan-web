@@ -338,8 +338,8 @@
 	 * self-hosted above, and its width axis does the display work. */
 	--font-mk-head: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
 	--font-mk-body: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
-	--font-mk-num: 'Mona Sans Variable', ui-sans-serif, sans-serif;
-	--font-mk-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+	--font-mk-num: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+	--font-mk-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
 	--font-mk-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
 
 	/* Sized so the hero's longest line — 28 characters — clears its column

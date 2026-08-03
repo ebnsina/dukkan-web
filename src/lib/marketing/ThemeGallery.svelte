@@ -4,15 +4,8 @@
 	import ThemeMock from './mocks/ThemeMock.svelte';
 	import Frame from './ui/Frame.svelte';
 
-	/**
-	 * Not a grid of cards: a theme store. One storefront rendered large, and an
-	 * index you pick from — the section behaves like the thing it is selling,
-	 * and six small screens never showed enough of any theme to matter.
-	 *
-	 * The accents inside the preview belong to the demo shops, not to Dukkàn.
-	 * This is the one place other hues are legitimate, because variety is the
-	 * product.
-	 */
+	/* A theme store, not a grid of cards. The accents belong to the demo shops —
+	   the one place other hues are legitimate, because variety is the product. */
 	interface Theme {
 		name: string;
 		category: string;

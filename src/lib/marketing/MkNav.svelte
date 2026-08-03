@@ -22,11 +22,8 @@
 		: ''}"
 >
 	<!--
-		Three tracks: mark left, nav dead-centre, actions right. The actions pin
-		themselves to the third column explicitly — below md the centre nav is
-		`display: none`, which takes it out of the grid entirely rather than leaving
-		an empty cell, and auto-placement would drop the actions into the middle
-		track beside the mark.
+		Three tracks: mark, centred nav, actions. The actions name their column —
+		below md the nav is `display: none` and leaves no cell behind.
 	-->
 	<div class="mk-wrap grid h-[74px] grid-cols-[auto_1fr_auto] items-center gap-6">
 		<a href="#top" class="flex items-center gap-[11px]">

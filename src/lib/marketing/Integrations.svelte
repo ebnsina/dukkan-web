@@ -2,19 +2,8 @@
 	import { reveal } from './motion';
 	import MkSectionHead from './ui/MkSectionHead.svelte';
 
-	/**
-	 * Tiles show a monogram in the provider's brand colour until a real mark is
-	 * available. Drop the SVG into `static/logos/<slug>.svg` and add its slug to
-	 * `withLogo` — we don't ship third-party trademarks in the repo, and probing
-	 * for missing files would just spray 404s.
-	 *
-	 * `tint` values are approximations taken from each brand's public identity.
-	 * Replace them from the official brand guidelines before launch; `onTint`
-	 * says which text colour keeps the monogram legible.
-	 *
-	 * Each tile mixes its own colour into a two-light aurora rather than sitting
-	 * flat, so two dozen solid squares don't read as a colour chart.
-	 */
+	/* Monograms until a real mark exists: drop the SVG in `static/logos/<slug>.svg`
+	   and add its slug to `withLogo`. Tints are approximations — replace before launch. */
 	const withLogo = new Set<string>();
 
 	interface Integration {
@@ -84,11 +73,8 @@
 			sub="Payments, couriers, channels and books — connected in a click, not a quarter."
 		/>
 
-		<!--
-			Hovering a tile isolates its category and dims the rest. Done with
-			:has() rather than JS: nothing here is focusable or clickable, so a
-			hover handler on a static element would only earn a bogus ARIA role.
-		-->
+		<!-- Hover isolates a category. `:has()` rather than JS: nothing here is
+			focusable, so a hover handler would only earn a bogus ARIA role. -->
 		<ul class="tiles grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
 			{#each integrations as item, i (item.slug)}
 				<li use:reveal={Math.min(i, 8) * 40} data-group={item.group}>

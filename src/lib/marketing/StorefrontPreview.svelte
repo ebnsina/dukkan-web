@@ -3,6 +3,7 @@
 	import { prefersReduced } from './motion';
 	import ArtSlot from './ui/ArtSlot.svelte';
 	import Frame from './ui/Frame.svelte';
+	import { taka } from './money';
 
 	/** The swatches repaint the window by swapping its CSS custom properties. */
 	const themes = {
@@ -35,32 +36,24 @@
 	];
 
 	const products = [
-		{ motif: 0, name: 'Woven throw', price: '$52' },
-		{ motif: 2, name: 'Linen scarf', price: '$29' },
-		{ motif: 3, name: 'Clay vessel', price: '$38' }
+		{ motif: 0, name: 'Woven throw', price: taka(2450) },
+		{ motif: 2, name: 'Linen scarf', price: taka(1190) },
+		{ motif: 3, name: 'Clay vessel', price: taka(980) }
 	];
 
-	/**
-	 * One ink square for every method. Colouring it per payment brand — navy,
-	 * magenta — puts a third unrelated hue in a card that is already grey and
-	 * lime, and we ship no real marks to justify the borrowed colour. The
-	 * method's name carries the difference instead.
-	 */
+	/* Method names carry the difference; borrowed brand hues would put a third
+	   palette in a card that is already grey and lime. */
 	const payments = [
-		{ label: 'Card', amount: '$52.00' },
-		{ label: 'Wallet', amount: '$29.00' },
-		{ label: 'Cash on delivery', amount: '$81.00' },
-		{ label: 'Apple Pay', amount: '$34.00' }
+		{ label: 'bKash', amount: taka(2450) },
+		{ label: 'Card', amount: taka(1190) },
+		{ label: 'Cash on delivery', amount: taka(3640) },
+		{ label: 'Nagad', amount: taka(980) }
 	];
 
 	let theme = $state<ThemeName>('ivory');
 
-	/**
-	 * The three most recent payments, newest first. Keeping real entries rather
-	 * than one card whose text swaps is what makes the motion read: the arriving
-	 * payment pushes the previous one back into the stack, so each tick is a
-	 * change of state instead of the same card replaying its entrance.
-	 */
+	/* Three real entries, newest first: the arrival pushes the rest back a rank,
+	   which is what stops it reading as one card replaying. */
 	let tick = $state(0);
 	let feed = $derived(
 		Array.from({ length: 3 }, (_, depth) => {
@@ -87,22 +80,12 @@
 
 <div class="relative">
 	<!--
-		The frame IS the browser. It used to hold a window that drew its own chrome
-		and its own border inside the panel, which stacked four rectangles on top of
-		each other — shell, panel, window, product card — and read as boxes rather
-		than as a screen. The dots and the address now live on the frame's header
-		row, so the mock inside is just the shop: cropped, tilted, running off the
-		right and bottom edges as a real screen carrying on past the frame. The
-		reference's radius and drop shadow are not copied; this surface stays flat.
+		The frame is the browser: dots and address on its header row, so the mock
+		inside is just the shop — cropped, tilted, running off two edges.
 	-->
 	<Frame clip class="group h-[clamp(420px,46vw,540px)]">
-		<!--
-			A theme swap repaints in a single frame. Fading the container's colour
-			does not make it smoother, it makes it wrong: the accent lives in gradient
-			stops and chip fills that cannot transition — `background-image` has no
-			interpolation — so those land instantly while the ground is still the old
-			colour, and the swap reads as a flash of the wrong theme.
-		-->
+		<!-- Colour never transitions here: gradients cannot interpolate, so a fade
+			 would land the new accent on the old ground. -->
 		{#snippet head()}
 			<span class="flex gap-1.5">
 				{#each [0, 1, 2] as dot (dot)}
@@ -185,12 +168,8 @@
 	</Frame>
 
 	<!--
-		Payment notifications, stacked the way a phone stacks repeats from one app.
-		The three most recent are real elements: the newest rises in at the front
-		and the others slide back a rank, so the stack settles rather than
-		replaying. Square and flat — a lock-screen bubble is rounded and shadowed,
-		and neither survives this surface. The stack does the work the radius would
-		have: it says these keep arriving.
+		Notifications stacked the way a phone stacks repeats: the newest rises in at
+		the front and the rest slide back a rank.
 	-->
 	<div class="absolute bottom-28 -left-4 h-[68px] w-[264px] lg:-left-12">
 		{#each feed as item, depth (item.at)}

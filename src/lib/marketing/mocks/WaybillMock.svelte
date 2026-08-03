@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { taka } from '../money';
+
 	const route = [
 		{ stop: 'Picked up from store', done: true },
 		{ stop: 'Sorted at hub', done: true },
@@ -21,7 +23,7 @@
 
 	<div class="flex items-center justify-between bg-mk-dark px-3 py-2.5 text-mk-cream">
 		<span class="mk-mono">Cash to collect</span>
-		<span class="mk-num text-mk-lime">$81.00</span>
+		<span class="mk-num text-mk-lime">{taka(3640)}</span>
 	</div>
 
 	<ol>
