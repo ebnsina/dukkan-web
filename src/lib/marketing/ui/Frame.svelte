@@ -18,6 +18,9 @@
 		tone?: 'paper' | 'dark';
 		/** Clip the panel so its contents can bleed past the edge. */
 		clip?: boolean;
+		/** Panel aspect ratio, e.g. '4/3'. Sizes the panel from its own width
+		 * instead of a fixed height, so the screen keeps its shape at any width. */
+		ratio?: string;
 		/** Classes for the outer shell — sizing, margins. */
 		class?: string;
 		/** Classes for the inner panel — padding usually belongs here. */
@@ -34,6 +37,7 @@
 		footer,
 		tone = 'paper',
 		clip = false,
+		ratio,
 		class: className = '',
 		bodyClass = '',
 		children
@@ -80,7 +84,8 @@
 	{/if}
 
 	<div
-		class="min-h-0 flex-1 border border-mk-ink/10 bg-mk-paper text-mk-ink {clip
+		style={ratio ? `aspect-ratio:${ratio}` : undefined}
+		class="min-h-0 border border-mk-ink/10 bg-mk-paper text-mk-ink {ratio ? '' : 'flex-1'} {clip
 			? 'relative overflow-hidden'
 			: ''} {bodyClass}"
 	>

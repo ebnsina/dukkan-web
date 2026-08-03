@@ -64,6 +64,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The hero is a staged pair of devices: a MacBook running macOS with the shop
+  maximised in Safari, and an iPhone standing in front of it showing the same
+  payments arriving on its lock screen. Device chrome is the one place this
+  surface allows a radius or a shadow; everything the page owns stays square.
+
 - Every figure on the landing page is taka, formatted with `Intl` through
   `marketing/money.ts`. The fee calculator compares against local rates rather
   than a US card rate, and the payment feed shows bKash and Nagad.
