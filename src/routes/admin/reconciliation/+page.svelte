@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Empty, Note } from '$lib/ui';
+	import { CheckmarkCircle02Icon, RefreshIcon } from '@hugeicons/core-free-icons';
+	import { Banner, Button, Empty, Frame, Stat } from '$lib/admin/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
 	import type { IssueKind } from '$lib/admin/types';
@@ -35,88 +36,88 @@
 
 <Seo title="Money owed" description="What the courier collected but has not handed over." noindex />
 
-<div class="head">
+<div class="dk-title-row">
 	<div>
-		<h1 class="t-heading">Money owed</h1>
-		<p class="lead t-lead">
+		<h1 class="dk-h1">Money owed</h1>
+		<p class="dk-date">
 			Everything the courier collected but has not handed over, and everything that does not add up.
 		</p>
 	</div>
-	<form method="POST" action="?/sweep" use:enhance>
-		<Button type="submit" variant="ghost">Check for late payments</Button>
+	<form method="POST" action="?/sweep" use:enhance class="dk-acts">
+		<Button type="submit" variant="quiet" icon={RefreshIcon}>Check for late payments</Button>
 	</form>
 </div>
 
 {#if form?.message}
-	<Note title="That did not work" tone="firm">{form.message}</Note>
+	<div class="lead-banner">
+		<Banner title="That did not work" tone="danger">{form.message}</Banner>
+	</div>
 {:else if form?.flagged !== undefined}
-	<Note title="Checked">
-		{form.flagged === 0
-			? 'Nothing new. Every delivered parcel has been paid for.'
-			: `${formatNumber(form.flagged)} more parcels are overdue and have been added below.`}
-	</Note>
+	<div class="lead-banner">
+		<Banner title="Checked" tone={form.flagged === 0 ? 'success' : 'warning'}>
+			{form.flagged === 0
+				? 'Nothing new. Every delivered parcel has been paid for.'
+				: `${formatNumber(form.flagged)} more parcels are overdue and have been added below.`}
+		</Banner>
+	</div>
 {/if}
 
-<dl class="figures">
-	<div class:is-alarm={critical.length > 0}>
-		<dt class="t-label">Serious</dt>
-		<dd class="t-mono">{formatNumber(critical.length)}</dd>
-	</div>
-	<div>
-		<dt class="t-label">Worth a look</dt>
-		<dd class="t-mono">{formatNumber(rest.length)}</dd>
-	</div>
-	<div>
-		<dt class="t-label">Not accounted for</dt>
-		<dd class="t-mono">{formatMinor(unaccounted)}</dd>
-	</div>
-</dl>
+<section class="dk-stats">
+	<Stat
+		label="Serious"
+		value={formatNumber(critical.length)}
+		sub="deal with these first"
+		tone={critical.length > 0 ? 'danger' : 'neutral'}
+	/>
+	<Stat
+		label="Worth a look"
+		value={formatNumber(rest.length)}
+		sub="when you have a moment"
+		tone={rest.length > 0 ? 'warning' : 'neutral'}
+	/>
+	<Stat label="Not accounted for" value={formatMinor(unaccounted)} sub="across every open issue" />
+</section>
 
 {#if data.issues.length === 0}
-	<div class="empty">
+	<Frame eyebrow="Reconciliation" variant="flush">
 		<Empty
 			title="Everything adds up"
 			description="Every taka the courier collected has reached you. Nothing needs your attention."
 		/>
-	</div>
+	</Frame>
 {:else}
 	{#snippet issueRow(issue: (typeof data.issues)[number])}
-		<li class="issue" class:is-critical={issue.severity === 'critical'}>
+		<li class="issue">
 			<div class="issue-main">
-				<h3 class="t-sub">{HEADING[issue.kind] ?? issue.kind}</h3>
+				<h3 class="dk-h2">{HEADING[issue.kind] ?? issue.kind}</h3>
 				<p class="detail">{issue.detail}</p>
-				<p class="meta t-label">
-					{issue.severity === 'critical' ? 'Serious' : 'Worth a look'} ·
-					{formatRelativeTime(issue.created_at)}
-				</p>
+				<p class="dk-hint">{formatRelativeTime(issue.created_at)}</p>
 			</div>
 
 			<dl class="amounts">
 				{#if issue.expected_minor !== null}
 					<div>
-						<dt class="t-label">Should be</dt>
-						<dd class="t-mono">{formatMinor(issue.expected_minor)}</dd>
+						<dt class="dk-eyebrow">Should be</dt>
+						<dd>{formatMinor(issue.expected_minor)}</dd>
 					</div>
 				{/if}
 				{#if issue.actual_minor !== null}
 					<div>
-						<dt class="t-label">Came in</dt>
-						<dd class="t-mono">{formatMinor(issue.actual_minor)}</dd>
+						<dt class="dk-eyebrow">Came in</dt>
+						<dd>{formatMinor(issue.actual_minor)}</dd>
 					</div>
 				{/if}
 				{#if issue.expected_minor !== null && issue.actual_minor !== null}
 					<div class="gap">
-						<dt class="t-label">
+						<dt class="dk-eyebrow">
 							{issue.actual_minor > issue.expected_minor ? 'Over by' : 'Short by'}
 						</dt>
-						<dd class="t-mono">
-							{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor))}
-						</dd>
+						<dd>{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor))}</dd>
 					</div>
 				{/if}
 			</dl>
 
-			<div class="issue-action">
+			<div>
 				{#if openId === issue.id}
 					<form
 						method="POST"
@@ -132,180 +133,110 @@
 						<label class="sr-only" for="res-{issue.id}">What did you do about it?</label>
 						<input
 							id="res-{issue.id}"
+							class="dk-input"
 							name="resolution"
 							placeholder="What did you do about it?"
 							required
 						/>
-						<button class="save t-button" type="submit">Save</button>
-						<button class="drop t-button" type="button" onclick={() => (openId = '')}>Cancel</button
-						>
+						<Button type="submit" size="sm" icon={CheckmarkCircle02Icon}>Save</Button>
+						<Button variant="quiet" size="sm" onclick={() => (openId = '')}>Cancel</Button>
 					</form>
 				{:else}
-					<button class="mark t-button" type="button" onclick={() => (openId = issue.id)}>
+					<Button
+						variant="quiet"
+						size="sm"
+						icon={CheckmarkCircle02Icon}
+						label="Mark as dealt with: {HEADING[issue.kind] ?? issue.kind}"
+						onclick={() => (openId = issue.id)}
+					>
 						Mark as dealt with
-					</button>
+					</Button>
 				{/if}
 			</div>
 		</li>
 	{/snippet}
 
-	{#if critical.length > 0}
-		<section class="group">
-			<h2 class="group-head t-label">Deal with these first</h2>
-			<ul>
-				{#each critical as issue (issue.id)}{@render issueRow(issue)}{/each}
-			</ul>
-		</section>
-	{/if}
+	<div class="dk-stack">
+		{#if critical.length > 0}
+			<Frame
+				eyebrow="Serious"
+				title="Deal with these first"
+				action="{formatNumber(critical.length)} open"
+			>
+				<ul class="issues">
+					{#each critical as issue (issue.id)}{@render issueRow(issue)}{/each}
+				</ul>
+			</Frame>
+		{/if}
 
-	{#if rest.length > 0}
-		<section class="group">
-			<h2 class="group-head t-label">Worth a look</h2>
-			<ul>
-				{#each rest as issue (issue.id)}{@render issueRow(issue)}{/each}
-			</ul>
-		</section>
-	{/if}
+		{#if rest.length > 0}
+			<Frame
+				eyebrow="Everything else"
+				title="Worth a look"
+				action="{formatNumber(rest.length)} open"
+			>
+				<ul class="issues">
+					{#each rest as issue (issue.id)}{@render issueRow(issue)}{/each}
+				</ul>
+			</Frame>
+		{/if}
+	</div>
 {/if}
 
 <style>
-	.head {
+	.lead-banner {
+		margin-bottom: 14px;
+	}
+
+	.issues {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 20px;
-	}
-
-	.lead {
-		margin-top: 16px;
-		color: var(--muted);
-	}
-
-	.figures {
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-		margin-top: 32px;
-	}
-
-	.figures > div {
-		background: var(--paper);
-		padding: 20px 22px;
-	}
-
-	.figures dt {
-		color: var(--faint);
-	}
-
-	.figures dd {
-		margin-top: 10px;
-		font-size: 28px;
-		font-weight: 500;
-		letter-spacing: -0.03em;
-		font-variant-numeric: tabular-nums;
-	}
-
-	/* Nothing red exists here, so a serious count is inverted instead. */
-	.is-alarm {
-		background: var(--inverse-paper) !important;
-		color: var(--inverse-ink);
-	}
-
-	.is-alarm dt {
-		color: var(--inverse-ink);
-		opacity: 0.7;
-	}
-
-	.empty {
-		margin-top: 40px;
-	}
-
-	.group {
-		margin-top: 48px;
-	}
-
-	.group-head {
-		color: var(--faint);
-		padding-bottom: 14px;
-		border-bottom: 1px solid var(--rule-strong);
+		flex-direction: column;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
 	.issue {
 		display: grid;
-		gap: 20px;
-		padding: 26px 0 26px 18px;
-		border-bottom: 1px solid var(--rule);
-		border-left: 1px solid transparent;
+		gap: 18px;
+		padding: 16px 12px;
+		border-radius: var(--d-r-sm);
 	}
 
-	/* Weight and a heavy edge carry the alarm, since there is no red. */
-	.is-critical {
-		border-left: 3px solid var(--ink);
-		padding-left: 16px;
-		padding-block: 32px;
-	}
-
-	.is-critical .t-sub {
-		font-weight: 700;
+	.issue + .issue {
+		border-top: 1px solid var(--d-card);
 	}
 
 	.detail {
-		margin-top: 10px;
-		font-size: var(--size-body);
+		margin: 8px 0 0;
+		font-size: 13px;
 		line-height: 1.6;
-		color: var(--muted);
+		color: var(--d-muted);
 		max-width: 56ch;
 	}
 
-	.meta {
-		margin-top: 12px;
-		color: var(--faint);
+	.issue-main .dk-hint {
+		display: block;
+		margin-top: 8px;
 	}
 
 	.amounts {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 24px;
-	}
-
-	.amounts dt {
-		color: var(--faint);
+		margin: 0;
 	}
 
 	.amounts dd {
-		margin-top: 7px;
-		font-size: 19px;
+		margin: 6px 0 0;
+		font-size: 17px;
+		font-weight: 600;
 		font-variant-numeric: tabular-nums;
-		color: var(--ink);
+		color: var(--d-ink);
 	}
 
 	.gap dd {
-		font-weight: 700;
-	}
-
-	.mark,
-	.save,
-	.drop {
-		height: 34px;
-		padding-inline: 14px;
-		border: 1px solid var(--rule-strong);
-		background: none;
-		color: var(--muted);
-		cursor: pointer;
-	}
-
-	.mark:hover,
-	.drop:hover {
-		color: var(--ink);
-		border-color: var(--ink);
-	}
-
-	.save {
-		background: var(--inverse-paper);
-		color: var(--inverse-ink);
-		border-color: var(--inverse-paper);
+		color: var(--danger);
 	}
 
 	.resolve {
@@ -314,34 +245,16 @@
 		gap: 8px;
 	}
 
-	.resolve input {
+	.resolve .dk-input {
 		flex: 1;
 		min-width: 200px;
-		height: 34px;
-		padding-inline: 12px;
-		background: var(--paper);
-		color: var(--ink);
-		border: 1px solid var(--rule-strong);
-		font-family: var(--font-display);
-		font-size: 14px;
-	}
-
-	.resolve input:focus {
-		outline: none;
-		border-color: var(--ink);
-	}
-
-	@media (min-width: 640px) {
-		.figures {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
 	}
 
 	@media (min-width: 1000px) {
 		.issue {
 			grid-template-columns: minmax(0, 1fr) auto auto;
 			align-items: start;
-			gap: 40px;
+			gap: 32px;
 		}
 	}
 </style>

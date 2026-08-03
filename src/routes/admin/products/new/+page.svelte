@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { HugeiconsIcon } from '@hugeicons/svelte';
+	import {
+		ArrowLeft01Icon,
+		CheckmarkCircle02Icon,
+		Delete02Icon,
+		PlusSignIcon
+	} from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Field, Input, Note, Select, Switch, Textarea } from '$lib/ui';
+	import { Banner, Button, Field, Frame, Toggle } from '$lib/admin/ui';
 
 	let { data, form } = $props();
 
@@ -15,72 +22,81 @@
 	let rows = $state<Row[]>([{ sku: '', title: '', price: '', on_hand: '0' }]);
 	let publish = $state(false);
 
-	const categoryOptions = $derived(
-		data.categories.map((c) => ({
-			value: c.id,
-			label: c.name_bn ? `${c.name} — ${c.name_bn}` : c.name
-		}))
-	);
 	const value = (key: keyof NonNullable<typeof form>['values']) => form?.values?.[key] ?? '';
 </script>
 
 <Seo title="Add a product" description="Put something new in the shop." noindex />
 
-<a class="back t-button" href="/admin/products">← All products</a>
-<h1 class="t-heading">Add a product</h1>
+<a class="back" href="/admin/products">
+	<span aria-hidden="true"
+		><HugeiconsIcon icon={ArrowLeft01Icon} size={15} strokeWidth={1.6} /></span
+	>
+	All products
+</a>
+
+<div class="dk-title-row">
+	<div>
+		<h1 class="dk-h1">Add a product</h1>
+		<p class="dk-date">Name it, price it, and decide whether customers can see it yet.</p>
+	</div>
+</div>
 
 {#if form?.message}
-	<Note title="Not saved" tone="firm">{form.message}</Note>
+	<div class="msg"><Banner title="Not saved" tone="danger">{form.message}</Banner></div>
 {/if}
 
-<form method="POST" use:enhance class="form">
-	<section>
-		<h2 class="legend t-label">What it is</h2>
-		<div class="pair">
-			<Field label="Name" required error={form?.fields?.title}>
-				{#snippet control(props)}
-					<Input {...props} name="title" value={value('title')} />
+<form method="POST" use:enhance class="sheet">
+	<Frame eyebrow="Details" title="What it is" variant="pad">
+		<div class="dk-form">
+			<div class="pair">
+				<Field label="Name" id="title" required error={form?.fields?.title}>
+					{#snippet children(props)}
+						<input {...props} class="dk-input" name="title" value={value('title')} required />
+					{/snippet}
+				</Field>
+				<Field label="Name in Bangla" id="title_bn" hint="Shown to customers reading in Bangla.">
+					{#snippet children(props)}
+						<input {...props} class="dk-input" name="title_bn" value={value('title_bn')} />
+					{/snippet}
+				</Field>
+			</div>
+
+			<Field label="Category" id="category_id">
+				{#snippet children(props)}
+					<select {...props} class="dk-select" name="category_id">
+						<option value="">No category</option>
+						{#each data.categories as category (category.id)}
+							<option value={category.id}>
+								{category.name_bn ? `${category.name} — ${category.name_bn}` : category.name}
+							</option>
+						{/each}
+					</select>
 				{/snippet}
 			</Field>
-			<Field label="Name in Bangla" hint="Shown to customers reading in Bangla.">
-				{#snippet control(props)}
-					<Input {...props} name="title_bn" value={value('title_bn')} />
+
+			<Field label="One-line summary" id="summary">
+				{#snippet children(props)}
+					<input {...props} class="dk-input" name="summary" value={value('summary')} />
+				{/snippet}
+			</Field>
+
+			<Field label="Description" id="description">
+				{#snippet children(props)}
+					<textarea {...props} class="dk-textarea" name="description" rows="4"
+						>{value('description')}</textarea
+					>
 				{/snippet}
 			</Field>
 		</div>
+	</Frame>
 
-		<Field label="Category">
-			{#snippet control(props)}
-				<Select {...props} name="category_id" options={categoryOptions} placeholder="No category" />
-			{/snippet}
-		</Field>
-
-		<Field label="One-line summary">
-			{#snippet control(props)}
-				<Input {...props} name="summary" value={value('summary')} />
-			{/snippet}
-		</Field>
-
-		<Field label="Description">
-			{#snippet control(props)}
-				<Textarea {...props} name="description" rows={4} value={value('description')} />
-			{/snippet}
-		</Field>
-	</section>
-
-	<section>
-		<div class="legend-row">
-			<h2 class="legend t-label">Choices and price</h2>
-			<button
-				class="add t-button"
-				type="button"
-				onclick={() => (rows = [...rows, { sku: '', title: '', price: '', on_hand: '0' }])}
-			>
-				Add another choice
-			</button>
-		</div>
-
-		<p class="hint">
+	<Frame
+		eyebrow="Stock"
+		title="Choices and price"
+		action="{rows.length} {rows.length === 1 ? 'row' : 'rows'}"
+		variant="pad"
+	>
+		<p class="dk-note">
 			One row is enough if the product comes only one way. Add a row for each size or colour.
 		</p>
 
@@ -89,148 +105,137 @@
 				<div class="row">
 					<Field
 						label="Choice"
-						hint="Like “Red” or “Large”. Leave blank if there is only one."
+						id="variant-title-{index}"
+						hint="Like “Red” or “Large”."
 						error={form?.fields?.[`variant.${index}.title`]}
 					>
-						{#snippet control(props)}
-							<Input {...props} name="variant_title" bind:value={row.title} />
+						{#snippet children(props)}
+							<input {...props} class="dk-input" name="variant_title" bind:value={row.title} />
 						{/snippet}
 					</Field>
-					<Field label="Price in taka" required error={form?.fields?.[`variant.${index}.price`]}>
-						{#snippet control(props)}
-							<Input
+					<Field
+						label="Price in taka"
+						id="variant-price-{index}"
+						required
+						error={form?.fields?.[`variant.${index}.price`]}
+					>
+						{#snippet children(props)}
+							<input
 								{...props}
+								class="dk-input"
 								name="variant_price"
 								bind:value={row.price}
-								numeric
 								inputmode="decimal"
 								placeholder="4500"
+								required
 							/>
 						{/snippet}
 					</Field>
-					<Field label="In stock" error={form?.fields?.[`variant.${index}.on_hand`]}>
-						{#snippet control(props)}
-							<Input
+					<Field
+						label="In stock"
+						id="variant-stock-{index}"
+						error={form?.fields?.[`variant.${index}.on_hand`]}
+					>
+						{#snippet children(props)}
+							<input
 								{...props}
+								class="dk-input"
 								name="variant_stock"
 								bind:value={row.on_hand}
-								numeric
 								inputmode="numeric"
 							/>
 						{/snippet}
 					</Field>
-					<Field label="Your code" hint="Optional.">
-						{#snippet control(props)}
-							<Input {...props} name="variant_sku" bind:value={row.sku} />
+					<Field label="Your code" id="variant-sku-{index}" hint="Optional.">
+						{#snippet children(props)}
+							<input {...props} class="dk-input" name="variant_sku" bind:value={row.sku} />
 						{/snippet}
 					</Field>
 					{#if rows.length > 1}
-						<button
-							class="drop t-button"
-							type="button"
-							onclick={() => (rows = rows.filter((_, i) => i !== index))}
-						>
-							Remove
-						</button>
+						<div class="drop">
+							<Button
+								variant="quiet"
+								size="sm"
+								icon={Delete02Icon}
+								label="Remove choice {index + 1}"
+								onclick={() => (rows = rows.filter((_, i) => i !== index))}
+							>
+								Remove this choice
+							</Button>
+						</div>
 					{/if}
 				</div>
 			{/each}
 		</div>
-	</section>
+
+		{#snippet footer()}
+			<Button
+				variant="quiet"
+				size="sm"
+				icon={PlusSignIcon}
+				onclick={() => (rows = [...rows, { sku: '', title: '', price: '', on_hand: '0' }])}
+			>
+				Add another choice
+			</Button>
+		{/snippet}
+	</Frame>
 
 	<div class="finish">
-		<Switch
+		<Toggle
 			bind:checked={publish}
 			label="Put it on sale now"
 			description="Otherwise it is saved but stays hidden."
 		/>
 		<input type="hidden" name="publish" value={publish ? 'on' : ''} />
-		<Button type="submit" arrow>Save the product</Button>
+		<Button type="submit" icon={CheckmarkCircle02Icon}>Save the product</Button>
 	</div>
 </form>
 
 <style>
 	.back {
-		display: inline-block;
-		color: var(--faint);
-		text-decoration: none;
-		margin-bottom: 24px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		margin-bottom: 16px;
+		font-size: 12.5px;
+		color: var(--d-faint);
 	}
 
 	.back:hover {
-		color: var(--ink);
+		color: var(--d-ink);
 	}
 
-	.form {
+	.msg {
+		margin-bottom: 14px;
+	}
+
+	.sheet {
 		display: flex;
 		flex-direction: column;
-		gap: 48px;
-		margin-top: 32px;
+		gap: 14px;
 		max-width: 900px;
-	}
-
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
-
-	.legend {
-		color: var(--faint);
-		padding-bottom: 14px;
-		border-bottom: 1px solid var(--rule-strong);
-	}
-
-	.legend-row {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 16px;
-	}
-
-	.legend-row .legend {
-		flex: 1;
-	}
-
-	.hint {
-		font-size: 14px;
-		line-height: 1.6;
-		color: var(--muted);
 	}
 
 	.pair {
 		display: grid;
-		gap: 20px;
+		gap: 18px;
 	}
 
 	.rows {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 20px;
 	}
 
 	.row {
 		display: grid;
 		gap: 16px;
-		padding-bottom: 24px;
-		border-bottom: 1px solid var(--rule);
+		padding-bottom: 20px;
 	}
 
-	.add,
-	.drop {
-		height: 34px;
-		padding-inline: 14px;
-		background: none;
-		border: 1px solid var(--rule-strong);
-		color: var(--muted);
-		cursor: pointer;
-		white-space: nowrap;
-	}
-
-	.add:hover,
-	.drop:hover {
-		color: var(--ink);
-		border-color: var(--ink);
+	.row + .row {
+		border-top: 1px solid var(--d-card);
+		padding-top: 20px;
 	}
 
 	.drop {
@@ -242,8 +247,8 @@
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 24px;
-		padding-top: 8px;
+		gap: 20px;
+		padding: 4px 2px;
 	}
 
 	@media (min-width: 620px) {

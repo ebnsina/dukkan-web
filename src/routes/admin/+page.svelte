@@ -1,279 +1,227 @@
 <script lang="ts">
+	/* The dashboard answers three questions in the order a shop owner asks them:
+	   did we sell, is any money missing, what needs doing. */
+	import { HugeiconsIcon } from '@hugeicons/svelte';
+	import {
+		Alert02Icon,
+		ArrowRight01Icon,
+		DeliveryTruck01Icon,
+		FileImportIcon,
+		PackageIcon,
+		PlusSignIcon,
+		Wallet01Icon
+	} from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Empty, Table } from '$lib/ui';
-	import Figure from '$lib/admin/Figure.svelte';
-	import OrderStatus from '$lib/admin/OrderStatus.svelte';
-	import StateChip from '$lib/admin/StateChip.svelte';
+	import { Banner, Button, Empty, Frame, Stat, Status } from '$lib/admin/ui';
 	import { severityTone, stockTone } from '$lib/admin/state';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
 
 	let { data } = $props();
 
+	const stroke = 1.6;
 	const f = $derived(data.figures);
 
-	// Cash the courier is holding, and anything critical, are the figures worth
-	// a colour. The rest of the row stays neutral so those two carry.
-	const codTone = $derived(f.outstanding_cod_minor > 0 ? 'warning' : 'neutral');
-	const issueTone = $derived(
-		f.critical_issues > 0 ? 'danger' : f.open_issues > 0 ? 'warning' : 'neutral'
-	);
+	const today = new Intl.DateTimeFormat('en-GB', {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long'
+	}).format(new Date());
+
+	// Anything critical is worth a colour; the rest of the row stays neutral so
+	// that one carries.
+	const issueTone = $derived(f.critical_issues > 0 ? 'danger' : 'warning');
+
+	// Orders in flight, as a share of each other. A proportion reads faster than
+	// three counts sitting side by side do.
+	const pipeline = $derived([
+		{ name: 'To confirm', count: f.awaiting_confirmation },
+		{ name: 'To send', count: f.awaiting_dispatch },
+		{ name: 'On its way', count: f.in_transit }
+	]);
+	const inFlight = $derived(pipeline.reduce((sum, stage) => sum + stage.count, 0));
 </script>
 
 <Seo title="Dashboard" description="Your shop today." noindex />
 
-<h1 class="t-heading">Today</h1>
-
-<div class="figures">
-	<Figure
-		label="Orders today"
-		value={formatNumber(f.orders_today)}
-		note="{formatNumber(f.orders_this_month)} this month"
-	/>
-	<Figure
-		label="Sales today"
-		value={formatMinor(f.sales_today_minor, f.currency)}
-		note="{formatMinor(f.sales_month_minor, f.currency)} this month"
-	/>
-	<Figure
-		label="Cash with the courier"
-		value={formatMinor(f.outstanding_cod_minor, f.currency)}
-		note="{formatNumber(f.outstanding_parcels)} {f.outstanding_parcels === 1
-			? 'parcel'
-			: 'parcels'} delivered, not yet paid over"
-		tone={codTone}
-		href="/admin/reconciliation"
-	/>
-	<Figure
-		label="Needs looking at"
-		value={formatNumber(f.critical_issues)}
-		note="{formatNumber(f.open_issues)} open in total"
-		tone={issueTone}
-		href="/admin/reconciliation"
-	/>
+<div class="dk-title-row">
+	<div>
+		<h1 class="dk-h1">Today</h1>
+		<p class="dk-date">{today}</p>
+	</div>
+	<div class="dk-acts">
+		<Button href="/admin/products/new" icon={PlusSignIcon}>Add product</Button>
+	</div>
 </div>
 
-<div class="figures second">
-	<Figure
+<!-- Did we sell, and what is waiting. Four plain figures before anything with
+     an opinion about them. -->
+<section class="dk-stats">
+	<Stat
+		label="Orders today"
+		value={formatNumber(f.orders_today)}
+		sub="{formatNumber(f.orders_this_month)} this month"
+	/>
+	<Stat
+		label="Sales today"
+		value={formatMinor(f.sales_today_minor, f.currency)}
+		sub="{formatMinor(f.sales_month_minor, f.currency)} this month"
+	/>
+	<Stat
 		label="To confirm"
 		value={formatNumber(f.awaiting_confirmation)}
+		sub="waiting on you"
 		tone={f.awaiting_confirmation > 0 ? 'info' : 'neutral'}
 		href="/admin/orders?status=placed"
 	/>
-	<Figure
+	<Stat
 		label="To send"
 		value={formatNumber(f.awaiting_dispatch)}
+		sub="ready for a courier"
 		tone={f.awaiting_dispatch > 0 ? 'warning' : 'neutral'}
 		href="/admin/orders?status=confirmed"
 	/>
-	<Figure
-		label="On its way"
-		value={formatNumber(f.in_transit)}
-		tone={f.in_transit > 0 ? 'accent' : 'neutral'}
-		href="/admin/orders?status=shipped"
-	/>
-	<Figure
-		label="Out of stock"
-		value={formatNumber(f.out_of_stock)}
-		note="{formatNumber(f.active_products)} {f.active_products === 1 ? 'item' : 'items'} live"
-		tone={f.out_of_stock > 0 ? 'danger' : 'neutral'}
-		href="/admin/low-stock"
-	/>
-</div>
-
-{#if data.issues.length > 0}
-	<section class="block">
-		<div class="block-head">
-			<h2 class="t-sub">Money the courier owes you</h2>
-			<Button href="/admin/reconciliation" variant="ghost" arrow>Open the list</Button>
-		</div>
-		<ul class="issues">
-			{#each data.issues as issue (issue.id)}
-				<li data-tone={severityTone(issue.severity)}>
-					<StateChip tone={severityTone(issue.severity)} label={issue.severity} />
-					<span class="detail">{issue.detail}</span>
-					{#if issue.expected_minor !== null || issue.actual_minor !== null}
-						<span class="gap t-mono">
-							{#if issue.expected_minor !== null && issue.actual_minor !== null}
-								{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor), f.currency)}
-							{:else}
-								{formatMinor(issue.expected_minor ?? issue.actual_minor ?? 0, f.currency)}
-							{/if}
-						</span>
-					{/if}
-				</li>
-			{/each}
-		</ul>
-	</section>
-{/if}
-
-{#if data.low.length > 0}
-	<section class="block">
-		<div class="block-head">
-			<h2 class="t-sub">Running out</h2>
-			<Button href="/admin/low-stock" variant="ghost" arrow>All of them</Button>
-		</div>
-		<ul class="issues">
-			{#each data.low as item (item.variant_id)}
-				<li data-tone={stockTone(item.available, item.threshold)}>
-					<StateChip
-						tone={stockTone(item.available, item.threshold)}
-						label={item.available <= 0 ? 'Out' : 'Low'}
-					/>
-					<a class="detail link" href="/admin/products?q={encodeURIComponent(item.title)}">
-						{item.title}
-						{#if item.variant_title || item.sku}
-							<span class="quiet">· {item.variant_title ?? item.sku}</span>
-						{/if}
-					</a>
-					<span class="gap t-mono">{formatNumber(item.available)} left</span>
-				</li>
-			{/each}
-		</ul>
-	</section>
-{/if}
-
-<section class="block">
-	<div class="block-head">
-		<h2 class="t-sub">Latest orders</h2>
-		<Button href="/admin/orders" variant="ghost" arrow>All orders</Button>
-	</div>
-
-	{#if data.recent.length === 0}
-		<Empty title="No orders yet" description="They will appear here the moment one comes in." />
-	{:else}
-		<Table>
-			<thead>
-				<tr>
-					<th scope="col">Order</th>
-					<th scope="col">Customer</th>
-					<th scope="col">District</th>
-					<th scope="col">Status</th>
-					<th scope="col">Payment</th>
-					<th scope="col" data-numeric>Total</th>
-					<th scope="col">Placed</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each data.recent as order (order.id)}
-					<tr>
-						<td><a class="num t-mono" href="/admin/orders/{order.id}">{order.number}</a></td>
-						<td class="ink">{order.recipient}</td>
-						<td>{order.district_name}</td>
-						<td><OrderStatus status={order.status} /></td>
-						<td><OrderStatus status={order.payment_state} kind="payment" /></td>
-						<td data-numeric>{formatMinor(order.total_minor, order.currency)}</td>
-						<td class="when t-mono">{formatRelativeTime(order.placed_at)}</td>
-					</tr>
-				{/each}
-			</tbody>
-		</Table>
-	{/if}
 </section>
 
-<style>
-	.figures {
-		display: grid;
-		gap: 1px;
-		background: var(--rule);
-		border: 1px solid var(--rule);
-		margin-top: 32px;
-	}
+<div class="dk-grid-2">
+	<!-- The figure nothing else can tell a shop owner, given the space a hero
+	     image would have had. -->
+	<Frame eyebrow="Owed to you" variant="pad">
+		<span class="dk-kicker">Cash with couriers</span>
+		<span class="dk-big">{formatMinor(f.outstanding_cod_minor, f.currency)}</span>
+		<p class="dk-note">
+			Collected from customers and not yet paid over to you. Chase anything older than a week.
+		</p>
 
-	.second {
-		margin-top: 1px;
-		border-top: none;
-	}
+		<div class="dk-acts">
+			<Button href="/admin/reconciliation" icon={Wallet01Icon}>Open money owed</Button>
+			<Button href="/admin/reconciliation" variant="quiet" icon={FileImportIcon}>
+				Import a statement
+			</Button>
+		</div>
 
-	.block {
-		margin-top: 56px;
-	}
+		{#snippet footer()}
+			<span class="dk-metrics">
+				<span>
+					<HugeiconsIcon icon={DeliveryTruck01Icon} size={15} strokeWidth={stroke} />
+					{formatNumber(f.outstanding_parcels)}
+					{f.outstanding_parcels === 1 ? 'parcel' : 'parcels'}
+				</span>
+				<span>
+					<HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} />
+					{formatNumber(f.critical_issues)} need chasing
+				</span>
+			</span>
+		{/snippet}
+	</Frame>
 
-	.block-head {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 16px;
-		padding-bottom: 16px;
-		border-bottom: 1px solid var(--rule-strong);
-	}
+	<Frame
+		eyebrow="Today"
+		title="Recent orders"
+		action="View all"
+		actionHref="/admin/orders"
+		variant="rows"
+	>
+		{#if data.recent.length === 0}
+			<Empty title="No orders yet" description="They will appear here the moment one comes in." />
+		{:else}
+			{#each data.recent.slice(0, 5) as order (order.id)}
+				<a class="dk-row" href="/admin/orders/{order.id}">
+					<span class="dk-row-main">
+						<span class="dk-row-title">{order.recipient}</span>
+						<span class="dk-row-meta">
+							{order.number} · {order.district_name} · {formatRelativeTime(order.placed_at)}
+						</span>
+					</span>
+					<span class="dk-row-amt">{formatMinor(order.total_minor, order.currency)}</span>
+					<Status status={order.status} />
+					<span class="dk-go" aria-hidden="true">
+						<HugeiconsIcon icon={ArrowRight01Icon} size={15} strokeWidth={stroke} />
+					</span>
+				</a>
+			{/each}
+		{/if}
+	</Frame>
+</div>
 
-	.issues li {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		padding: 13px 0 13px 14px;
-		border-bottom: 1px solid var(--rule);
-		border-left: 3px solid transparent;
-		font-size: 14px;
-		color: var(--muted);
-	}
+<div class="dk-grid-3">
+	<Frame
+		eyebrow="Reconciliation"
+		title="Needs a person"
+		action="{formatNumber(f.open_issues)} open"
+		actionHref="/admin/reconciliation"
+	>
+		{#if data.issues.length === 0}
+			<Empty title="Nothing to chase" description="Every statement so far has added up." />
+		{:else}
+			<div>
+				{#each data.issues.slice(0, 3) as issue (issue.id)}
+					<a class="dk-mini" href="/admin/reconciliation">
+						<span class="dk-sq" aria-hidden="true" data-tone={severityTone(issue.severity)}>
+							<HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} />
+						</span>
+						<span class="dk-mini-text">{issue.detail}</span>
+						<span class="dk-mini-amt">
+							{formatMinor(issue.expected_minor ?? issue.actual_minor ?? 0, f.currency)}
+						</span>
+					</a>
+				{/each}
+			</div>
+		{/if}
+	</Frame>
 
-	.issues li[data-tone='danger'] {
-		border-left-color: var(--danger);
-	}
-	.issues li[data-tone='warning'] {
-		border-left-color: var(--warning);
-	}
-	.issues li[data-tone='info'] {
-		border-left-color: var(--info);
-	}
+	<Frame eyebrow="Stock" title="Running out" action="All items" actionHref="/admin/low-stock">
+		{#if data.low.length === 0}
+			<Empty title="Nothing is low" description="Items appear here as they run down." />
+		{:else}
+			<div>
+				{#each data.low.slice(0, 3) as item (item.variant_id)}
+					<a class="dk-mini" href="/admin/low-stock">
+						<span
+							class="dk-sq"
+							aria-hidden="true"
+							data-tone={stockTone(item.available, item.threshold)}
+						>
+							<HugeiconsIcon
+								icon={item.available <= 0 ? Alert02Icon : PackageIcon}
+								size={15}
+								strokeWidth={stroke}
+							/>
+						</span>
+						<span class="dk-mini-text">
+							{item.title}
+							{#if item.available <= 0}<span class="dk-dim">· out of stock</span>{/if}
+						</span>
+						<span class="dk-mini-amt">{formatNumber(item.available)}</span>
+					</a>
+				{/each}
+			</div>
+		{/if}
+	</Frame>
 
-	.detail {
-		flex: 1;
-		min-width: 0;
-	}
+	<Frame eyebrow="Delivery" title="Orders in flight" action="{formatNumber(inFlight)} open">
+		{#if inFlight === 0}
+			<Empty title="Nothing in flight" description="Every order so far has been delivered." />
+		{:else}
+			<div class="dk-bars">
+				{#each pipeline as stage (stage.name)}
+					<div class="dk-bar">
+						<span class="dk-bar-name">{stage.name}</span>
+						<span class="dk-bar-track">
+							<span class="dk-bar-fill" style="width: {(stage.count / inFlight) * 100}%"></span>
+						</span>
+						<span class="dk-bar-count">{formatNumber(stage.count)}</span>
+					</div>
+				{/each}
+			</div>
+		{/if}
+	</Frame>
+</div>
 
-	.link {
-		color: var(--ink);
-		text-decoration: none;
-	}
-
-	.link:hover {
-		color: var(--accent);
-	}
-
-	.quiet {
-		color: var(--faint);
-	}
-
-	.gap {
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-		color: var(--ink);
-	}
-
-	.ink {
-		color: var(--ink);
-	}
-
-	.num {
-		color: var(--ink);
-		text-decoration: none;
-		border-bottom: 1px solid var(--rule-strong);
-	}
-
-	.num:hover {
-		color: var(--accent);
-		border-bottom-color: var(--accent);
-	}
-
-	.when {
-		font-size: 12px;
-		white-space: nowrap;
-		color: var(--faint);
-	}
-
-	@media (min-width: 640px) {
-		.figures {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	@media (min-width: 1000px) {
-		.figures {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
-	}
-</style>
+{#if f.critical_issues > 0}
+	<Banner title="Money is missing" tone={issueTone}>
+		{formatNumber(f.critical_issues)}
+		{f.critical_issues === 1 ? 'parcel needs' : 'parcels need'} chasing with a courier. Open money owed
+		to see which.
+	</Banner>
+{/if}

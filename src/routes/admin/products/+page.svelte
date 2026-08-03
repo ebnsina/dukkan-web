@@ -1,228 +1,133 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Empty, Note } from '$lib/ui';
+	import { PlusSignIcon, Search01Icon } from '@hugeicons/core-free-icons';
+	import { Banner, Button, Chip, Empty, Frame } from '$lib/admin/ui';
+	import { productState } from '$lib/admin/state';
 	import { formatMinorRange } from '$lib/utils/money';
 	import { formatNumber } from '$lib/utils/format';
 
 	let { data, form } = $props();
-
-	const WORD: Record<string, string> = {
-		draft: 'Not published',
-		active: 'On sale',
-		archived: 'Put away'
-	};
 </script>
 
 <Seo title="Products" description="What you sell." noindex />
 
-<div class="head">
-	<h1 class="t-heading">Products</h1>
-	<Button href="/admin/products/new" arrow>Add a product</Button>
+<div class="dk-title-row">
+	<div>
+		<h1 class="dk-h1">Products</h1>
+		<p class="dk-date">Everything your shop has for sale.</p>
+	</div>
+	<div class="dk-acts">
+		<Button href="/admin/products/new" icon={PlusSignIcon}>Add a product</Button>
+	</div>
 </div>
 
 {#if form?.message}
-	<Note title="That did not work" tone="firm">{form.message}</Note>
+	<div class="dk-stack" style="margin-bottom:14px">
+		<Banner title="That did not work" tone="danger">{form.message}</Banner>
+	</div>
 {/if}
 
-<form method="GET" class="filters">
-	<label>
-		<span class="sr-only">Search products</span>
-		<input type="search" name="q" value={data.filters.q} placeholder="Name in English or Bangla" />
-	</label>
-	<label>
-		<span class="sr-only">Status</span>
-		<select name="status" value={data.filters.status}>
-			<option value="">Any status</option>
-			<option value="draft">Not published</option>
-			<option value="active">On sale</option>
-			<option value="archived">Put away</option>
-		</select>
-	</label>
-	<button class="go t-button" type="submit">Search</button>
+<form method="GET" class="dk-filters">
+	<label class="sr-only" for="products-q">Search products</label>
+	<input
+		id="products-q"
+		class="dk-input"
+		type="search"
+		name="q"
+		value={data.filters.q}
+		placeholder="Name in English or Bangla"
+	/>
+	<label class="sr-only" for="products-status">Status</label>
+	<select id="products-status" class="dk-select" name="status" value={data.filters.status}>
+		<option value="">Any status</option>
+		<option value="draft">Not published</option>
+		<option value="active">On sale</option>
+		<option value="archived">Put away</option>
+	</select>
+	<Button type="submit" size="sm" icon={Search01Icon}>Search</Button>
 </form>
 
-{#if data.products.length === 0}
-	<Empty title="Nothing here" description="Add your first product and it will show up in the shop.">
-		{#snippet actions()}
-			<Button href="/admin/products/new" arrow>Add a product</Button>
-		{/snippet}
-	</Empty>
-{:else}
-	<div class="scroll">
-		<table>
-			<thead>
-				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Status</th>
-					<th scope="col" data-numeric>Price</th>
-					<th scope="col"><span class="sr-only">Actions</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each data.products as product (product.id)}
+<Frame eyebrow="Everything you sell" variant="flush">
+	{#if data.products.length === 0}
+		<Empty
+			title="Nothing here"
+			description="Add your first product and it will show up in the shop."
+		>
+			{#snippet actions()}
+				<Button href="/admin/products/new" size="sm" icon={PlusSignIcon}>Add a product</Button>
+			{/snippet}
+		</Empty>
+	{:else}
+		<div class="dk-scroll">
+			<table class="dk-table">
+				<thead>
 					<tr>
-						<td>
-							<span class="name">{product.title}</span>
-							{#if product.title_bn}<span class="bn">{product.title_bn}</span>{/if}
-						</td>
-						<td class="quiet">{WORD[product.status] ?? product.status}</td>
-						<td data-numeric>
-							{#if product.price_min_minor !== null && product.price_max_minor !== null}
-								{formatMinorRange(product.price_min_minor, product.price_max_minor)}
-							{:else}
-								—
-							{/if}
-						</td>
-						<td>
-							<form method="POST" action="?/setStatus" use:enhance class="act">
-								<input type="hidden" name="id" value={product.id} />
-								<input
-									type="hidden"
-									name="status"
-									value={product.status === 'active' ? 'draft' : 'active'}
-								/>
-								<button class="toggle t-button" type="submit">
-									{product.status === 'active' ? 'Take off sale' : 'Put on sale'}
-								</button>
-							</form>
-						</td>
+						<th scope="col">Name</th>
+						<th scope="col">Status</th>
+						<th scope="col" data-numeric>Price</th>
+						<th scope="col"><span class="sr-only">Actions</span></th>
 					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-	<p class="count t-label">{formatNumber(data.products.length)} shown</p>
-{/if}
+				</thead>
+				<tbody>
+					{#each data.products as product (product.id)}
+						{@const state = productState(product.status)}
+						<tr>
+							<td>
+								<span class="dk-strong">{product.title}</span>
+								{#if product.title_bn}<span class="bn">{product.title_bn}</span>{/if}
+							</td>
+							<td>
+								<Chip tone={state.tone} label={state.word} icon={state.icon} />
+							</td>
+							<td data-numeric>
+								{#if product.price_min_minor !== null && product.price_max_minor !== null}
+									{formatMinorRange(product.price_min_minor, product.price_max_minor)}
+								{:else}
+									—
+								{/if}
+							</td>
+							<td data-numeric>
+								<form method="POST" action="?/setStatus" use:enhance class="act">
+									<input type="hidden" name="id" value={product.id} />
+									<input
+										type="hidden"
+										name="status"
+										value={product.status === 'active' ? 'draft' : 'active'}
+									/>
+									<Button
+										type="submit"
+										variant="quiet"
+										size="sm"
+										label="{product.status === 'active'
+											? 'Take off sale'
+											: 'Put on sale'}: {product.title}"
+									>
+										{product.status === 'active' ? 'Take off sale' : 'Put on sale'}
+									</Button>
+								</form>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/if}
+
+	{#snippet footer()}
+		<span>{formatNumber(data.products.length)} shown</span>
+	{/snippet}
+</Frame>
 
 <style>
-	.head {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 16px;
-	}
-
-	.filters {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		margin: 28px 0 20px;
-	}
-
-	input,
-	select {
-		height: 40px;
-		padding-inline: 12px;
-		background: var(--paper);
-		color: var(--ink);
-		border: 1px solid var(--rule-strong);
-		font-family: var(--font-display);
-		font-size: 14px;
-	}
-
-	input {
-		width: min(320px, 70vw);
-	}
-
-	input:focus,
-	select:focus {
-		outline: none;
-		border-color: var(--ink);
-	}
-
-	.go {
-		height: 40px;
-		padding-inline: 20px;
-		background: var(--inverse-paper);
-		color: var(--inverse-ink);
-		border: none;
-		cursor: pointer;
-	}
-
-	.scroll {
-		overflow-x: auto;
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-
-	th {
-		padding: 12px 16px 12px 0;
-		text-align: left;
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		font-weight: 400;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--faint);
-		border-bottom: 1px solid var(--rule-strong);
-		white-space: nowrap;
-	}
-
-	td {
-		padding: 14px 16px 14px 0;
-		font-size: 14px;
-		border-bottom: 1px solid var(--rule);
-		color: var(--muted);
-	}
-
-	th[data-numeric],
-	td[data-numeric] {
-		text-align: right;
-		font-family: var(--font-mono);
-		font-variant-numeric: tabular-nums;
-		font-feature-settings: 'zero' 1;
-		color: var(--ink);
-		white-space: nowrap;
-	}
-
-	th:last-child,
-	td:last-child {
-		padding-right: 0;
-		text-align: right;
-	}
-
-	.name {
-		display: block;
-		color: var(--ink);
-	}
-
 	.bn {
 		display: block;
 		margin-top: 3px;
 		font-size: 12px;
-		color: var(--faint);
-	}
-
-	.quiet {
-		color: var(--faint);
+		color: var(--d-faint);
 	}
 
 	.act {
 		display: inline;
-	}
-
-	.toggle {
-		height: 32px;
-		padding-inline: 12px;
-		background: none;
-		border: 1px solid var(--rule-strong);
-		color: var(--muted);
-		cursor: pointer;
-		white-space: nowrap;
-	}
-
-	.toggle:hover {
-		color: var(--ink);
-		border-color: var(--ink);
-	}
-
-	.count {
-		margin-top: 20px;
-		color: var(--faint);
 	}
 </style>

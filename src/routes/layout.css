@@ -343,19 +343,6 @@
 	}
 }
 
-/* ─ Admin surface ─
- *
- * Dukkan's own tool, and it stays Dukkan's: a seller who repaints their
- * storefront must not repaint the software. The accent drives primary actions
- * and the active nav item; the state colours are declared on `:root` above and
- * only appear where a state actually exists.
- */
-
-.admin-surface {
-	--inverse-paper: var(--accent);
-	--inverse-ink: var(--accent-ink);
-}
-
 /* ─ Storefront surface ─
  *
  * The shop's own design, not ours and not the visitor's. `GET /v1/store/theme`
@@ -833,36 +820,4 @@
 		opacity: 1 !important;
 		transform: none !important;
 	}
-}
-
-/* ─ Admin surface ─────────────────────────────────────────────────────────
-   The admin is a tool, and a tool is scanned rather than read. Primary
-   actions carry the brand so the eye lands on them; state carries meaning so
-   one bad row among forty is visible without being hunted for.
-
-   Scoped to the surface, so the storefront still wears the shop's own theme
-   and the marketing page keeps its own palette. */
-
-[data-surface='admin'] .btn-solid {
-	background-color: var(--accent);
-	color: var(--accent-ink);
-}
-
-[data-surface='admin'] .btn-solid:hover {
-	background-color: color-mix(in oklab, var(--accent) 84%, black);
-}
-
-[data-surface='admin'] .btn-ghost:hover {
-	border-color: var(--accent);
-	color: var(--accent);
-}
-
-/* A link that is the current page, and any inline link in prose. */
-[data-surface='admin'] a:not(.btn):not(.tile):not(.brand):hover {
-	color: var(--accent);
-}
-
-[data-surface='admin'] :is(input, select, textarea):focus-visible {
-	outline-color: var(--accent);
-	border-color: var(--accent);
 }

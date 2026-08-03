@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Field, Input, Note, Switch } from '$lib/ui';
+	import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
+	import { Banner, Button, Field, Frame, Toggle } from '$lib/admin/ui';
 
 	let { data, form } = $props();
 
@@ -14,146 +15,138 @@
 
 <Seo title="Settings" description="Payments and delivery." noindex />
 
-<h1 class="t-heading">Settings</h1>
+<div class="dk-title-row">
+	<div>
+		<h1 class="dk-h1">Settings</h1>
+		<p class="dk-date">How customers pay you, and how parcels get to them.</p>
+	</div>
+</div>
 
-<div class="sections">
-	<section>
-		<div class="head">
-			<h2 class="t-sub">Taking payment</h2>
-			<p class="blurb">
-				Card, bKash and Nagad all come through SSLCommerz. Put your merchant details in and
-				customers can pay online as well as with cash.
-			</p>
-			<p class="state t-label">
-				{sslLive ? 'Online payment is switched on' : 'Cash on delivery only right now'}
-			</p>
-		</div>
+<div class="dk-grid-3 pair">
+	<Frame
+		eyebrow="Payments"
+		title="Taking payment"
+		action={sslLive ? 'Switched on' : 'Cash only'}
+		variant="pad"
+	>
+		<p class="dk-note">
+			Card, bKash and Nagad all come through SSLCommerz. Put your merchant details in and customers
+			can pay online as well as with cash.
+		</p>
 
 		{#if form?.section === 'payments' && form?.message}
-			<Note title="Not saved" tone="firm">{form.message}</Note>
+			<div class="msg"><Banner title="Not saved" tone="danger">{form.message}</Banner></div>
 		{:else if form?.section === 'payments' && form?.done}
-			<Note title="Saved">{form.done}</Note>
+			<div class="msg"><Banner title="Saved" tone="success">{form.done}</Banner></div>
 		{/if}
 
-		<form method="POST" action="?/payments" use:enhance class="form">
-			<Field label="Store ID" required error={form?.fields?.store_id}>
-				{#snippet control(props)}
-					<Input {...props} name="store_id" autocomplete="off" />
+		<form method="POST" action="?/payments" use:enhance class="dk-form">
+			<Field label="Store ID" id="store_id" required error={form?.fields?.store_id}>
+				{#snippet children(props)}
+					<input {...props} class="dk-input" name="store_id" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field label="Store password" required error={form?.fields?.store_password}>
-				{#snippet control(props)}
-					<Input {...props} name="store_password" type="password" autocomplete="off" />
+			<Field
+				label="Store password"
+				id="store_password"
+				required
+				error={form?.fields?.store_password}
+			>
+				{#snippet children(props)}
+					<input
+						{...props}
+						class="dk-input"
+						name="store_password"
+						type="password"
+						autocomplete="off"
+						required
+					/>
 				{/snippet}
 			</Field>
-			<Switch
+			<Toggle
 				bind:checked={paySandbox}
 				label="Testing mode"
 				description="Leave on until you have tested a real payment."
 			/>
 			<input type="hidden" name="is_sandbox" value={paySandbox ? 'on' : ''} />
-			<Switch bind:checked={payEnabled} label="Let customers pay online" />
+			<Toggle bind:checked={payEnabled} label="Let customers pay online" />
 			<input type="hidden" name="is_enabled" value={payEnabled ? 'on' : ''} />
-			<Button type="submit" arrow>Save payment details</Button>
+			<div class="dk-acts">
+				<Button type="submit" icon={CheckmarkCircle02Icon}>Save payment details</Button>
+			</div>
 		</form>
-	</section>
+	</Frame>
 
-	<section>
-		<div class="head">
-			<h2 class="t-sub">Delivery</h2>
-			<p class="blurb">
-				Your Steadfast account. Once this is in you can book a pickup straight from an order and the
-				parcel status comes back on its own.
-			</p>
-		</div>
+	<Frame eyebrow="Delivery" title="Getting parcels out" variant="pad">
+		<p class="dk-note">
+			Your Steadfast account. Once this is in you can book a pickup straight from an order and the
+			parcel status comes back on its own.
+		</p>
 
 		{#if form?.section === 'courier' && form?.message}
-			<Note title="Not saved" tone="firm">{form.message}</Note>
+			<div class="msg"><Banner title="Not saved" tone="danger">{form.message}</Banner></div>
 		{:else if form?.section === 'courier' && form?.done}
-			<Note title="Saved">{form.done}</Note>
+			<div class="msg"><Banner title="Saved" tone="success">{form.done}</Banner></div>
 		{/if}
 
-		<form method="POST" action="?/courier" use:enhance class="form">
-			<Field label="API key" required error={form?.fields?.api_key}>
-				{#snippet control(props)}
-					<Input {...props} name="api_key" autocomplete="off" />
+		<form method="POST" action="?/courier" use:enhance class="dk-form">
+			<Field label="API key" id="api_key" required error={form?.fields?.api_key}>
+				{#snippet children(props)}
+					<input {...props} class="dk-input" name="api_key" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field label="Secret key" required error={form?.fields?.secret_key}>
-				{#snippet control(props)}
-					<Input {...props} name="secret_key" type="password" autocomplete="off" />
+			<Field label="Secret key" id="secret_key" required error={form?.fields?.secret_key}>
+				{#snippet children(props)}
+					<input
+						{...props}
+						class="dk-input"
+						name="secret_key"
+						type="password"
+						autocomplete="off"
+						required
+					/>
 				{/snippet}
 			</Field>
 			<Field
 				label="Webhook token"
+				id="webhook_token"
 				hint="Steadfast sends parcel updates with this. Make up a long random one."
 				error={form?.fields?.webhook_token}
 			>
-				{#snippet control(props)}
-					<Input {...props} name="webhook_token" autocomplete="off" />
+				{#snippet children(props)}
+					<input {...props} class="dk-input" name="webhook_token" autocomplete="off" />
 				{/snippet}
 			</Field>
-			<Switch bind:checked={courierEnabled} label="Book pickups with Steadfast" />
+			<Toggle bind:checked={courierEnabled} label="Book pickups with Steadfast" />
 			<input type="hidden" name="is_enabled" value={courierEnabled ? 'on' : ''} />
-			<Button type="submit" arrow>Save delivery details</Button>
+			<div class="dk-acts">
+				<Button type="submit" icon={CheckmarkCircle02Icon}>Save delivery details</Button>
+			</div>
 		</form>
-	</section>
+	</Frame>
 </div>
 
-<p class="footnote t-label">
+<p class="dk-hint footnote">
 	For safety these are never shown again once saved. Type them in again to change them.
 </p>
 
 <style>
-	.sections {
-		display: grid;
-		gap: 56px;
-		margin-top: 36px;
+	/* Two panels, not three: each holds a form rather than a figure. */
+	.pair {
 		align-items: start;
 	}
 
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
-
-	.head {
-		padding-bottom: 18px;
-		border-bottom: 1px solid var(--rule-strong);
-	}
-
-	.blurb {
-		margin-top: 12px;
-		font-size: var(--size-body);
-		line-height: 1.6;
-		color: var(--muted);
-		max-width: 52ch;
-	}
-
-	.state {
-		margin-top: 14px;
-		color: var(--faint);
-	}
-
-	.form {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		max-width: 420px;
+	.msg {
+		margin-bottom: 16px;
 	}
 
 	.footnote {
-		margin-top: 48px;
-		padding-top: 20px;
-		border-top: 1px solid var(--rule);
-		color: var(--faint);
+		margin-top: 8px;
 	}
 
-	@media (min-width: 1040px) {
-		.sections {
+	@media (min-width: 900px) {
+		.pair {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 56px 64px;
 		}
 	}
 </style>
