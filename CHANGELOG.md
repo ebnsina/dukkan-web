@@ -13,6 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   sell, and a theme chosen from a live preview.
 - A state vocabulary for the admin (`lib/admin/state.ts`) with one word and one
   tone per status, so a colour means the same thing in every column.
+- The storefront wears the shop's own theme. `GET /v1/store/theme` supplies the
+  accent, its ink, a surface and a density, applied as custom properties on the
+  shop layout; `layout` changes the arrangement as well as the paint, through
+  `grid-dense`, `grid-roomy`, `editorial` and `list`.
+- Product photographs throughout: listings, product detail with a thumbnail
+  gallery, and basket lines. Each slot asks for the rendition it can use — the
+  API's thumb is 6.7 KB against 158 KB for the large one, and that difference is
+  a real cost on mobile data.
 
 - Storefront on the real API: home, category, search, product detail with variant
   selection, basket, checkout, order confirmation, order tracking, account with

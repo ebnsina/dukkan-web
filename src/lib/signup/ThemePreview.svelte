@@ -40,7 +40,11 @@
 
 	<div class="grid" style="grid-template-columns: {COLUMNS[layout]}">
 		{#each shown as item, index (item)}
-			<div class="card" class:is-row={layout === 'list'} class:is-lead={layout === 'editorial' && index === 0}>
+			<div
+				class="card"
+				class:is-row={layout === 'list'}
+				class:is-lead={layout === 'editorial' && index === 0}
+			>
 				<span class="art" style="background: {wash}; aspect-ratio: {RATIOS[layout]}"></span>
 				<span class="copy">
 					<span class="title" style="color: {tokens.accent}">{item}</span>

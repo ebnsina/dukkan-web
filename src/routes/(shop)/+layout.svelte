@@ -23,42 +23,42 @@
 	data-layout={data.theme.layout}
 >
 	<header class="bar">
-	<div class="inner container-page">
-		<a class="shop-name" href="/shop">{data.shop.name}</a>
+		<div class="inner container-page">
+			<a class="shop-name" href="/shop">{data.shop.name}</a>
 
-		<nav aria-label="Categories" class="cats">
-			{#each data.categories.slice(0, 5) as category (category.id)}
-				<a href="/c/{category.slug}">
-					{category.name}
-					{#if category.name_bn}<span class="bn">{category.name_bn}</span>{/if}
+			<nav aria-label="Categories" class="cats">
+				{#each data.categories.slice(0, 5) as category (category.id)}
+					<a href="/c/{category.slug}">
+						{category.name}
+						{#if category.name_bn}<span class="bn">{category.name_bn}</span>{/if}
+					</a>
+				{/each}
+			</nav>
+
+			<div class="tools">
+				<a class="icon-box" href="/search" aria-label="Search">
+					<HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={1.6} />
 				</a>
-			{/each}
-		</nav>
-
-		<div class="tools">
-			<a class="icon-box" href="/search" aria-label="Search">
-				<HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={1.6} />
-			</a>
-			<a class="icon-box" href="/account" aria-label="Your account">
-				<HugeiconsIcon icon={UserIcon} size={16} strokeWidth={1.6} />
-			</a>
-			<a
-				class="icon-box cart"
-				href="/cart"
-				aria-label="Basket, {formatNumber(data.itemCount)} items"
-			>
-				<HugeiconsIcon icon={ShoppingBag01Icon} size={16} strokeWidth={1.6} />
-				{#if data.itemCount > 0}
-					<span class="count t-mono">{formatNumber(data.itemCount)}</span>
-				{/if}
-			</a>
+				<a class="icon-box" href="/account" aria-label="Your account">
+					<HugeiconsIcon icon={UserIcon} size={16} strokeWidth={1.6} />
+				</a>
+				<a
+					class="icon-box cart"
+					href="/cart"
+					aria-label="Basket, {formatNumber(data.itemCount)} items"
+				>
+					<HugeiconsIcon icon={ShoppingBag01Icon} size={16} strokeWidth={1.6} />
+					{#if data.itemCount > 0}
+						<span class="count t-mono">{formatNumber(data.itemCount)}</span>
+					{/if}
+				</a>
+			</div>
 		</div>
-	</div>
-</header>
+	</header>
 
-<main>{@render children()}</main>
+	<main>{@render children()}</main>
 
-<footer class="foot">
+	<footer class="foot">
 		<div class="foot-inner container-page">
 			<span class="t-label">{data.shop.name}</span>
 			<a class="t-label" href="/track">Track an order</a>

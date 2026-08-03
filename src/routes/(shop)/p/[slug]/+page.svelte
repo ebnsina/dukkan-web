@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
+	import Photo from '$lib/shop/Photo.svelte';
+	import { SIZES } from '$lib/shop/photo';
 	import { Button, Note } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber } from '$lib/utils/format';
@@ -14,6 +16,10 @@
 
 	let picked = $state('');
 	let quantity = $state(1);
+	let shown = $state(0);
+
+	const images = $derived(product.images ?? []);
+	const hero = $derived(images[shown] ?? images[0] ?? null);
 
 	const fallbackId = $derived(
 		product.variants.find((v) => v.stock.on_hand > 0)?.id ??
@@ -33,7 +39,30 @@
 />
 
 <article class="wrap container-page">
-	<div class="media" aria-hidden="true"></div>
+	<div class="media">
+		<div class="hero">
+			<Photo image={hero} sizes={SIZES.detail} priority fallbackAlt={product.title} />
+		</div>
+
+		{#if images.length > 1}
+			<!-- Thumbnails ask for the thumb rendition: a 158 KB file in a 64px
+				 slot is somebody's mobile data, spent on nothing. -->
+			<div class="thumbs">
+				{#each images as image, index (image.id)}
+					<button
+						type="button"
+						class="thumb"
+						class:is-shown={index === shown}
+						aria-label="Photo {index + 1} of {images.length}"
+						aria-pressed={index === shown}
+						onclick={() => (shown = index)}
+					>
+						<img src={image.urls.thumb} alt="" loading="lazy" decoding="async" />
+					</button>
+				{/each}
+			</div>
+		{/if}
+	</div>
 
 	<div class="detail">
 		{#if product.category}
@@ -136,9 +165,40 @@
 	}
 
 	.media {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.hero {
 		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		border: 1px solid var(--rule);
+	}
+
+	.thumbs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.thumb {
+		width: 64px;
+		height: 64px;
+		padding: 0;
 		background: var(--surface);
 		border: 1px solid var(--rule);
+		cursor: pointer;
+	}
+
+	.thumb img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.is-shown {
+		border-color: var(--inverse-paper);
 	}
 
 	.crumb {

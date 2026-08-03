@@ -26,9 +26,14 @@
 	{#if data.page.products.length === 0}
 		<Empty title="Nothing here yet" description="This shop has not published anything so far." />
 	{:else}
-		<div class="grid">
-			{#each data.page.products as product (product.id)}
-				<ProductCard {product} currency={data.shop.currency} />
+		<div class="shop-grid">
+			{#each data.page.products as product, index (product.id)}
+				<ProductCard
+					{product}
+					currency={data.shop.currency}
+					layout={data.theme.layout}
+					lead={data.theme.layout === 'editorial' && index === 0}
+				/>
 			{/each}
 		</div>
 	{/if}
@@ -42,23 +47,5 @@
 	.sub {
 		margin-top: 16px;
 		color: var(--faint);
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 32px 20px;
-	}
-
-	@media (min-width: 780px) {
-		.grid {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	@media (min-width: 1080px) {
-		.grid {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
 	}
 </style>

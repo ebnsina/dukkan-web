@@ -157,7 +157,8 @@
 						>
 							{done.storefront}
 						</a>
-						<span class="shrink-0 font-mk-mono text-[11px] tracking-[0.14em] text-mk-faint uppercase"
+						<span
+							class="shrink-0 font-mk-mono text-[11px] tracking-[0.14em] text-mk-faint uppercase"
 							>{done.theme_code} · {done.preset_code}</span
 						>
 					</div>

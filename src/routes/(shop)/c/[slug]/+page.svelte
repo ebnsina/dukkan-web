@@ -36,9 +36,9 @@
 	{#if data.page.products.length === 0}
 		<Empty title="Nothing in here yet" description="Try another category." />
 	{:else}
-		<div class="grid">
+		<div class="shop-grid">
 			{#each data.page.products as product (product.id)}
-				<ProductCard {product} currency={data.shop.currency} />
+				<ProductCard {product} currency={data.shop.currency} layout={data.theme.layout} />
 			{/each}
 		</div>
 
@@ -66,27 +66,9 @@
 		color: var(--faint);
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 32px 20px;
-	}
-
 	.pager {
 		display: flex;
 		justify-content: center;
 		margin-top: 56px;
-	}
-
-	@media (min-width: 780px) {
-		.grid {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	@media (min-width: 1080px) {
-		.grid {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
 	}
 </style>

@@ -1,90 +1,104 @@
 <script lang="ts">
-	import type { ProductListing } from '$lib/api/types';
+	import type { ProductListing, ThemeLayout } from '$lib/api/types';
 	import { formatMinorRange } from '$lib/utils/money';
+	import Photo from './Photo.svelte';
+	import { firstImage, gridSizes } from './photo';
 
 	interface Props {
 		product: ProductListing;
 		currency?: string;
+		layout?: ThemeLayout;
+		/* The editorial layout gives its first item the width of the page, so
+		   that one asks for a bigger file than its neighbours. */
+		lead?: boolean;
 	}
 
-	let { product, currency = 'BDT' }: Props = $props();
+	let { product, currency = 'BDT', layout = 'grid-dense', lead = false }: Props = $props();
+
+	let image = $derived(firstImage(product.images));
+	let sizes = $derived(lead ? gridSizes('editorial') : gridSizes(layout));
 </script>
 
-<a class="card" href="/p/{product.slug}">
-	<span class="thumb" aria-hidden="true"></span>
-	<span class="body">
-		<span class="title">{product.title}</span>
-		{#if product.title_bn}<span class="title-bn">{product.title_bn}</span>{/if}
-		{#if product.summary}<span class="summary">{product.summary}</span>{/if}
-		<span class="foot">
-			{#if product.price_min_minor !== null && product.price_max_minor !== null}
-				<span class="price t-mono">
-					{formatMinorRange(product.price_min_minor, product.price_max_minor, currency)}
-				</span>
-			{/if}
-			{#if !product.in_stock}<span class="out t-label">Sold out</span>{/if}
-		</span>
+<!-- The arrangement lives in layout.css under `.shop-surface[data-layout]`, so
+	 one card serves every design the shop might be wearing. -->
+<a class="pc" class:is-lead={lead} href="/p/{product.slug}">
+	<span class="pc-art">
+		<Photo {image} {sizes} fallbackAlt={product.title} priority={lead} />
+		{#if !product.in_stock}<span class="pc-gone t-label">Sold out</span>{/if}
+	</span>
+
+	<span class="pc-body">
+		<span class="pc-title">{product.title}</span>
+		{#if product.title_bn}<span class="pc-bn">{product.title_bn}</span>{/if}
+		{#if product.summary}<span class="pc-summary">{product.summary}</span>{/if}
+		{#if product.price_min_minor !== null && product.price_max_minor !== null}
+			<span class="pc-price t-mono">
+				{formatMinorRange(product.price_min_minor, product.price_max_minor, currency)}
+			</span>
+		{/if}
 	</span>
 </a>
 
 <style>
-	.card {
+	.pc {
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 		color: var(--ink);
 		text-decoration: none;
 	}
 
-	.thumb {
+	.pc-art {
+		position: relative;
 		display: block;
-		aspect-ratio: 4 / 5;
-		background: var(--surface);
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
 		border: 1px solid var(--rule);
 		transition: border-color var(--dur-hover) var(--ease-out);
 	}
 
-	.card:hover .thumb {
-		border-color: var(--rule-strong);
+	.pc:hover .pc-art {
+		border-color: var(--inverse-paper);
 	}
 
-	.body {
+	.pc-gone {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		padding: 5px 8px;
+		background: var(--inverse-paper);
+		color: var(--inverse-ink);
+	}
+
+	.pc-body {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
-		padding-top: 14px;
+		padding-top: 12px;
+		min-width: 0;
 	}
 
-	.title {
+	.pc-title {
 		font-size: 15px;
 		font-weight: 600;
 		line-height: 1.35;
 	}
 
-	.title-bn {
+	.pc-bn {
 		font-size: 13px;
 		color: var(--muted);
 	}
 
-	.summary {
+	.pc-summary {
+		display: none;
 		font-size: 13px;
 		line-height: 1.5;
 		color: var(--faint);
 	}
 
-	.foot {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 12px;
-		margin-top: 8px;
-	}
-
-	.price {
+	.pc-price {
+		margin-top: 6px;
 		font-size: 14px;
 		font-variant-numeric: tabular-nums;
-	}
-
-	.out {
-		color: var(--faint);
 	}
 </style>

@@ -2,6 +2,8 @@
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Button, Empty, Note } from '$lib/ui';
+	import Photo from '$lib/shop/Photo.svelte';
+	import { SIZES } from '$lib/shop/photo';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber } from '$lib/utils/format';
 
@@ -44,7 +46,9 @@
 		<div class="lines">
 			{#each cart.lines as line (line.variant_id)}
 				<div class="line" class:is-gone={!line.in_stock}>
-					<a class="thumb" href="/p/{line.product_slug}" aria-hidden="true" tabindex="-1"></a>
+					<a class="thumb" href="/p/{line.product_slug}" aria-hidden="true" tabindex="-1">
+						<Photo image={data.thumbs[line.product_slug] ?? null} sizes={SIZES.basket} />
+					</a>
 
 					<div class="info">
 						<a class="title" href="/p/{line.product_slug}">{line.title}</a>
@@ -122,7 +126,7 @@
 		display: block;
 		width: 64px;
 		aspect-ratio: 4 / 5;
-		background: var(--surface);
+		overflow: hidden;
 		border: 1px solid var(--rule);
 	}
 
