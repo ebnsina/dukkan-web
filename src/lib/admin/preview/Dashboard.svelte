@@ -148,6 +148,10 @@
 			<!-- The figure nothing else can tell a shop owner, given the space a
 			     hero image would have had. -->
 			<section class="feature">
+				<div class="c-head">
+					<span class="eyebrow">Owed to you</span>
+				</div>
+				<div class="panel f-panel">
 				<span class="kicker">Cash with couriers</span>
 				<span class="f-value">{formatMinor(f.outstanding_cod_minor, f.currency)}</span>
 				<p class="f-note">
@@ -169,14 +173,17 @@
 					<a class="btn dark" href="#money">Open money owed</a>
 					<a class="btn light" href="#import">Import a statement</a>
 				</div>
+				</div>
 			</section>
 
 			<section class="card">
 				<div class="c-head">
+					<span class="eyebrow">Today</span>
 					<h2>Recent orders</h2>
 					<a class="view" href="#orders">View all</a>
 				</div>
-				{#each recent.slice(0, 5) as o (o.id)}
+				<div class="panel rows">
+					{#each recent.slice(0, 5) as o (o.id)}
 					{@const os = orderState(o.status)}
 					<a class="row" href="#{o.id}">
 						<span class="r-main">
@@ -189,17 +196,20 @@
 							><HugeiconsIcon icon={ArrowRight01Icon} size={15} strokeWidth={stroke} /></span
 						>
 					</a>
-				{/each}
+					{/each}
+				</div>
 			</section>
 		</div>
 
 		<div class="three">
 			<section class="card">
 				<div class="c-head">
+					<span class="eyebrow">Reconciliation</span>
 					<h2>Needs a person</h2>
 					<a class="view" href="#money">{f.open_issues} open</a>
 				</div>
-				{#each issues.slice(0, 3) as i (i.id)}
+				<div class="panel">
+					{#each issues.slice(0, 3) as i (i.id)}
 					<a class="mini" href="#{i.id}">
 						<span class="badge-sq" data-tone={severityTone(i.severity)}>
 							<HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} />
@@ -209,15 +219,18 @@
 							{formatMinor(i.expected_minor ?? i.actual_minor ?? 0, f.currency)}
 						</span>
 					</a>
-				{/each}
+					{/each}
+				</div>
 			</section>
 
 			<section class="card">
 				<div class="c-head">
+					<span class="eyebrow">Stock</span>
 					<h2>Moving</h2>
 					<a class="view" href="#products">Products</a>
 				</div>
-				{#each bestSellers as b (b.name)}
+				<div class="panel">
+					{#each bestSellers as b (b.name)}
 					<a class="mini" href="#{b.name}">
 						<span class="badge-sq"
 							><HugeiconsIcon icon={PackageIcon} size={15} strokeWidth={stroke} /></span
@@ -234,15 +247,17 @@
 						<span class="m-text">{l.title} <span class="dim">out of stock</span></span>
 						<span class="m-amt">{l.available}</span>
 					</a>
-				{/each}
+					{/each}
+				</div>
 			</section>
 
 			<section class="card">
 				<div class="c-head">
+					<span class="eyebrow">Delivery</span>
 					<h2>Where orders go</h2>
 					<span class="view plain">This month</span>
 				</div>
-				<div class="bars">
+				<div class="panel bars">
 					{#each districts as d (d.name)}
 						<div class="bar-row">
 							<span class="b-name">{d.name}</span>
@@ -552,16 +567,17 @@
 	.stats {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		gap: 1px;
+		gap: 3px;
 		margin-bottom: 14px;
-		background: rgba(120, 124, 136, 0.1);
-		border-radius: var(--d-r-sm);
-		overflow: hidden;
+		padding: 3px;
+		background: var(--d-card);
+		border-radius: var(--d-r);
 	}
 
 	.stat {
 		padding: 14px 16px;
 		background: var(--d-sheet);
+		border-radius: calc(var(--d-r) - 3px);
 	}
 
 	.s-label {
@@ -603,11 +619,31 @@
 		}
 	}
 
+	/* Shell, then panel: the heading belongs to the tint and the content sits
+	   on paper, inset by a 3px rail. The same frame the landing page uses. */
 	.feature,
 	.card {
+		display: flex;
+		flex-direction: column;
 		background: var(--d-card);
 		border-radius: var(--d-r);
+		padding: 3px;
+	}
+
+	.panel {
+		flex: 1;
+		min-height: 0;
+		padding: 10px;
+		background: var(--d-sheet);
+		border-radius: calc(var(--d-r) - 3px);
+	}
+
+	.f-panel {
 		padding: 20px;
+	}
+
+	.rows {
+		padding: 6px;
 	}
 
 	.kicker {
@@ -658,9 +694,20 @@
 	.c-head {
 		display: flex;
 		align-items: baseline;
-		justify-content: space-between;
 		gap: 12px;
-		padding: 0 4px 12px;
+		padding: 11px 14px 12px;
+	}
+
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--d-faint);
+	}
+
+	.view {
+		margin-left: auto;
 	}
 
 	h2 {
@@ -694,8 +741,7 @@
 	}
 
 	.row:hover {
-		background: var(--d-sheet);
-		box-shadow: var(--d-softer);
+		background: var(--d-card);
 	}
 
 	.r-main {
@@ -791,20 +837,18 @@
 		display: flex;
 		align-items: center;
 		gap: 11px;
-		padding: 10px 12px;
-		border-radius: var(--d-r-sm);
-		background: var(--d-sheet);
-		margin-bottom: 8px;
-		box-shadow: var(--d-softer);
-		transition: transform var(--d-quick);
+		padding: 9px 10px;
+		border-radius: 11px;
+		margin-bottom: 2px;
+		transition: background-color var(--d-quick);
+	}
+
+	.mini:hover {
+		background: var(--d-card);
 	}
 
 	.mini:last-child {
 		margin-bottom: 0;
-	}
-
-	.mini:hover {
-		transform: translateX(2px);
 	}
 
 	.badge-sq {
@@ -812,7 +856,7 @@
 		place-items: center;
 		width: 30px;
 		height: 30px;
-		border-radius: 11px;
+		border-radius: 10px;
 		background: var(--d-card);
 		color: var(--d-muted);
 		flex: none;
@@ -856,8 +900,9 @@
 	.bars {
 		display: flex;
 		flex-direction: column;
-		gap: 13px;
-		padding: 4px;
+		justify-content: center;
+		gap: 14px;
+		padding: 16px 14px;
 	}
 
 	.bar-row {
@@ -880,7 +925,7 @@
 		flex: 1;
 		height: 6px;
 		border-radius: 4px;
-		background: var(--d-sheet);
+		background: var(--d-card);
 		overflow: hidden;
 	}
 
