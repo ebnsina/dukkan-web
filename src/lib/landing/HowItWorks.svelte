@@ -23,12 +23,15 @@
 	];
 </script>
 
-<Section id="how-it-works" label="How it works" rule>
-	<h2 class="t-heading">Open on Monday. Paying sellers by Sunday.</h2>
-
+<Section
+	id="how-it-works"
+	eyebrow="How it works"
+	heading="Open on Monday. Paying sellers by Sunday."
+	rule
+>
 	<ol class="steps">
 		{#each steps as step, index (step.title)}
-			<li data-reveal-item>
+			<li>
 				<span class="num t-mono">{formatNumber(index + 1).padStart(2, '0')}</span>
 				<h3 class="t-sub">{step.title}</h3>
 				<p class="body">{step.body}</p>
@@ -40,12 +43,11 @@
 <style>
 	.steps {
 		display: grid;
-		gap: 40px;
-		margin-top: 56px;
+		gap: 44px 40px;
 	}
 
 	li {
-		padding-top: 20px;
+		padding-top: 24px;
 		border-top: 1px solid var(--rule);
 	}
 
@@ -62,14 +64,13 @@
 		font-size: var(--size-body);
 		line-height: 1.6;
 		color: var(--muted);
-		max-width: 34ch;
+		max-width: 36ch;
 	}
 
 	/* Four items in a 2x2, so the fourth is never stranded alone. */
 	@media (min-width: 700px) {
 		.steps {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 48px 40px;
 		}
 	}
 </style>

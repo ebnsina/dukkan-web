@@ -63,13 +63,13 @@
 	const price = (tier: Tier) => (yearly ? Math.round(tier.monthly * 0.8) : tier.monthly);
 </script>
 
-<Section id="pricing" label="Pricing" rule>
-	<h2 class="t-heading">One price. We never touch your sales.</h2>
-	<p class="lead t-lead">
-		Whatever cut you take from your sellers stays yours. You pay us for the marketplace, and nothing
-		more.
-	</p>
-
+<Section
+	id="pricing"
+	eyebrow="Pricing"
+	heading="One price. We never touch your sales."
+	lead="Whatever cut you take from your sellers stays yours. You pay us for the marketplace, and nothing more."
+	rule
+>
 	<div class="billing">
 		<Switch bind:checked={yearly} label="Pay for a year" />
 		<Tag>Save a fifth</Tag>
@@ -77,7 +77,7 @@
 
 	<div class="tiers">
 		{#each tiers as tier (tier.name)}
-			<article class="tier" class:is-lead={tier.lead} data-reveal-item>
+			<article class="tier">
 				<header>
 					<div class="name-row">
 						<h3 class="t-sub">{tier.name}</h3>
@@ -93,9 +93,11 @@
 					<span class="per t-label">a month{yearly ? ', billed yearly' : ''}</span>
 				</p>
 
-				<Button href="/#start" variant={tier.lead ? 'solid' : 'ghost'} class="pick" arrow>
-					Choose {tier.name}
-				</Button>
+				<div class="pick">
+					<Button href="/#start" variant={tier.lead ? 'solid' : 'ghost'} arrow>
+						Choose {tier.name}
+					</Button>
+				</div>
 
 				<dl class="limits">
 					{#each [['Sellers', tier.sellers], ['Orders', tier.orders], ['Address', tier.address], ['Writing credits', `${formatNumber(tier.credits)} a month`]] as [term, value] (term)}
@@ -121,28 +123,19 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.billing {
 		display: flex;
 		align-items: center;
 		gap: 16px;
-		margin-top: 40px;
+		margin-bottom: 48px;
 	}
 
 	.tiers {
 		display: grid;
-		gap: 0;
-		margin-top: 48px;
 		border-top: 1px solid var(--rule-strong);
 	}
 
 	.tier {
-		display: flex;
-		flex-direction: column;
 		padding-block: 32px;
 		border-bottom: 1px solid var(--rule);
 	}
@@ -178,9 +171,8 @@
 		color: var(--faint);
 	}
 
-	.tier :global(.pick) {
+	.pick {
 		margin-top: 24px;
-		align-self: flex-start;
 	}
 
 	.limits {
@@ -235,13 +227,20 @@
 		line-height: 1.7;
 	}
 
+	/* Subgrid keeps price, button, limits and extras on the same lines across all
+	   three tiers, so a longer blurb cannot knock the rows out of step. */
 	@media (min-width: 860px) {
 		.tiers {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 0 32px;
+			grid-template-rows: repeat(5, auto);
+			column-gap: 32px;
 		}
 
 		.tier {
+			display: grid;
+			grid-row: span 5;
+			grid-template-rows: subgrid;
+			align-content: start;
 			padding-inline-end: 32px;
 			border-right: 1px solid var(--rule);
 		}

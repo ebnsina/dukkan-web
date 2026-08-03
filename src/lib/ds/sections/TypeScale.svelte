@@ -21,14 +21,13 @@
 	];
 </script>
 
-<Section id="type" label="02 / Type" rule>
-	<h2 class="t-heading">One typeface, worked hard.</h2>
-	<p class="lead t-lead">
-		Mona Sans carries everything. Its width axis does the job a second display family usually would,
-		so headings narrow to 86% while body copy stays at its natural width. Geist Mono is kept for
-		numbers, labels and anything tabular.
-	</p>
-
+<Section
+	id="type"
+	eyebrow="02 / Type"
+	heading="One typeface, worked hard."
+	lead="Mona Sans carries everything. Its width axis does the job a second display family usually would, so headings narrow to 86% while body copy stays at its natural width. Geist Mono is kept for numbers, labels and anything tabular."
+	rule
+>
 	<DsBlock label="Roles" flow="stack">
 		<div class="roles">
 			{#each roles as [cls, name, spec] (cls)}
@@ -94,11 +93,6 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.role + .role {
 		margin-top: 40px;
 		padding-top: 32px;

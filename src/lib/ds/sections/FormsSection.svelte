@@ -67,13 +67,13 @@
 	let some = $state(true);
 </script>
 
-<Section id="forms" label="05 / Forms" rule>
-	<h2 class="t-heading">Fields that fail without a hue.</h2>
-	<p class="lead t-lead">
-		Every control is 46px, square, and shares one hairline. An error is not red: the field takes a
-		heavier left edge and the message sits behind a 2px rule at full ink.
-	</p>
-
+<Section
+	id="forms"
+	eyebrow="05 / Forms"
+	heading="Fields that fail without a hue."
+	lead="Every control is 46px, square, and shares one hairline. An error is not red: the field takes a heavier left edge and the message sits behind a 2px rule at full ink."
+	rule
+>
 	<DsBlock label="Text" flow="stack">
 		<div class="pair">
 			<Field label="Shop name" hint="Your customers will see this." required>
@@ -174,11 +174,6 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.pair {
 		display: grid;
 		gap: 24px;

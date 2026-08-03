@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { Cancel01Icon } from '@hugeicons/core-free-icons';
 	import { trapFocus } from './focus-trap';
@@ -46,13 +48,24 @@
 
 {#if open}
 	<div class="layer">
-		<button type="button" class="scrim" tabindex="-1" aria-hidden="true" onclick={close}></button>
+		<button
+			type="button"
+			class="scrim"
+			tabindex="-1"
+			aria-hidden="true"
+			onclick={close}
+			transition:fade={{ duration: prefersReducedMotion.current ? 0 : 150 }}
+		></button>
 		<div
 			class="panel"
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby="{uid}-title"
 			aria-describedby={description ? `${uid}-desc` : undefined}
+			transition:fly={{
+				y: prefersReducedMotion.current ? 0 : 8,
+				duration: prefersReducedMotion.current ? 0 : 200
+			}}
 			{@attach trapFocus()}
 		>
 			<div class="head">
@@ -91,7 +104,6 @@
 		border: none;
 		background: color-mix(in srgb, var(--ink) 46%, transparent);
 		cursor: default;
-		animation: fade 190ms linear;
 	}
 
 	.panel {
@@ -101,7 +113,6 @@
 		max-width: 520px;
 		background: var(--paper);
 		border: 1px solid var(--rule-strong);
-		animation: rise 320ms var(--ease-out);
 	}
 
 	.head {
@@ -146,18 +157,5 @@
 		gap: 10px;
 		padding: 18px 26px;
 		border-top: 1px solid var(--rule);
-	}
-
-	@keyframes fade {
-		from {
-			opacity: 0;
-		}
-	}
-
-	@keyframes rise {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
 	}
 </style>

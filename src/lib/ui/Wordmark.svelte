@@ -9,57 +9,20 @@
 	let { href = '/', class: className }: Props = $props();
 </script>
 
-{#snippet mark()}
-	<span class="stack" aria-hidden="true">
-		<span class="latin">Dukkan</span>
-		<span class="arabic">دُكان</span>
-	</span>
-	<span class="sr-only">Dukkan</span>
-{/snippet}
-
 {#if href}
-	<a {href} class={cn('wordmark', className)} aria-label="Dukkan, home">{@render mark()}</a>
+	<a {href} class={cn('wordmark', className)}>Dukkan</a>
 {:else}
-	<span class={cn('wordmark', className)}>{@render mark()}</span>
+	<span class={cn('wordmark', className)}>Dukkan</span>
 {/if}
 
 <style>
 	.wordmark {
-		display: inline-flex;
-		align-items: baseline;
+		display: inline-block;
 		color: var(--ink);
 		font-weight: 700;
 		font-size: 17px;
 		letter-spacing: -0.03em;
 		font-variation-settings: 'wdth' 92;
 		text-decoration: none;
-	}
-
-	/* Both readings occupy one grid cell, so the swap moves nothing. */
-	.stack {
-		display: grid;
-		grid-template-areas: 'mark';
-	}
-
-	.stack > * {
-		grid-area: mark;
-		transition: opacity var(--dur-hover) var(--ease-out);
-	}
-
-	.arabic {
-		font-family: var(--font-arabic);
-		font-weight: 600;
-		letter-spacing: 0;
-		opacity: 0;
-	}
-
-	.wordmark:hover .latin,
-	.wordmark:focus-visible .latin {
-		opacity: 0;
-	}
-
-	.wordmark:hover .arabic,
-	.wordmark:focus-visible .arabic {
-		opacity: 1;
 	}
 </style>

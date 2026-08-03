@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import {
 		Store01Icon,
 		WalletAdd01Icon,
@@ -7,76 +8,97 @@
 		Globe02Icon,
 		UserGroupIcon
 	} from '@hugeicons/core-free-icons';
-	import { Section, ServiceRow } from '$lib/ui';
+	import { Section } from '$lib/ui';
 
 	/* Not numbered: these are not a sequence. */
-	const rows = [
+	const features = [
 		{
 			icon: Store01Icon,
 			name: 'Sellers who sign themselves up',
-			summary:
-				'They fill in their shop, their products and their papers. You approve or you do not.',
-			meta: 'Sellers'
+			body: 'They fill in their shop, their products and their papers. You approve or you do not.'
 		},
 		{
 			icon: WalletAdd01Icon,
 			name: 'bKash, Nagad and cards',
-			summary:
-				'Money comes in the way your customers already pay. Refunds split across sellers on their own.',
-			meta: 'Money in'
+			body: 'Money comes in the way your customers already pay. Refunds split across sellers on their own.'
 		},
 		{
 			icon: DeliveryTruck01Icon,
 			name: 'Steadfast and Pathao pickups',
-			summary: 'Book a pickup, print the label, watch the parcel move, all from the order.',
-			meta: 'Delivery'
+			body: 'Book a pickup, print the label, watch the parcel move, all from the order.'
 		},
 		{
 			icon: MoneyBag02Icon,
 			name: 'Cash on delivery that adds up',
-			summary:
-				'The courier sends money, Dukkan matches it order by order and shows you what is short.',
-			meta: 'Cash'
+			body: 'The courier sends money, Dukkan matches it order by order and shows you what is short.'
 		},
 		{
 			icon: Globe02Icon,
 			name: 'Your name, your web address',
-			summary: 'Your logo, your address, Bangla or English. Customers never see ours.',
-			meta: 'Brand'
+			body: 'Your logo, your address, Bangla or English. Customers never see ours.'
 		},
 		{
 			icon: UserGroupIcon,
 			name: 'A team with the right keys',
-			summary: 'Owner, shop floor, accounts and support each see only what they should.',
-			meta: 'Team'
+			body: 'Owner, shop floor, accounts and support each see only what they should.'
 		}
 	];
 </script>
 
-<Section id="what-you-get" label="What you get" rule>
-	<h2 class="t-heading">Everything a marketplace needs, already joined up.</h2>
-	<p class="lead t-lead">
-		Not a plugin you have to keep alive. Not a single-shop cart stretched to fit. One thing, built
-		for many sellers from the first screen.
-	</p>
-
-	<div class="rows">
-		{#each rows as row (row.name)}
-			<div data-reveal-item>
-				<ServiceRow {...row} href="/#pricing" />
-			</div>
+<Section
+	id="what-you-get"
+	eyebrow="What you get"
+	heading="Everything a marketplace needs, already joined up."
+	lead="Not a plugin you have to keep alive. Not a single-shop cart stretched to fit. One thing, built for many sellers from the first screen."
+	rule
+>
+	<ul class="grid">
+		{#each features as feature (feature.name)}
+			<li>
+				<span class="glyph" aria-hidden="true">
+					<HugeiconsIcon icon={feature.icon} size={22} strokeWidth={1.5} />
+				</span>
+				<h3 class="t-sub">{feature.name}</h3>
+				<p class="body">{feature.body}</p>
+			</li>
 		{/each}
-	</div>
+	</ul>
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
+	.grid {
+		display: grid;
+		gap: 44px 40px;
+	}
+
+	li {
+		padding-top: 24px;
+		border-top: 1px solid var(--rule);
+	}
+
+	.glyph {
+		display: block;
+		margin-bottom: 20px;
 		color: var(--muted);
 	}
 
-	.rows {
-		margin-top: 56px;
-		border-top: 1px solid var(--rule);
+	.body {
+		margin-top: 12px;
+		font-size: var(--size-body);
+		line-height: 1.6;
+		color: var(--muted);
+		max-width: 42ch;
+	}
+
+	@media (min-width: 680px) {
+		.grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1040px) {
+		.grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 </style>

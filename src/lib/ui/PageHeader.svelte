@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { revealHeading } from '$lib/motion/reveal';
 
 	interface Props {
 		eyebrow?: string;
@@ -14,20 +13,10 @@
 
 <header class="page-header">
 	<div class="container-page">
-		<div class="rail-grid">
-			<div>
-				{#if eyebrow}<span class="eyebrow t-label">{eyebrow}</span>{/if}
-			</div>
-			<div>
-				<h1 class="t-title" {@attach revealHeading()}>{title}</h1>
-				{#if standfirst}
-					<p class="standfirst t-lead">{standfirst}</p>
-				{/if}
-				{#if actions}
-					<div class="actions">{@render actions()}</div>
-				{/if}
-			</div>
-		</div>
+		{#if eyebrow}<span class="eyebrow t-label">{eyebrow}</span>{/if}
+		<h1 class="t-title">{title}</h1>
+		{#if standfirst}<p class="standfirst t-lead">{standfirst}</p>{/if}
+		{#if actions}<div class="actions">{@render actions()}</div>{/if}
 	</div>
 </header>
 
@@ -38,8 +27,8 @@
 
 	.eyebrow {
 		display: block;
+		margin-bottom: 20px;
 		color: var(--faint);
-		padding-top: 8px;
 	}
 
 	.standfirst {

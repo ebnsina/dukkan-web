@@ -16,15 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Variable, with the critical faces preloaded.
 - Type roles driven by the width axis: `t-display`, `t-title`, `t-heading`,
   `t-sub`, `t-lead`, `t-body`, `t-label`, `t-button`, `t-mono`.
-- Rail grid layout: a 152px label column above 900px, stacked below, with labels
-  revealed on hover, touch and `focus-within`.
-- Components: Button, Section, PageHeader, ServiceRow, CtaBand, Cursor, Wordmark,
-  Field, Input, Textarea, Select, Checkbox, Radio, Switch, Tag, Note, Table, Tabs,
-  Disclosure, Dialog, Menu, Pagination, Breadcrumb, Empty, Skeleton, Spinner, Toaster.
-- Motion layer: three capability tiers, GSAP behind a dynamic import, additive
-  reveals, and a synchronous page-heading start state with a 1.2s fallback.
-- Theme: light and dark, explicit choice persisted, applied before first paint,
-  switched with a circular view-transition wipe from the toggle.
+- System Bangla and Arabic stacks declared behind Mona Sans, which has glyphs for
+  neither, so Bangla shop and product names render correctly.
+- Components: Button, Section, PageHeader, CtaBand, Wordmark, Field, Input,
+  Textarea, Select, Checkbox, Radio, Switch, Tag, Note, Table, Tabs, Disclosure,
+  Dialog, Menu, Pagination, Breadcrumb, Empty, Skeleton, Spinner, Toaster.
+- Pricing tiers aligned with CSS subgrid, so an uneven blurb cannot knock the
+  price, button and limit rows out of step across columns.
+- Motion: `svelte/transition` only, gated on `prefersReducedMotion`.
+- Theme: light and dark, explicit choice persisted, applied before first paint.
 - `/ds` route showing the palette, the fluid type scale with the width axis,
   layout and spacing tokens, and every component in every state.
 - Landing page: hero, integrations, what you get, numbered how-it-works, pricing,
@@ -33,3 +33,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the error envelope into `ApiError` and mapping codes to plain-language copy.
 - Error handling: root and `/ds` error pages, 404, 500 and an offline banner.
 - `Seo` component emitting meta, canonical, OpenGraph and Twitter tags.
+
+### Removed
+
+- GSAP and the three-tier motion capability system. Scroll reveals, the magnetic
+  button and the pre-paint heading start state went with it. Motion is now
+  `fade`, `fly` and `slide` from `svelte/transition`, skipped entirely under
+  `prefers-reduced-motion`.
+- The custom mix-blend cursor and every `data-cursor` attribute.
+- View transitions: the page cross-fade and the circular theme wipe. The theme
+  toggle swaps an attribute.
+- The two-column rail grid and its `--rail` token. Sections are ordinary centred
+  containers; eyebrows are kept only where they genuinely label something.
+- `ServiceRow`, which modelled a studio's service list rather than anything
+  a marketplace has.
+- The Arabic wordmark swap on hover.

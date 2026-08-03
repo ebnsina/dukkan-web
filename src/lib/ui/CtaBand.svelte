@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { reveal } from '$lib/motion/reveal';
 
 	interface Props {
 		id?: string;
@@ -13,7 +12,7 @@
 </script>
 
 <!-- No border. The surface change is already the edge. -->
-<section {id} class="band" {@attach reveal()}>
+<section {id} class="band">
 	<div class="inner container-page">
 		<h2 class="t-heading">{heading}</h2>
 		<div class="actions">{@render actions()}</div>

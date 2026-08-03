@@ -2,7 +2,6 @@ export { default as Breadcrumb } from './Breadcrumb.svelte';
 export { default as Button } from './Button.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
 export { default as CtaBand } from './CtaBand.svelte';
-export { default as Cursor } from './Cursor.svelte';
 export { default as Dialog } from './Dialog.svelte';
 export { default as Disclosure } from './Disclosure.svelte';
 export { default as Empty } from './Empty.svelte';
@@ -15,7 +14,6 @@ export { default as Pagination } from './Pagination.svelte';
 export { default as Radio } from './Radio.svelte';
 export { default as Section } from './Section.svelte';
 export { default as Select } from './Select.svelte';
-export { default as ServiceRow } from './ServiceRow.svelte';
 export { default as Skeleton } from './Skeleton.svelte';
 export { default as Spinner } from './Spinner.svelte';
 export { default as Switch } from './Switch.svelte';
@@ -28,7 +26,6 @@ export { default as Wordmark } from './Wordmark.svelte';
 
 export { toasts } from './toast.svelte';
 export { trapFocus } from './focus-trap';
-export { magnetic } from './magnetic';
 
 export type { Crumb } from './Breadcrumb.svelte';
 export type { FieldControl } from './Field.svelte';

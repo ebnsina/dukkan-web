@@ -1,17 +1,7 @@
 <script lang="ts">
 	import { HugeiconsIcon } from '@hugeicons/svelte';
-	import { Store01Icon, MoreHorizontalIcon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons';
-	import {
-		Breadcrumb,
-		Button,
-		Menu,
-		Pagination,
-		Section,
-		ServiceRow,
-		Tabs,
-		Tag,
-		toasts
-	} from '$lib/ui';
+	import { MoreHorizontalIcon } from '@hugeicons/core-free-icons';
+	import { Breadcrumb, Button, Menu, Pagination, Section, Tabs, Tag, toasts } from '$lib/ui';
 	import DsBlock from '../DsBlock.svelte';
 
 	let busy = $state(false);
@@ -48,13 +38,13 @@
 	];
 </script>
 
-<Section id="controls" label="04 / Controls" rule>
-	<h2 class="t-heading">Buttons, rows and ways through.</h2>
-	<p class="lead t-lead">
-		A button is 46px tall with a mono uppercase label. The arrow shifts 4px on hover, and on a
-		pointer device that can take it the whole control leans toward the cursor.
-	</p>
-
+<Section
+	id="controls"
+	eyebrow="04 / Controls"
+	heading="Buttons and ways through."
+	lead="A button is 46px tall with a mono uppercase label. Hover changes surface or border, never hue, and the arrow shifts 4px on a plain CSS transition."
+	rule
+>
 	<DsBlock label="Button — variants and states">
 		<Button>Solid</Button>
 		<Button variant="ghost">Ghost</Button>
@@ -71,29 +61,6 @@
 		<Tag>Outline</Tag>
 		<Tag variant="solid">Solid</Tag>
 		<Tag variant="bare">Bare</Tag>
-	</DsBlock>
-
-	<DsBlock
-		label="ServiceRow"
-		note="Shifts 10px on hover. The row is the whole target."
-		flow="stack"
-	>
-		<div class="rows">
-			<ServiceRow
-				icon={Store01Icon}
-				name="Sellers who sign themselves up"
-				summary="They fill in their shop, their products and their papers."
-				meta="Sellers"
-				href="/ds#controls"
-			/>
-			<ServiceRow
-				icon={DeliveryTruck01Icon}
-				name="Steadfast and Pathao pickups"
-				summary="Book a pickup and print the label from the order."
-				meta="Delivery"
-				href="/ds#controls"
-			/>
-		</div>
 	</DsBlock>
 
 	<DsBlock label="Tabs" note="Arrow keys, Home and End move between tabs." flow="stack">
@@ -135,15 +102,6 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
-	.rows {
-		border-top: 1px solid var(--rule);
-	}
-
 	.panel {
 		font-size: var(--size-body);
 		line-height: 1.6;

@@ -75,14 +75,14 @@
 	--inverse-paper: #0b0b0d;
 	--inverse-ink: #f4f4f6;
 
-	--font-display: 'Mona Sans Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+	--font-bangla: 'Noto Sans Bengali', 'Kohinoor Bangla', 'Bangla MN', 'SolaimanLipi', sans-serif;
 	--font-arabic: 'SF Arabic', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+	--font-display: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'Geist Mono Variable', var(--font-bangla), ui-monospace, 'SF Mono', monospace;
 
 	--unit: 4px;
 	--gutter: clamp(20px, 4.4vw, 56px);
 	--measure: 62ch;
-	--rail: 152px;
 	--container: 1240px;
 	--section-y: clamp(64px, 9vw, 104px);
 
@@ -287,17 +287,6 @@
 	padding-inline: var(--gutter);
 }
 
-/* Two-column rail grid above 900px, stacked below. */
-@utility rail-grid {
-	display: grid;
-	gap: 20px;
-
-	@media (min-width: 900px) {
-		grid-template-columns: var(--rail) minmax(0, 1fr);
-		gap: 0 40px;
-	}
-}
-
 @utility measure {
 	max-width: var(--measure);
 }
@@ -310,51 +299,5 @@
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
-	}
-}
-
-/* View transitions. Every snapshot carries a background or a transparent
-   snapshot exposes the bare canvas, which is black under a dark colour-scheme. */
-::view-transition-old(root),
-::view-transition-new(root) {
-	background-color: var(--paper);
-}
-
-html.page-transition::view-transition-old(root) {
-	animation: fade-out var(--dur-page-out) linear forwards;
-}
-
-html.page-transition::view-transition-new(root) {
-	animation: fade-in var(--dur-page-in) linear;
-}
-
-html.theme-transition::view-transition-old(root) {
-	animation: none;
-	z-index: 0;
-}
-
-html.theme-transition::view-transition-new(root) {
-	animation: theme-wipe var(--dur-theme) var(--ease-out);
-	z-index: 1;
-}
-
-@keyframes fade-out {
-	to {
-		opacity: 0;
-	}
-}
-
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-}
-
-@keyframes theme-wipe {
-	from {
-		clip-path: circle(0% at var(--theme-x, 50%) var(--theme-y, 0%));
-	}
-	to {
-		clip-path: circle(150% at var(--theme-x, 50%) var(--theme-y, 0%));
 	}
 }

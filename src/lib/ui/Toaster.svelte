@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
+	import { prefersReducedMotion } from 'svelte/motion';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { Cancel01Icon } from '@hugeicons/core-free-icons';
 	import { toasts } from './toast.svelte';
@@ -6,7 +8,13 @@
 
 <div class="deck" aria-live="polite" aria-atomic="false">
 	{#each toasts.items as toast (toast.id)}
-		<div class="toast">
+		<div
+			class="toast"
+			transition:fly={{
+				y: prefersReducedMotion.current ? 0 : 10,
+				duration: prefersReducedMotion.current ? 0 : 200
+			}}
+		>
 			<div class="body">
 				<p class="title">{toast.title}</p>
 				{#if toast.description}<p class="desc">{toast.description}</p>{/if}
@@ -41,7 +49,6 @@
 		background: var(--inverse-paper);
 		color: var(--inverse-ink);
 		pointer-events: auto;
-		animation: rise 260ms var(--ease-out);
 	}
 
 	.title {
@@ -71,12 +78,5 @@
 
 	button:hover {
 		opacity: 1;
-	}
-
-	@keyframes rise {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
 	}
 </style>

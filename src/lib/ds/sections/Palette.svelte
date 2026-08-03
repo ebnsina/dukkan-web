@@ -15,14 +15,12 @@
 	];
 </script>
 
-<Section id="palette" label="01 / Palette">
-	<h2 class="t-heading">One palette, and it is greyscale.</h2>
-	<p class="lead t-lead">
-		There is no accent colour, and no colour for state either. Nothing here carries a hue, including
-		errors, warnings and success. When something has to stand out it gets more weight, more size, or
-		more space around it.
-	</p>
-
+<Section
+	id="palette"
+	eyebrow="01 / Palette"
+	heading="One palette, and it is greyscale."
+	lead="There is no accent colour, and no colour for state either. Nothing here carries a hue, including errors, warnings and success. When something has to stand out it gets more weight, more size, or more space around it."
+>
 	<DsBlock
 		label="Tokens"
 		note="Every token flips once under :root[data-theme='dark']."
@@ -52,11 +50,6 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.swatches {
 		display: grid;
 		gap: 1px;

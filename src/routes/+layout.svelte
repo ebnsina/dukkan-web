@@ -1,34 +1,13 @@
 <script lang="ts">
 	import './layout.css';
 	import { onMount } from 'svelte';
-	import { onNavigate } from '$app/navigation';
-	import { Cursor, Toaster } from '$lib/ui';
+	import { Toaster } from '$lib/ui';
 	import { theme } from '$lib/theme/theme.svelte';
-	import { motion } from '$lib/motion/capability.svelte';
 	import OfflineBanner from '$lib/site/OfflineBanner.svelte';
 
 	let { children } = $props();
 
-	onMount(() => {
-		theme.init();
-		motion.init();
-	});
-
-	/* Pages cross-fade. Scoped by its own class so it never collides with the
-	   theme wipe, which animates the same root snapshot. */
-	onNavigate((navigation) => {
-		if (!document.startViewTransition || !motion.animates) return;
-		return new Promise((resolve) => {
-			document.documentElement.classList.add('page-transition');
-			const transition = document.startViewTransition(async () => {
-				resolve();
-				await navigation.complete;
-			});
-			transition.finished.finally(() =>
-				document.documentElement.classList.remove('page-transition')
-			);
-		});
-	});
+	onMount(() => theme.init());
 </script>
 
 <a href="#main" class="skip t-button">Skip to content</a>
@@ -40,7 +19,6 @@
 </div>
 
 <Toaster />
-<Cursor />
 
 <style>
 	.skip {

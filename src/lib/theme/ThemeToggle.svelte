@@ -2,17 +2,12 @@
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { Sun03Icon, Moon02Icon } from '@hugeicons/core-free-icons';
 	import { theme } from './theme.svelte';
-
-	function toggle(event: MouseEvent) {
-		const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-		theme.toggleFrom({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
-	}
 </script>
 
 <button
 	type="button"
 	class="toggle"
-	onclick={toggle}
+	onclick={() => theme.toggle()}
 	aria-label="Switch to {theme.resolved === 'dark' ? 'light' : 'dark'} theme"
 >
 	<HugeiconsIcon

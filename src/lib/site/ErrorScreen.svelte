@@ -38,18 +38,14 @@
 </script>
 
 <div class="screen container-page">
-	<div class="rail-grid">
-		<div><span class="code t-label">Error {formatNumber(status)}</span></div>
-		<div>
-			<h1 class="t-title">{copy.title}</h1>
-			<p class="body t-lead">{copy.body}</p>
-			<div class="actions">
-				<Button href="/" arrow>Go to the homepage</Button>
-				<Button variant="ghost" onclick={() => location.reload()}>Try again</Button>
-			</div>
-			{#if code}<p class="ref t-mono">{code}</p>{/if}
-		</div>
+	<span class="code t-label">Error {formatNumber(status)}</span>
+	<h1 class="t-title">{copy.title}</h1>
+	<p class="body t-lead">{copy.body}</p>
+	<div class="actions">
+		<Button href="/" arrow>Go to the homepage</Button>
+		<Button variant="ghost" onclick={() => location.reload()}>Try again</Button>
 	</div>
+	{#if code}<p class="ref t-mono">{code}</p>{/if}
 </div>
 
 <style>
@@ -59,7 +55,7 @@
 
 	.code {
 		display: block;
-		padding-top: 8px;
+		margin-bottom: 24px;
 		color: var(--faint);
 	}
 

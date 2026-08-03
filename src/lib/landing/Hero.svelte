@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Button } from '$lib/ui';
-	import { revealHeading } from '$lib/motion/reveal';
 	import { formatCurrency, formatNumber, formatRelativeTime } from '$lib/utils/format';
 
 	const now = Date.now();
@@ -13,45 +12,38 @@
 
 <section class="hero">
 	<div class="container-page">
-		<div class="rail-grid">
-			<div><span class="eyebrow t-label">Marketplace software</span></div>
-			<div>
-				<h1 class="t-display" {@attach revealHeading()}>
-					Many sellers.<br />One shopfront.<br /><span class="light">Your name on it.</span>
-				</h1>
+		<span class="eyebrow t-label">Marketplace software</span>
 
-				<p class="lead t-lead">
-					Dukkan runs the marketplace so you can run the business. Sellers add their own products.
-					Customers pay with bKash, Nagad or cash. Money reaches each seller on time, every week.
-				</p>
+		<h1 class="t-display">
+			Many sellers.<br />One shopfront.<br /><span class="light">Your name on it.</span>
+		</h1>
 
-				<div class="actions">
-					<Button href="/#pricing" arrow>Start free</Button>
-					<Button href="/#how-it-works" variant="ghost">See how it works</Button>
-				</div>
+		<p class="lead t-lead">
+			Dukkan runs the marketplace so you can run the business. Sellers add their own products.
+			Customers pay with bKash, Nagad or cash. Money reaches each seller on time, every week.
+		</p>
 
-				<p class="small t-label">No card needed. Bring your own web address when you are ready.</p>
-			</div>
+		<div class="actions">
+			<Button href="/#pricing" arrow>Start free</Button>
+			<Button href="/#how-it-works" variant="ghost">See how it works</Button>
 		</div>
-	</div>
 
-	<div class="container-page">
-		<div class="board-grid rail-grid">
-			<div><span class="board-label t-label">Today</span></div>
-			<div class="board">
-				{#each orders as order (order.id)}
-					<div class="line">
-						<span class="id t-mono">{order.id}</span>
-						<span class="shop">{order.shop}</span>
-						<span class="paid t-mono">{order.paid}</span>
-						<span class="total t-mono">{formatCurrency(order.total)}</span>
-						<span class="when t-mono">{formatRelativeTime(order.at)}</span>
-					</div>
-				{/each}
-				<p class="footnote t-label">
-					Sample orders &mdash; {formatNumber(3)} of many. Not a real shop.
-				</p>
-			</div>
+		<p class="small t-label">No card needed. Bring your own web address when you are ready.</p>
+
+		<div class="board">
+			<span class="board-label t-label">Today</span>
+			{#each orders as order (order.id)}
+				<div class="line">
+					<span class="id t-mono">{order.id}</span>
+					<span class="shop">{order.shop}</span>
+					<span class="paid t-mono">{order.paid}</span>
+					<span class="total t-mono">{formatCurrency(order.total)}</span>
+					<span class="when t-mono">{formatRelativeTime(order.at)}</span>
+				</div>
+			{/each}
+			<p class="footnote t-label">
+				Sample orders &mdash; {formatNumber(3)} of many. Not a real shop.
+			</p>
 		</div>
 	</div>
 </section>
@@ -63,7 +55,7 @@
 
 	.eyebrow {
 		display: block;
-		padding-top: 12px;
+		margin-bottom: 28px;
 		color: var(--faint);
 	}
 
@@ -89,18 +81,15 @@
 		color: var(--faint);
 	}
 
-	.board-grid {
+	.board {
 		margin-top: clamp(64px, 9vw, 112px);
 	}
 
 	.board-label {
 		display: block;
-		padding-top: 22px;
+		padding-bottom: 16px;
+		border-bottom: 1px solid var(--rule-strong);
 		color: var(--faint);
-	}
-
-	.board {
-		border-top: 1px solid var(--rule-strong);
 	}
 
 	.line {

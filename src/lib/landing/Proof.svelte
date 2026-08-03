@@ -4,7 +4,7 @@
 	const names = ['bKash', 'Nagad', 'SSLCommerz', 'Steadfast', 'Pathao', 'RedX'];
 </script>
 
-<Section label="Works with" rule>
+<Section eyebrow="Works with" rule>
 	<ul class="list">
 		{#each names as name (name)}
 			<li class="t-sub">{name}</li>

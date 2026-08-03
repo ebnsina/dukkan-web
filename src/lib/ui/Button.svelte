@@ -4,7 +4,6 @@
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
 	import { cn } from '$lib/utils/cn';
-	import { magnetic } from './magnetic';
 
 	type Variant = 'solid' | 'ghost';
 
@@ -50,20 +49,12 @@
 		class={classes}
 		aria-disabled={isDisabled || undefined}
 		tabindex={isDisabled ? -1 : undefined}
-		{@attach magnetic()}
 		{...rest}
 	>
 		{@render inner()}
 	</a>
 {:else}
-	<button
-		{type}
-		class={classes}
-		disabled={isDisabled}
-		aria-busy={loading || undefined}
-		{@attach magnetic()}
-		{...rest}
-	>
+	<button {type} class={classes} disabled={isDisabled} aria-busy={loading || undefined} {...rest}>
 		{@render inner()}
 	</button>
 {/if}

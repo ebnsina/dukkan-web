@@ -45,8 +45,7 @@
 	];
 </script>
 
-<Section id="questions" label="Questions" rule>
-	<h2 class="t-heading">Asked before signing up.</h2>
+<Section id="questions" eyebrow="Questions" heading="Asked before signing up." rule>
 	<div class="list">
 		{#each questions as item (item.question)}
 			<Disclosure {...item} />
@@ -56,7 +55,6 @@
 
 <style>
 	.list {
-		margin-top: 48px;
 		border-top: 1px solid var(--rule);
 		max-width: 68ch;
 	}

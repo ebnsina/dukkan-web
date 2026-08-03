@@ -5,22 +5,20 @@
 	const layout = [
 		['--gutter', 'clamp(20px, 4.4vw, 56px)', 'Horizontal page padding'],
 		['--measure', '62ch', 'Longest comfortable line'],
-		['--rail', '152px', 'Left label column above 900px'],
 		['--container', '1240px', 'Every section, centred'],
-		['--section-y', 'clamp(64px, 9vw, 104px)', 'Vertical section rhythm']
+		['--section-y', 'clamp(64px, 9vw, 104px)', 'Vertical rhythm between sections']
 	];
 
 	const steps = [4, 8, 12, 16, 24, 32, 48, 64, 104];
 </script>
 
-<Section id="structure" label="03 / Structure" rule>
-	<h2 class="t-heading">The rail grid is the signature.</h2>
-	<p class="lead t-lead">
-		Above 900px every section is two columns: a 152px label rail and the content. The labels sit
-		quiet until you hover the section, or tab into it. Below 900px they stack and stay visible. Move
-		your pointer over this section to see the label at the left appear.
-	</p>
-
+<Section
+	id="structure"
+	eyebrow="03 / Structure"
+	heading="A centred container and a lot of air."
+	lead="Every section is the same 1240px container with a fluid gutter. Space does the separating; a hairline only appears where two things would otherwise be confused, and never on the same edge as a surface change."
+	rule
+>
 	<DsBlock label="Layout tokens" flow="stack">
 		<dl class="tokens">
 			{#each layout as [token, value, use] (token)}
@@ -61,11 +59,6 @@
 </Section>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.tokens > div {
 		display: grid;
 		gap: 4px 24px;

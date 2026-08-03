@@ -28,8 +28,7 @@ class ThemeStore {
 	}
 
 	private apply() {
-		if (!browser) return;
-		document.documentElement.dataset.theme = this.resolved;
+		if (browser) document.documentElement.dataset.theme = this.resolved;
 	}
 
 	set(next: ThemePreference) {
@@ -44,23 +43,8 @@ class ThemeStore {
 		this.apply();
 	}
 
-	/* Clipped open as a circle from the switch, scoped by its own class so it
-	   does not collide with the page cross-fade on the same root snapshot. */
-	toggleFrom(origin?: { x: number; y: number }) {
-		const next = this.resolved === 'dark' ? 'light' : 'dark';
-		const root = document.documentElement;
-
-		if (!browser || !document.startViewTransition) {
-			this.set(next);
-			return;
-		}
-
-		root.style.setProperty('--theme-x', `${origin?.x ?? window.innerWidth / 2}px`);
-		root.style.setProperty('--theme-y', `${origin?.y ?? 0}px`);
-		root.classList.add('theme-transition');
-
-		const transition = document.startViewTransition(() => this.set(next));
-		transition.finished.finally(() => root.classList.remove('theme-transition'));
+	toggle() {
+		this.set(this.resolved === 'dark' ? 'light' : 'dark');
 	}
 }
 

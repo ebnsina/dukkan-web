@@ -23,13 +23,13 @@
 	];
 </script>
 
-<Section id="feedback" label="06 / Feedback" rule>
-	<h2 class="t-heading">Telling people things, without colour.</h2>
-	<p class="lead t-lead">
-		A quiet note sits on a surface behind a hairline. A firm one gets a 3px edge at full ink and a
-		heavier title. That is the whole range, and it is enough.
-	</p>
-
+<Section
+	id="feedback"
+	eyebrow="06 / Feedback"
+	heading="Telling people things, without colour."
+	lead="A quiet note sits on a surface behind a hairline. A firm one gets a 3px edge at full ink and a heavier title. That is the whole range, and it is enough."
+	rule
+>
 	<DsBlock label="Note" flow="stack">
 		<div class="stack">
 			<Note title="Payout booked">The next one runs on Sunday at 22:00.</Note>
@@ -164,11 +164,6 @@
 </Dialog>
 
 <style>
-	.lead {
-		margin-top: 24px;
-		color: var(--muted);
-	}
-
 	.stack {
 		display: flex;
 		flex-direction: column;

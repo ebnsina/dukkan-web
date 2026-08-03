@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import { prefersReducedMotion } from 'svelte/motion';
 
 	export interface MenuItem {
 		label: string;
@@ -77,7 +79,17 @@
 	</button>
 
 	{#if open}
-		<div id="{uid}-menu" role="menu" tabindex="-1" class="list" class:align-end={align === 'end'}>
+		<div
+			id="{uid}-menu"
+			role="menu"
+			tabindex="-1"
+			class="list"
+			class:align-end={align === 'end'}
+			transition:fly={{
+				y: prefersReducedMotion.current ? 0 : -4,
+				duration: prefersReducedMotion.current ? 0 : 150
+			}}
+		>
 			{#each items as item (item.label)}
 				{#if item.separatorBefore}<span class="sep" role="separator"></span>{/if}
 				<svelte:element
@@ -122,7 +134,6 @@
 		background: var(--paper);
 		border: 1px solid var(--rule-strong);
 		padding-block: 4px;
-		animation: drop 160ms var(--ease-out);
 	}
 
 	.align-end {
@@ -159,12 +170,5 @@
 		height: 1px;
 		margin-block: 4px;
 		background: var(--rule);
-	}
-
-	@keyframes drop {
-		from {
-			opacity: 0;
-			transform: translateY(-4px);
-		}
 	}
 </style>
