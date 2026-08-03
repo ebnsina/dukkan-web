@@ -1,6 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 	import { Toaster } from '$lib/ui';
 	import { theme } from '$lib/theme/theme.svelte';
 	import OfflineBanner from '$lib/site/OfflineBanner.svelte';
@@ -8,13 +9,17 @@
 	let { children } = $props();
 
 	onMount(() => theme.init());
+
+	// The admin is Dukkan's own tool and carries Dukkan's colour; a storefront
+	// wears the shop's theme instead.
+	const surface = $derived(page.url.pathname.startsWith('/admin') ? 'admin' : 'shop');
 </script>
 
 <a href="#main" class="skip t-button">Skip to content</a>
 
 <OfflineBanner />
 
-<div id="main">
+<div id="main" data-surface={surface}>
 	{@render children()}
 </div>
 

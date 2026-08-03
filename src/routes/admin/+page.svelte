@@ -38,7 +38,9 @@
 	<Figure
 		label="Cash with the courier"
 		value={formatMinor(f.outstanding_cod_minor, f.currency)}
-		note="{formatNumber(f.outstanding_parcels)} delivered, not yet paid over"
+		note="{formatNumber(f.outstanding_parcels)} {f.outstanding_parcels === 1
+			? 'parcel'
+			: 'parcels'} delivered, not yet paid over"
 		tone={codTone}
 		href="/admin/reconciliation"
 	/>
@@ -56,23 +58,24 @@
 		label="To confirm"
 		value={formatNumber(f.awaiting_confirmation)}
 		tone={f.awaiting_confirmation > 0 ? 'info' : 'neutral'}
-		href="/admin/orders"
+		href="/admin/orders?status=placed"
 	/>
 	<Figure
 		label="To send"
 		value={formatNumber(f.awaiting_dispatch)}
 		tone={f.awaiting_dispatch > 0 ? 'warning' : 'neutral'}
-		href="/admin/orders"
+		href="/admin/orders?status=confirmed"
 	/>
 	<Figure
 		label="On its way"
 		value={formatNumber(f.in_transit)}
 		tone={f.in_transit > 0 ? 'accent' : 'neutral'}
+		href="/admin/orders?status=shipped"
 	/>
 	<Figure
 		label="Out of stock"
 		value={formatNumber(f.out_of_stock)}
-		note="{formatNumber(f.active_products)} items live"
+		note="{formatNumber(f.active_products)} {f.active_products === 1 ? 'item' : 'items'} live"
 		tone={f.out_of_stock > 0 ? 'danger' : 'neutral'}
 		href="/admin/low-stock"
 	/>
@@ -117,7 +120,7 @@
 						tone={stockTone(item.available, item.threshold)}
 						label={item.available <= 0 ? 'Out' : 'Low'}
 					/>
-					<a class="detail link" href="/admin/products/{item.product_id}">
+					<a class="detail link" href="/admin/products?q={encodeURIComponent(item.title)}">
 						{item.title}
 						{#if item.variant_title || item.sku}
 							<span class="quiet">· {item.variant_title ?? item.sku}</span>

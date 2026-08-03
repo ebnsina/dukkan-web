@@ -1,4 +1,10 @@
-export const DEFAULT_LOCALE = 'en-BD';
+/*
+ * `en-IN`, not `en-BD`, for the same reason `money.ts` says so: Bangladesh
+ * groups digits South Asian style and ICU's `en-BD` has no such grouping — it
+ * prints 100,000 where a shop owner expects 1,00,000. This is the default for
+ * counts as well as amounts, since an order count passes a lakh eventually.
+ */
+export const DEFAULT_LOCALE = 'en-IN';
 export const DEFAULT_CURRENCY = 'BDT';
 
 export function formatCurrency(
