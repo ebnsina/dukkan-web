@@ -190,6 +190,9 @@
 		--d-ink: #17181a;
 		--d-muted: #6b6d72;
 		--d-faint: #9a9ca2;
+		--d-lime: #b7ec2f;
+		--d-lime-deep: #9ed214;
+		--d-lime-ink: #101410;
 		--d-r: 20px;
 		--d-r-sm: 16px;
 		--d-soft: 0 1px 2px -1px rgba(20, 20, 24, 0.04), 0 8px 24px -20px rgba(20, 20, 24, 0.12);
@@ -228,8 +231,8 @@
 		width: 30px;
 		height: 30px;
 		border-radius: 10px;
-		background: var(--d-ink);
-		color: var(--d-sheet);
+		background: var(--d-lime);
+		color: var(--d-lime-ink);
 		font-weight: 600;
 	}
 
@@ -362,13 +365,24 @@
 		letter-spacing: -0.025em;
 	}
 
+	.cta,
+	.btn {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
 	.cta {
-		padding: 12px 20px;
+		padding: 14px 20px;
 		border-radius: 16px;
-		background: var(--d-ink);
-		color: var(--d-sheet);
-		font-size: 13px;
-		font-weight: 600;
+		background: var(--d-lime);
+		color: var(--d-lime-ink);
+	}
+
+	.cta:hover {
+		background: var(--d-lime-deep);
 	}
 
 	.grid {
@@ -438,15 +452,17 @@
 	}
 
 	.btn {
-		padding: 12px 20px;
+		padding: 14px 20px;
 		border-radius: 16px;
-		font-size: 13px;
-		font-weight: 600;
 	}
 
 	.dark {
-		background: var(--d-ink);
-		color: var(--d-sheet);
+		background: var(--d-lime);
+		color: var(--d-lime-ink);
+	}
+
+	.dark:hover {
+		background: var(--d-lime-deep);
 	}
 
 	.light {
@@ -557,8 +573,8 @@
 	}
 
 	.row:hover .go {
-		background: var(--d-ink);
-		color: var(--d-sheet);
+		background: var(--d-lime);
+		color: var(--d-lime-ink);
 	}
 
 	.three {
