@@ -23,6 +23,17 @@ export interface Seller {
 	name: string;
 }
 
+/* One upload, three renditions. Sending the large one into a 60px slot costs a
+   shopper on mobile data real money, so the size is always chosen by context. */
+export interface ProductImage {
+	id: string;
+	width: number;
+	height: number;
+	alt_text: string | null;
+	urls: { thumb: string; medium: string; large: string };
+	byte_size?: number;
+}
+
 export interface ProductListing {
 	id: string;
 	slug: string;
@@ -35,6 +46,7 @@ export interface ProductListing {
 	in_stock: boolean;
 	category?: Category;
 	seller?: Seller;
+	images?: ProductImage[] | null;
 }
 
 export interface VariantStock {

@@ -342,9 +342,9 @@
 	--font-mk-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
 	--font-mk-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
 
-	/* Sized so the hero's longest line — 28 characters — clears its column
-	 * without wrapping; a wrapped line is a clipped line inside the masks. */
-	--text-mk-h1: clamp(28px, 3.5vw, 48px);
+	/* Tracks the hero column, not the viewport: its longest line is 28 characters
+	 * and must clear the column, since a wrapped line is a clipped one. */
+	--text-mk-h1: clamp(28px, calc(4.5vw - 9px), 56px);
 	--text-mk-h2: clamp(28px, 3.6vw, 48px);
 	--text-mk-h3: clamp(20px, 2vw, 25px);
 

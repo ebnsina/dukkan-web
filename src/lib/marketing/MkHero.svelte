@@ -9,7 +9,7 @@
 
 <section class="pt-[clamp(48px,7vw,88px)] pb-[clamp(56px,7vw,96px)]">
 	<div
-		class="mk-wrap grid grid-cols-1 items-center gap-[clamp(40px,5vw,72px)] lg:grid-cols-[1.12fr_0.88fr]"
+		class="mk-wrap grid grid-cols-1 items-center gap-[clamp(32px,3.6vw,56px)] lg:grid-cols-[1.02fr_0.98fr]"
 	>
 		<div>
 			<p use:reveal use:scramble class="mb-5 block mk-kicker text-mk-lime-ink">
