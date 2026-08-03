@@ -9,7 +9,7 @@
 
 <header class="bar">
 	<div class="inner container-page">
-		<a class="shop-name" href="/">{data.shop.name}</a>
+		<a class="shop-name" href="/shop">{data.shop.name}</a>
 
 		<nav aria-label="Categories" class="cats">
 			{#each data.categories.slice(0, 5) as category (category.id)}

@@ -21,7 +21,7 @@
 	}: Props = $props();
 
 	const site = PUBLIC_SITE_URL.replace(/\/$/, '');
-	let fullTitle = $derived(title === 'Dukkan' ? title : `${title} · Dukkan`);
+	let fullTitle = $derived(title === 'Dukkàn' ? title : `${title} · Dukkàn`);
 	let url = $derived(canonical ?? `${site}${page.url.pathname}`);
 	let imageUrl = $derived(image.startsWith('http') ? image : `${site}${image}`);
 </script>
@@ -34,7 +34,7 @@
 		<meta name="robots" content="noindex, nofollow" />
 	{/if}
 
-	<meta property="og:site_name" content="Dukkan" />
+	<meta property="og:site_name" content="Dukkàn" />
 	<meta property="og:type" content={type} />
 	<meta property="og:title" content={fullTitle} />
 	<meta property="og:description" content={description} />

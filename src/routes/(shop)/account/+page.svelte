@@ -21,7 +21,7 @@
 	{#if data.orders.length === 0}
 		<Empty title="Nothing yet" description="Once you order something it will be listed here.">
 			{#snippet actions()}
-				<Button href="/" arrow>Start shopping</Button>
+				<Button href="/shop" arrow>Start shopping</Button>
 			{/snippet}
 		</Empty>
 	{:else}

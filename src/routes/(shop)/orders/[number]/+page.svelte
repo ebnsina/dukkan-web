@@ -34,7 +34,7 @@
 	{/if}
 
 	<div class="on">
-		<Button href="/" variant="ghost" arrow>Keep shopping</Button>
+		<Button href="/shop" variant="ghost" arrow>Keep shopping</Button>
 	</div>
 </div>
 

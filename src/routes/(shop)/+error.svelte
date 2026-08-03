@@ -27,7 +27,7 @@
 	<h1 class="t-title">{copy.title}</h1>
 	<p class="body t-lead">{page.error?.message ?? copy.body}</p>
 	<div class="actions">
-		<Button href="/" arrow>Back to the shop</Button>
+		<Button href="/shop" arrow>Back to the shop</Button>
 		<Button href="/track" variant="ghost">Track an order</Button>
 	</div>
 </div>

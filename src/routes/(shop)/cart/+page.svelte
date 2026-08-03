@@ -25,7 +25,7 @@
 	{#if cart.lines.length === 0}
 		<Empty title="Your basket is empty" description="Once you add something it will show up here.">
 			{#snippet actions()}
-				<Button href="/" arrow>Start shopping</Button>
+				<Button href="/shop" arrow>Start shopping</Button>
 			{/snippet}
 		</Empty>
 	{:else}

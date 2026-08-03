@@ -51,6 +51,6 @@ export const actions: Actions = {
 			/* the local session is cleared either way */
 		}
 		clearSession(cookies);
-		redirect(303, '/');
+		redirect(303, '/shop');
 	}
 };

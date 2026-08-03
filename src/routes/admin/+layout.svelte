@@ -34,7 +34,7 @@
 			</nav>
 			<div class="tools">
 				<ThemeToggle />
-				<a class="view t-button" href="/">View shop</a>
+				<a class="view t-button" href="/shop">View shop</a>
 			</div>
 		</div>
 	</header>

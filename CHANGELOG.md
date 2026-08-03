@@ -64,11 +64,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- New marketing landing page on the root route, built from `src/lib/marketing/*`:
+  header with centred nav, interactive storefront preview, five feature panels
+  with hand-built CSS mocks, theme switcher, fee calculator, testimonials,
+  pricing, integrations, FAQ and sign-up band. Every visual is markup, not a
+  screenshot, so none of it can go stale.
+- A second design surface. The app keeps its neutral, theme-aware greyscale; the
+  landing page runs on a fixed light brand surface with lime as its only accent
+  — flat fills, no shadows and no hover lift — tokens
+  namespaced `mk-` and scoped to `.mk-surface` so the theme toggle cannot repaint
+  it. Mona Sans now carries headings and body on both surfaces; the landing page
+  uses IBM Plex Mono for labels and Instrument Serif for the footer wordmark
+  alone.
+- The landing page takes `/` and the storefront home moved to `/shop`. The
+  `/platform` page and `src/lib/landing/*` were removed.
 - Error copy now comes from the API. `error.message` is rendered as written and
   `error.fields` drives per-field messages; the frontend words only the transport
   failures the API cannot answer at all.
-- The storefront takes `/`. The marketing page moved to `/platform`, since in
-  production the shop and the marketing site are different hosts.
+- The storefront took `/` while the marketing page lived at `/platform`; both
+  have since moved (see above).
 - `PUBLIC_API_URL` carries the shop subdomain, because the API resolves the
   tenant from the request host and Node's fetch will not send a `Host` header.
 
