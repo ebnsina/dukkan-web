@@ -1,13 +1,28 @@
 <script lang="ts">
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ShoppingBag01Icon, UserIcon, Search01Icon } from '@hugeicons/core-free-icons';
-	import ThemeToggle from '$lib/theme/ThemeToggle.svelte';
 	import { formatNumber } from '$lib/utils/format';
 
 	let { data, children } = $props();
+
+	// The shop's four tokens, handed to CSS. Everything downstream reads the
+	// ordinary names, so no component knows a theme exists.
+	let paint = $derived(
+		[
+			`--shop-accent: ${data.theme.tokens.accent}`,
+			`--shop-accent-ink: ${data.theme.tokens['accent-ink']}`,
+			`--shop-surface: ${data.theme.tokens.surface}`
+		].join('; ')
+	);
 </script>
 
-<header class="bar">
+<div
+	class="shop-surface"
+	style={paint}
+	data-density={data.theme.tokens.density}
+	data-layout={data.theme.layout}
+>
+	<header class="bar">
 	<div class="inner container-page">
 		<a class="shop-name" href="/shop">{data.shop.name}</a>
 
@@ -24,7 +39,6 @@
 			<a class="icon-box" href="/search" aria-label="Search">
 				<HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={1.6} />
 			</a>
-			<ThemeToggle />
 			<a class="icon-box" href="/account" aria-label="Your account">
 				<HugeiconsIcon icon={UserIcon} size={16} strokeWidth={1.6} />
 			</a>
@@ -45,13 +59,18 @@
 <main>{@render children()}</main>
 
 <footer class="foot">
-	<div class="foot-inner container-page">
-		<span class="t-label">{data.shop.name}</span>
-		<a class="t-label" href="/track">Track an order</a>
-	</div>
-</footer>
+		<div class="foot-inner container-page">
+			<span class="t-label">{data.shop.name}</span>
+			<a class="t-label" href="/track">Track an order</a>
+		</div>
+	</footer>
+</div>
 
 <style>
+	.shop-surface {
+		min-height: 100dvh;
+	}
+
 	.bar {
 		position: sticky;
 		top: 0;

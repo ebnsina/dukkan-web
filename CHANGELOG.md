@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Self-serve signup at `/signup`: phone OTP, shop name and address, what you
+  sell, and a theme chosen from a live preview.
+- A state vocabulary for the admin (`lib/admin/state.ts`) with one word and one
+  tone per status, so a colour means the same thing in every column.
+
 - Storefront on the real API: home, category, search, product detail with variant
   selection, basket, checkout, order confirmation, order tracking, account with
   order history, and phone OTP sign-in.
@@ -63,6 +68,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Seo` component emitting meta, canonical, OpenGraph and Twitter tags.
 
 ### Changed
+
+- The admin takes its own palette rather than the shop's: a seller who repaints
+  their storefront must not repaint the tool. Each state carries a hue that
+  passes AA on paper and a wash to sit it on, lifted on the dark theme.
 
 - The hero is a staged pair of devices: a MacBook running macOS with the shop
   maximised in Safari, and an iPhone standing in front of it showing the same

@@ -1,35 +1,82 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Empty } from '$lib/ui';
+	import { Button, Empty, Table } from '$lib/ui';
+	import Figure from '$lib/admin/Figure.svelte';
 	import OrderStatus from '$lib/admin/OrderStatus.svelte';
+	import StateChip from '$lib/admin/StateChip.svelte';
+	import { severityTone, stockTone } from '$lib/admin/state';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
 
 	let { data } = $props();
+
+	const f = $derived(data.figures);
+
+	// Cash the courier is holding, and anything critical, are the figures worth
+	// a colour. The rest of the row stays neutral so those two carry.
+	const codTone = $derived(f.outstanding_cod_minor > 0 ? 'warning' : 'neutral');
+	const issueTone = $derived(
+		f.critical_issues > 0 ? 'danger' : f.open_issues > 0 ? 'warning' : 'neutral'
+	);
 </script>
 
 <Seo title="Dashboard" description="Your shop today." noindex />
 
 <h1 class="t-heading">Today</h1>
 
-<dl class="figures">
-	<div>
-		<dt class="t-label">Orders</dt>
-		<dd class="t-mono">{formatNumber(data.counts.total)}</dd>
-	</div>
-	<div>
-		<dt class="t-label">Still open</dt>
-		<dd class="t-mono">{formatNumber(data.counts.open)}</dd>
-	</div>
-	<div>
-		<dt class="t-label">Cash to collect</dt>
-		<dd class="t-mono">{formatMinor(data.owed)}</dd>
-	</div>
-	<div class:is-alarm={data.counts.critical > 0}>
-		<dt class="t-label">Needs looking at</dt>
-		<dd class="t-mono">{formatNumber(data.counts.critical)}</dd>
-	</div>
-</dl>
+<div class="figures">
+	<Figure
+		label="Orders today"
+		value={formatNumber(f.orders_today)}
+		note="{formatNumber(f.orders_this_month)} this month"
+	/>
+	<Figure
+		label="Sales today"
+		value={formatMinor(f.sales_today_minor, f.currency)}
+		note="{formatMinor(f.sales_month_minor, f.currency)} this month"
+	/>
+	<Figure
+		label="Cash with the courier"
+		value={formatMinor(f.outstanding_cod_minor, f.currency)}
+		note="{formatNumber(f.outstanding_parcels)} delivered, not yet paid over"
+		tone={codTone}
+		href="/admin/reconciliation"
+	/>
+	<Figure
+		label="Needs looking at"
+		value={formatNumber(f.critical_issues)}
+		note="{formatNumber(f.open_issues)} open in total"
+		tone={issueTone}
+		href="/admin/reconciliation"
+	/>
+</div>
+
+<div class="figures second">
+	<Figure
+		label="To confirm"
+		value={formatNumber(f.awaiting_confirmation)}
+		tone={f.awaiting_confirmation > 0 ? 'info' : 'neutral'}
+		href="/admin/orders"
+	/>
+	<Figure
+		label="To send"
+		value={formatNumber(f.awaiting_dispatch)}
+		tone={f.awaiting_dispatch > 0 ? 'warning' : 'neutral'}
+		href="/admin/orders"
+	/>
+	<Figure
+		label="On its way"
+		value={formatNumber(f.in_transit)}
+		tone={f.in_transit > 0 ? 'accent' : 'neutral'}
+	/>
+	<Figure
+		label="Out of stock"
+		value={formatNumber(f.out_of_stock)}
+		note="{formatNumber(f.active_products)} items live"
+		tone={f.out_of_stock > 0 ? 'danger' : 'neutral'}
+		href="/admin/low-stock"
+	/>
+</div>
 
 {#if data.issues.length > 0}
 	<section class="block">
@@ -39,17 +86,44 @@
 		</div>
 		<ul class="issues">
 			{#each data.issues as issue (issue.id)}
-				<li class:is-critical={issue.severity === 'critical'}>
+				<li data-tone={severityTone(issue.severity)}>
+					<StateChip tone={severityTone(issue.severity)} label={issue.severity} />
 					<span class="detail">{issue.detail}</span>
 					{#if issue.expected_minor !== null || issue.actual_minor !== null}
 						<span class="gap t-mono">
 							{#if issue.expected_minor !== null && issue.actual_minor !== null}
-								{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor))}
+								{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor), f.currency)}
 							{:else}
-								{formatMinor(issue.expected_minor ?? issue.actual_minor ?? 0)}
+								{formatMinor(issue.expected_minor ?? issue.actual_minor ?? 0, f.currency)}
 							{/if}
 						</span>
 					{/if}
+				</li>
+			{/each}
+		</ul>
+	</section>
+{/if}
+
+{#if data.low.length > 0}
+	<section class="block">
+		<div class="block-head">
+			<h2 class="t-sub">Running out</h2>
+			<Button href="/admin/low-stock" variant="ghost" arrow>All of them</Button>
+		</div>
+		<ul class="issues">
+			{#each data.low as item (item.variant_id)}
+				<li data-tone={stockTone(item.available, item.threshold)}>
+					<StateChip
+						tone={stockTone(item.available, item.threshold)}
+						label={item.available <= 0 ? 'Out' : 'Low'}
+					/>
+					<a class="detail link" href="/admin/products/{item.product_id}">
+						{item.title}
+						{#if item.variant_title || item.sku}
+							<span class="quiet">· {item.variant_title ?? item.sku}</span>
+						{/if}
+					</a>
+					<span class="gap t-mono">{formatNumber(item.available)} left</span>
 				</li>
 			{/each}
 		</ul>
@@ -65,32 +139,32 @@
 	{#if data.recent.length === 0}
 		<Empty title="No orders yet" description="They will appear here the moment one comes in." />
 	{:else}
-		<div class="scroll">
-			<table>
-				<thead>
+		<Table>
+			<thead>
+				<tr>
+					<th scope="col">Order</th>
+					<th scope="col">Customer</th>
+					<th scope="col">District</th>
+					<th scope="col">Status</th>
+					<th scope="col">Payment</th>
+					<th scope="col" data-numeric>Total</th>
+					<th scope="col">Placed</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each data.recent as order (order.id)}
 					<tr>
-						<th scope="col">Order</th>
-						<th scope="col">Customer</th>
-						<th scope="col">District</th>
-						<th scope="col">Status</th>
-						<th scope="col" data-numeric>Total</th>
-						<th scope="col">Placed</th>
+						<td><a class="num t-mono" href="/admin/orders/{order.id}">{order.number}</a></td>
+						<td class="ink">{order.recipient}</td>
+						<td>{order.district_name}</td>
+						<td><OrderStatus status={order.status} /></td>
+						<td><OrderStatus status={order.payment_state} kind="payment" /></td>
+						<td data-numeric>{formatMinor(order.total_minor, order.currency)}</td>
+						<td class="when t-mono">{formatRelativeTime(order.placed_at)}</td>
 					</tr>
-				</thead>
-				<tbody>
-					{#each data.recent as order (order.id)}
-						<tr>
-							<td><a class="num t-mono" href="/admin/orders/{order.id}">{order.number}</a></td>
-							<td>{order.recipient}</td>
-							<td class="quiet">{order.district_name}</td>
-							<td><OrderStatus status={order.status} emphasis /></td>
-							<td data-numeric>{formatMinor(order.total_minor, order.currency)}</td>
-							<td class="quiet when t-mono">{formatRelativeTime(order.placed_at)}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+				{/each}
+			</tbody>
+		</Table>
 	{/if}
 </section>
 
@@ -103,32 +177,9 @@
 		margin-top: 32px;
 	}
 
-	.figures > div {
-		background: var(--paper);
-		padding: 22px 24px;
-	}
-
-	.figures dt {
-		color: var(--faint);
-	}
-
-	.figures dd {
-		margin-top: 12px;
-		font-size: 30px;
-		font-weight: 500;
-		letter-spacing: -0.03em;
-		font-variant-numeric: tabular-nums;
-	}
-
-	/* No red available, so an alarming number gets an ink block instead. */
-	.is-alarm {
-		background: var(--inverse-paper) !important;
-		color: var(--inverse-ink);
-	}
-
-	.is-alarm dt {
-		color: var(--inverse-ink);
-		opacity: 0.7;
+	.second {
+		margin-top: 1px;
+		border-top: none;
 	}
 
 	.block {
@@ -147,21 +198,41 @@
 
 	.issues li {
 		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 20px;
-		padding: 14px 0 14px 14px;
+		align-items: center;
+		gap: 16px;
+		padding: 13px 0 13px 14px;
 		border-bottom: 1px solid var(--rule);
-		border-left: 1px solid transparent;
+		border-left: 3px solid transparent;
 		font-size: 14px;
 		color: var(--muted);
 	}
 
-	.is-critical {
-		border-left: 3px solid var(--ink);
-		padding-left: 12px;
+	.issues li[data-tone='danger'] {
+		border-left-color: var(--danger);
+	}
+	.issues li[data-tone='warning'] {
+		border-left-color: var(--warning);
+	}
+	.issues li[data-tone='info'] {
+		border-left-color: var(--info);
+	}
+
+	.detail {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.link {
 		color: var(--ink);
-		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.link:hover {
+		color: var(--accent);
+	}
+
+	.quiet {
+		color: var(--faint);
 	}
 
 	.gap {
@@ -170,41 +241,8 @@
 		color: var(--ink);
 	}
 
-	.scroll {
-		overflow-x: auto;
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-
-	th {
-		padding: 12px 16px 12px 0;
-		text-align: left;
-		font-family: var(--font-mono);
-		font-size: 10.5px;
-		font-weight: 400;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--faint);
-		border-bottom: 1px solid var(--rule);
-		white-space: nowrap;
-	}
-
-	td {
-		padding: 14px 16px 14px 0;
-		font-size: 14px;
-		border-bottom: 1px solid var(--rule);
-	}
-
-	th[data-numeric],
-	td[data-numeric] {
-		text-align: right;
-		font-family: var(--font-mono);
-		font-variant-numeric: tabular-nums;
-		font-feature-settings: 'zero' 1;
-		white-space: nowrap;
+	.ink {
+		color: var(--ink);
 	}
 
 	.num {
@@ -214,22 +252,14 @@
 	}
 
 	.num:hover {
-		border-bottom-color: var(--ink);
-	}
-
-	.quiet {
-		color: var(--faint);
-	}
-
-	th:last-child,
-	td:last-child {
-		padding-right: 0;
-		text-align: right;
+		color: var(--accent);
+		border-bottom-color: var(--accent);
 	}
 
 	.when {
 		font-size: 12px;
 		white-space: nowrap;
+		color: var(--faint);
 	}
 
 	@media (min-width: 640px) {

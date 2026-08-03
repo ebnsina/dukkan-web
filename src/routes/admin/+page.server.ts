@@ -1,36 +1,28 @@
 import type { PageServerLoad } from './$types';
 import { get } from '$lib/server/api';
 import { readAccess } from '$lib/server/session';
-import type { OrderSummary } from '$lib/api/types';
+import type { Dashboard, LowStockItem, OrderSummary } from '$lib/api/types';
 import type { ReconciliationIssue } from '$lib/admin/types';
 
-/* The API has no dashboard endpoint, so the figures are counted from the two
-   lists the shop owner actually acts on. */
+/* The figures are counted in the database. Adding up a page of orders in here
+   got a different answer, because it cannot see a delivered parcel the courier
+   has not yet paid over — which is the number a shop owner most wants. */
 export const load: PageServerLoad = async ({ fetch, cookies }) => {
 	const token = readAccess(cookies);
-	const [orders, issues] = await Promise.all([
-		get<{ orders: OrderSummary[] }>(fetch, '/v1/admin/orders', { token, query: { limit: 100 } }),
+	const [figures, orders, issues, low] = await Promise.all([
+		get<Dashboard>(fetch, '/v1/admin/dashboard', { token }),
+		get<{ orders: OrderSummary[] }>(fetch, '/v1/admin/orders', { token, query: { limit: 8 } }),
 		get<{ issues: ReconciliationIssue[] }>(fetch, '/v1/admin/reconciliation/issues', {
 			token,
-			query: { limit: 200 }
-		})
+			query: { limit: 4 }
+		}),
+		get<{ items: LowStockItem[] }>(fetch, '/v1/admin/low-stock', { token })
 	]);
 
-	const list = orders.orders ?? [];
-	const open = list.filter((o) => !['delivered', 'cancelled', 'returned'].includes(o.status));
-	const awaitingCash = list.filter(
-		(o) => o.payment_method === 'cod' && o.payment_state === 'pending'
-	);
-
 	return {
-		recent: list.slice(0, 8),
-		counts: {
-			total: list.length,
-			open: open.length,
-			awaitingCash: awaitingCash.length,
-			critical: (issues.issues ?? []).filter((i) => i.severity === 'critical').length
-		},
-		owed: awaitingCash.reduce((sum, o) => sum + o.total_minor, 0),
-		issues: (issues.issues ?? []).slice(0, 4)
+		figures,
+		recent: orders.orders ?? [],
+		issues: issues.issues ?? [],
+		low: (low.items ?? []).slice(0, 5)
 	};
 };

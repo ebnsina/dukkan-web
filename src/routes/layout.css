@@ -75,6 +75,23 @@
 	--inverse-paper: #0b0b0d;
 	--inverse-ink: #f4f4f6;
 
+	/* ─ Admin palette ─ Dukkan's own, never the shop's: a seller who repaints
+	 * their storefront must not repaint the tool. Bright lime is a marketing
+	 * fill and dies at 14px, so the interface accent is its legible sibling.
+	 * Each state is a colour that passes AA on paper and a wash to sit it on. */
+	--accent: #4a7c0b;
+	--accent-ink: #ffffff;
+	--accent-soft: #eff7dd;
+
+	--success: #1f7a3d;
+	--success-soft: #e8f4ec;
+	--warning: #8f5a05;
+	--warning-soft: #fbf1de;
+	--danger: #b3261e;
+	--danger-soft: #fceceb;
+	--info: #1f5f9e;
+	--info-soft: #eaf2fa;
+
 	--font-bangla: 'Noto Sans Bengali', 'Kohinoor Bangla', 'Bangla MN', 'SolaimanLipi', sans-serif;
 	--font-arabic: 'SF Arabic', 'Geeza Pro', 'Noto Naskh Arabic', serif;
 	--font-display: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
@@ -112,6 +129,21 @@
 	--inverse-paper: #f4f4f6;
 	--inverse-ink: #0b0b0d;
 
+	/* On a near-black page the same hues need lifting to stay legible, and the
+	 * washes become dark tints rather than pale ones. */
+	--accent: #a8d92b;
+	--accent-ink: #101410;
+	--accent-soft: #1e2610;
+
+	--success: #4ec27a;
+	--success-soft: #0f2418;
+	--warning: #e0a63a;
+	--warning-soft: #2a1f08;
+	--danger: #f0736a;
+	--danger-soft: #2c1210;
+	--info: #63aee8;
+	--info-soft: #0d1d2c;
+
 	color-scheme: dark;
 }
 
@@ -125,6 +157,18 @@
 	--color-rule-strong: var(--rule-strong);
 	--color-inverse-paper: var(--inverse-paper);
 	--color-inverse-ink: var(--inverse-ink);
+
+	--color-accent: var(--accent);
+	--color-accent-ink: var(--accent-ink);
+	--color-accent-soft: var(--accent-soft);
+	--color-success: var(--success);
+	--color-success-soft: var(--success-soft);
+	--color-warning: var(--warning);
+	--color-warning-soft: var(--warning-soft);
+	--color-danger: var(--danger);
+	--color-danger-soft: var(--danger-soft);
+	--color-info: var(--info);
+	--color-info-soft: var(--info-soft);
 
 	--font-sans: var(--font-display);
 	--font-mono: var(--font-mono);
@@ -297,6 +341,61 @@
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
+}
+
+/* ─ Admin surface ─
+ *
+ * Dukkan's own tool, and it stays Dukkan's: a seller who repaints their
+ * storefront must not repaint the software. The accent drives primary actions
+ * and the active nav item; the state colours are declared on `:root` above and
+ * only appear where a state actually exists.
+ */
+
+.admin-surface {
+	--inverse-paper: var(--accent);
+	--inverse-ink: var(--accent-ink);
+}
+
+/* ─ Storefront surface ─
+ *
+ * The shop's own design, not ours and not the visitor's. `GET /v1/store/theme`
+ * gives four tokens and a layout; the layout sets them as inline custom
+ * properties on this wrapper. Mapping the accent onto `inverse-paper` means
+ * every solid control is already the shop's colour, without a component
+ * knowing a theme exists.
+ *
+ * It is pinned light for the same reason the marketing page is: the shop owner
+ * picked these colours against paper, and a visitor's dark-mode preference
+ * would repaint half of them and leave a pale accent unreadable.
+ */
+
+.shop-surface {
+	--paper: #ffffff;
+	--surface: var(--shop-surface, #f7f7f8);
+	--ink: #0b0b0d;
+	--muted: #63636d;
+	--faint: #94949f;
+	--rule: #ededf0;
+	--rule-strong: #dededf;
+	--inverse-paper: var(--shop-accent, #0b0b0d);
+	--inverse-ink: var(--shop-accent-ink, #f4f4f6);
+
+	background-color: var(--paper);
+	color: var(--ink);
+	color-scheme: light;
+}
+
+/* Density is the theme's own word for how much air a shop wants. */
+.shop-surface[data-density='compact'] {
+	--shop-gap-x: 16px;
+	--shop-gap-y: 26px;
+	--shop-pad: 12px;
+}
+
+.shop-surface[data-density='roomy'] {
+	--shop-gap-x: 28px;
+	--shop-gap-y: 44px;
+	--shop-pad: 18px;
 }
 
 /* ─ Marketing surface ─
