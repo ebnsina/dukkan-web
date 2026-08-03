@@ -3,24 +3,34 @@
 
 	const questions = [
 		{
-			question: 'How is this different from Dokan?',
+			question: 'Do I need to install or host anything?',
 			answer:
-				'Dokan is a WordPress add-on. You keep the hosting alive, you keep the updates coming, and nothing in Bangladesh works out of the box. Dukkan is hosted for you, with bKash, Nagad, SSLCommerz, Steadfast and Pathao already inside.'
+				'No. Dukkan is hosted for you, with bKash, Nagad, SSLCommerz, Steadfast and Pathao already connected. You will not touch a server or write a line of code.'
 		},
 		{
-			question: 'How is this different from getcommerce.xyz?',
+			question: 'Is this built for more than one seller?',
 			answer:
-				'They start from one shop and one owner. Dukkan starts from many sellers: sign-up, your cut, split refunds and separate payouts are the middle of the product, not an extra.'
+				'Yes, from the ground up. Sign-up, your commission, split refunds and separate payouts are the middle of the product, not an extra.'
 		},
 		{
-			question: 'Do you take a share of my sales?',
+			question: 'How do sellers get paid, and how often?',
 			answer:
-				'No. You pay one price a month and keep whatever cut you charge your sellers. Payment and courier companies still charge their own fees.'
+				'Every seven days by default, or on the day you pick. Each seller gets a statement showing every order, your commission and the courier charge, so the number is never a surprise.'
 		},
 		{
-			question: 'How does cash on delivery get sorted out?',
+			question: 'What happens with cash on delivery?',
 			answer:
-				'When the courier sends your money, Dukkan lines it up against delivered orders one by one, shows you what is missing or returned, and fixes each seller balance before the next payout.'
+				'When the courier sends your money, Dukkan lines it up against delivered orders one by one and shows you anything missing or returned. Seller balances are corrected before the next payout runs.'
+		},
+		{
+			question: 'Can I take a different cut from different sellers?',
+			answer:
+				'Yes. Set one rate for the whole marketplace, or a different rate per seller or per category. Changes apply to new orders, never to ones already placed.'
+		},
+		{
+			question: 'Which payment methods can customers use?',
+			answer:
+				'bKash, Nagad, cards through SSLCommerz, and cash on delivery. You choose which ones to switch on.'
 		},
 		{
 			question: 'Can I use my own web address?',
@@ -28,14 +38,14 @@
 				'Yes, from Growth upward. Starter runs on a Dukkan address and you can move across later without losing anything.'
 		},
 		{
-			question: 'What happens if I go past my limits?',
+			question: 'What if a seller does not deliver?',
 			answer:
-				'Nothing stops and no order is lost. We tell you in your dashboard and give you time to move up a plan.'
+				'You can hold their payout, refund the customer from the order screen, and pause the shop. The refund is split correctly so your commission comes back out too.'
 		},
 		{
-			question: 'Does it work in Bangla?',
+			question: 'How long does it take to open?',
 			answer:
-				'Yes. The shopfront and the seller dashboard both read in Bangla or English, and you can run the two side by side.'
+				'A day. Name the marketplace, add your logo and set your commission, and the shopfront is live. Connecting payments and a courier takes an afternoon.'
 		},
 		{
 			question: 'Can I take my data with me?',

@@ -22,7 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Textarea, Select, Checkbox, Radio, Switch, Tag, Note, Table, Tabs, Disclosure,
   Dialog, Menu, Pagination, Breadcrumb, Empty, Skeleton, Spinner, Toaster.
 - Pricing tiers aligned with CSS subgrid, so an uneven blurb cannot knock the
-  price, button and limit rows out of step across columns.
+  price, button and limit rows out of step across columns. Tier names, prices
+  and limits come from the platform's own plan definitions. The middle tier is
+  promoted by inverting it onto `--inverse-paper`, with no badge or border.
+- Vendor order-list mockup as the hero centrepiece, built as real markup so it
+  doubles as the design target for the dashboard: shop names in Bangla and
+  English, payment tags, BDT in tabular figures, and columns that drop rather
+  than shrink on small screens.
+- Payout movement showing cash on delivery reaching a seller, with the courier
+  charge and commission subtracted and the arithmetic visible in tabular mono.
+- Capability figures — payment methods, couriers, payout frequency, setup cost.
+  Facts about the product, never invented customer counts.
 - Motion: `svelte/transition` only, gated on `prefersReducedMotion`.
 - Theme: light and dark, explicit choice persisted, applied before first paint.
 - `/ds` route showing the palette, the fluid type scale with the width axis,
@@ -48,3 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ServiceRow`, which modelled a studio's service list rather than anything
   a marketplace has.
 - The Arabic wordmark swap on hover.
+- Competitor names and product-category framing removed from all customer-facing
+  copy. The Questions section now answers what a shop owner asks before signing
+  up rather than comparing Dukkan to anything.

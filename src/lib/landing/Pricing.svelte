@@ -6,10 +6,7 @@
 		name: string;
 		monthly: number;
 		blurb: string;
-		sellers: string;
-		orders: string;
-		address: string;
-		credits: number;
+		limits: Array<[string, string]>;
 		extras: string[];
 		lead?: boolean;
 	}
@@ -17,43 +14,53 @@
 	const tiers: Tier[] = [
 		{
 			name: 'Starter',
-			monthly: 2500,
+			monthly: 990,
 			blurb: 'A first marketplace, finding its feet.',
-			sellers: '10 sellers',
-			orders: '500 orders a month',
-			address: 'A Dukkan web address',
-			credits: 200,
+			limits: [
+				['Sellers', formatNumber(10)],
+				['Orders a month', formatNumber(500)],
+				['Products', formatNumber(1000)],
+				['Staff seats', formatNumber(2)],
+				['Writing credits', `${formatNumber(100)} a month`]
+			],
 			extras: ['bKash and Nagad', 'Steadfast pickups', 'Cash on delivery', 'Help by email']
 		},
 		{
 			name: 'Growth',
-			monthly: 7500,
+			monthly: 2990,
 			blurb: 'Steady orders, every week.',
-			sellers: '75 sellers',
-			orders: '5,000 orders a month',
-			address: 'Your own web address',
-			credits: 2000,
+			limits: [
+				['Sellers', formatNumber(100)],
+				['Orders a month', formatNumber(5000)],
+				['Products', formatNumber(25000)],
+				['Staff seats', formatNumber(10)],
+				['Writing credits', `${formatNumber(1000)} a month`]
+			],
 			extras: [
 				'Everything in Starter',
+				'Your own web address',
 				'Cards through SSLCommerz',
 				'Pathao and RedX',
-				'Payouts that run themselves',
-				'Keys for your whole team'
+				'Charge your sellers a monthly fee',
+				'Connections to your own systems'
 			],
 			lead: true
 		},
 		{
 			name: 'Scale',
-			monthly: 22500,
+			monthly: 7990,
 			blurb: 'The biggest name in your category.',
-			sellers: 'Sellers without limit',
-			orders: '50,000 orders a month',
-			address: 'Several web addresses',
-			credits: 15000,
+			limits: [
+				['Sellers', 'No limit'],
+				['Orders a month', 'No limit'],
+				['Products', 'No limit'],
+				['Staff seats', 'No limit'],
+				['Writing credits', `${formatNumber(5000)} a month`]
+			],
 			extras: [
 				'Everything in Growth',
 				'A different cut per seller',
-				'Your own connections in and out',
+				'Several web addresses',
 				'One person you can call'
 			]
 		}
@@ -77,12 +84,9 @@
 
 	<div class="tiers">
 		{#each tiers as tier (tier.name)}
-			<article class="tier">
+			<article class="tier" class:is-lead={tier.lead}>
 				<header>
-					<div class="name-row">
-						<h3 class="t-sub">{tier.name}</h3>
-						{#if tier.lead}<Tag variant="solid">Most picked</Tag>{/if}
-					</div>
+					<h3 class="t-sub">{tier.name}</h3>
 					<p class="blurb">{tier.blurb}</p>
 				</header>
 
@@ -100,10 +104,10 @@
 				</div>
 
 				<dl class="limits">
-					{#each [['Sellers', tier.sellers], ['Orders', tier.orders], ['Address', tier.address], ['Writing credits', `${formatNumber(tier.credits)} a month`]] as [term, value] (term)}
+					{#each tier.limits as [term, value] (term)}
 						<div>
 							<dt class="t-label">{term}</dt>
-							<dd>{value}</dd>
+							<dd class="t-mono">{value}</dd>
 						</div>
 					{/each}
 				</dl>
@@ -140,10 +144,45 @@
 		border-bottom: 1px solid var(--rule);
 	}
 
-	.name-row {
-		display: flex;
-		align-items: center;
-		gap: 12px;
+	/* Promotion by inversion — what --inverse-paper and --inverse-ink exist for.
+	   No badge, no border, no shadow, no hue. */
+	.is-lead {
+		background: var(--inverse-paper);
+		color: var(--inverse-ink);
+		padding-inline: 28px;
+	}
+
+	.is-lead .blurb,
+	.is-lead .per,
+	.is-lead .limits dt,
+	.is-lead .extras li {
+		color: var(--inverse-ink);
+		opacity: 0.72;
+	}
+
+	.is-lead .amount,
+	.is-lead .limits dd {
+		color: var(--inverse-ink);
+	}
+
+	.is-lead .limits {
+		border-top-color: color-mix(in srgb, var(--inverse-ink) 22%, transparent);
+	}
+
+	.is-lead .extras li::before {
+		background: color-mix(in srgb, var(--inverse-ink) 50%, transparent);
+	}
+
+	/* The panel is already ink, so the action inverts back to paper to stay visible. */
+	.is-lead .pick :global(.btn) {
+		background: var(--paper);
+		color: var(--ink);
+		border-color: var(--paper);
+	}
+
+	.is-lead .pick :global(.btn:hover) {
+		background: var(--surface);
+		border-color: var(--surface);
 	}
 
 	.blurb {
@@ -248,6 +287,19 @@
 		.tier:last-child {
 			border-right: none;
 			padding-inline-end: 0;
+		}
+
+		/* The surface change is the edge, so the inverted tier drops the rules. */
+		.is-lead,
+		.is-lead + .tier {
+			border-right-color: transparent;
+		}
+
+		.is-lead {
+			padding-inline: 28px;
+			margin-block: -20px;
+			padding-block: 52px;
+			border-bottom-color: transparent;
 		}
 	}
 </style>

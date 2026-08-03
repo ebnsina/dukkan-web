@@ -5,8 +5,10 @@
 	import { Button, CtaBand } from '$lib/ui';
 	import Hero from '$lib/landing/Hero.svelte';
 	import Proof from '$lib/landing/Proof.svelte';
+	import Capabilities from '$lib/landing/Capabilities.svelte';
 	import WhatYouGet from '$lib/landing/WhatYouGet.svelte';
 	import HowItWorks from '$lib/landing/HowItWorks.svelte';
+	import PayoutStory from '$lib/landing/PayoutStory.svelte';
 	import Pricing from '$lib/landing/Pricing.svelte';
 	import Questions from '$lib/landing/Questions.svelte';
 </script>
@@ -21,8 +23,10 @@
 <main>
 	<Hero />
 	<Proof />
+	<Capabilities />
 	<WhatYouGet />
 	<HowItWorks />
+	<PayoutStory />
 	<Pricing />
 	<Questions />
 

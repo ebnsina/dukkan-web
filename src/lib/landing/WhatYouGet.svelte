@@ -49,7 +49,7 @@
 	id="what-you-get"
 	eyebrow="What you get"
 	heading="Everything a marketplace needs, already joined up."
-	lead="Not a plugin you have to keep alive. Not a single-shop cart stretched to fit. One thing, built for many sellers from the first screen."
+	lead="Built for many sellers from the first screen. Sign-up, commissions, split refunds and separate payouts are the middle of the product, not an extra you bolt on later."
 	rule
 >
 	<ul class="grid">

@@ -1,18 +1,11 @@
 <script lang="ts">
 	import { Button } from '$lib/ui';
-	import { formatCurrency, formatNumber, formatRelativeTime } from '$lib/utils/format';
-
-	const now = Date.now();
-	const orders = [
-		{ id: 'DK-10482', shop: 'Nokshi Home', total: 4250, paid: 'bKash', at: now - 4 * 60_000 },
-		{ id: 'DK-10481', shop: 'Dhaka Threads', total: 18900, paid: 'Cash', at: now - 26 * 60_000 },
-		{ id: 'DK-10480', shop: 'Chattogram Tea', total: 1120, paid: 'Nagad', at: now - 95 * 60_000 }
-	];
+	import OrderBoard from './OrderBoard.svelte';
 </script>
 
 <section class="hero">
 	<div class="container-page">
-		<span class="eyebrow t-label">Marketplace software</span>
+		<span class="eyebrow t-label">Marketplace software for Bangladesh</span>
 
 		<h1 class="t-display">
 			Many sellers.<br />One shopfront.<br /><span class="light">Your name on it.</span>
@@ -29,22 +22,10 @@
 		</div>
 
 		<p class="small t-label">No card needed. Bring your own web address when you are ready.</p>
+	</div>
 
-		<div class="board">
-			<span class="board-label t-label">Today</span>
-			{#each orders as order (order.id)}
-				<div class="line">
-					<span class="id t-mono">{order.id}</span>
-					<span class="shop">{order.shop}</span>
-					<span class="paid t-mono">{order.paid}</span>
-					<span class="total t-mono">{formatCurrency(order.total)}</span>
-					<span class="when t-mono">{formatRelativeTime(order.at)}</span>
-				</div>
-			{/each}
-			<p class="footnote t-label">
-				Sample orders &mdash; {formatNumber(3)} of many. Not a real shop.
-			</p>
-		</div>
+	<div class="mockup container-page">
+		<OrderBoard />
 	</div>
 </section>
 
@@ -81,71 +62,7 @@
 		color: var(--faint);
 	}
 
-	.board {
-		margin-top: clamp(64px, 9vw, 112px);
-	}
-
-	.board-label {
-		display: block;
-		padding-bottom: 16px;
-		border-bottom: 1px solid var(--rule-strong);
-		color: var(--faint);
-	}
-
-	.line {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto auto auto;
-		align-items: baseline;
-		gap: 24px;
-		padding-block: 18px;
-		border-bottom: 1px solid var(--rule);
-		font-size: 13px;
-	}
-
-	.id,
-	.paid,
-	.when {
-		color: var(--faint);
-	}
-
-	.shop {
-		font-size: var(--size-body);
-		font-weight: 600;
-	}
-
-	.total {
-		color: var(--ink);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.footnote {
-		padding-top: 20px;
-		color: var(--faint);
-	}
-
-	@media (max-width: 720px) {
-		.line {
-			grid-template-columns: minmax(0, 1fr) auto;
-			gap: 4px 16px;
-		}
-
-		.id {
-			order: 1;
-		}
-
-		.shop {
-			order: 0;
-		}
-
-		.paid,
-		.when {
-			display: none;
-		}
-
-		.total {
-			order: 2;
-			grid-column: 2;
-			grid-row: 1;
-		}
+	.mockup {
+		margin-top: clamp(56px, 8vw, 96px);
 	}
 </style>
