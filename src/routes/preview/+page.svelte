@@ -1,9 +1,12 @@
 <script lang="ts">
-	/* A design study, not a screen of the product: three dashboards on the same
+	/* A design study, not a screen of the product: six dashboards on the same
 	   data, so the choice is made by looking rather than by describing. */
 	import DirectionA from '$lib/admin/preview/DirectionA.svelte';
 	import DirectionB from '$lib/admin/preview/DirectionB.svelte';
 	import DirectionC from '$lib/admin/preview/DirectionC.svelte';
+	import DirectionD from '$lib/admin/preview/DirectionD.svelte';
+	import DirectionE from '$lib/admin/preview/DirectionE.svelte';
+	import DirectionF from '$lib/admin/preview/DirectionF.svelte';
 	import { theme } from '$lib/theme/theme.svelte';
 
 	const directions = [
@@ -21,6 +24,21 @@
 			key: 'c',
 			name: 'Operations console',
 			note: 'Everything on one screen. Built for someone who never closes it.'
+		},
+		{
+			key: 'd',
+			name: 'Soft cards',
+			note: 'White cards on warm grey, round arrows, grouped nav. The friendliest of the six.'
+		},
+		{
+			key: 'e',
+			name: 'Ambient',
+			note: 'A tinted wash behind glass, a greeting, and the day offered as things to tap.'
+		},
+		{
+			key: 'f',
+			name: 'Terminal',
+			note: 'Dark, icon rail, movement against last week, and a chart you read a value off.'
 		}
 	];
 
@@ -36,7 +54,7 @@
 	<header class="bar">
 		<div class="lead">
 			<h1>Dashboard directions</h1>
-			<p>Same shop, same data, three design languages.</p>
+			<p>Same shop, same data, six design languages.</p>
 		</div>
 
 		<div class="picker" role="tablist" aria-label="Design directions">
@@ -65,8 +83,14 @@
 			<DirectionA />
 		{:else if picked === 'b'}
 			<DirectionB />
-		{:else}
+		{:else if picked === 'c'}
 			<DirectionC />
+		{:else if picked === 'd'}
+			<DirectionD />
+		{:else if picked === 'e'}
+			<DirectionE />
+		{:else}
+			<DirectionF />
 		{/if}
 	</div>
 </div>
@@ -107,6 +131,7 @@
 
 	.picker {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 2px;
 		padding: 3px;
 		border-radius: 9px;
