@@ -136,10 +136,14 @@
 		     with an opinion about them. -->
 		<section class="stats">
 			{#each stats as s (s.label)}
-				<div class="stat">
-					<span class="s-label">{s.label}</span>
-					<span class="s-value" data-tone={s.tone ?? 'plain'}>{s.value}</span>
-					<span class="s-sub">{s.sub}</span>
+				<div class="card stat">
+					<div class="c-head">
+						<span class="eyebrow">{s.label}</span>
+					</div>
+					<div class="panel s-panel">
+						<span class="s-value" data-tone={s.tone ?? 'plain'}>{s.value}</span>
+						<span class="s-sub">{s.sub}</span>
+					</div>
 				</div>
 			{/each}
 		</section>
@@ -152,27 +156,27 @@
 					<span class="eyebrow">Owed to you</span>
 				</div>
 				<div class="panel f-panel">
-				<span class="kicker">Cash with couriers</span>
-				<span class="f-value">{formatMinor(f.outstanding_cod_minor, f.currency)}</span>
-				<p class="f-note">
-					Collected from customers and not yet paid over to you. Chase anything older than a week.
-				</p>
+					<span class="kicker">Cash with couriers</span>
+					<span class="f-value">{formatMinor(f.outstanding_cod_minor, f.currency)}</span>
+					<p class="f-note">
+						Collected from customers and not yet paid over to you. Chase anything older than a week.
+					</p>
 
-				<div class="metrics">
-					<span
-						><HugeiconsIcon icon={DeliveryTruck01Icon} size={16} strokeWidth={stroke} />
-						{formatNumber(f.outstanding_parcels)} parcels</span
-					>
-					<span
-						><HugeiconsIcon icon={Alert02Icon} size={16} strokeWidth={stroke} />
-						{f.critical_issues} need chasing</span
-					>
-				</div>
+					<div class="metrics">
+						<span
+							><HugeiconsIcon icon={DeliveryTruck01Icon} size={16} strokeWidth={stroke} />
+							{formatNumber(f.outstanding_parcels)} parcels</span
+						>
+						<span
+							><HugeiconsIcon icon={Alert02Icon} size={16} strokeWidth={stroke} />
+							{f.critical_issues} need chasing</span
+						>
+					</div>
 
-				<div class="f-acts">
-					<a class="btn dark" href="#money">Open money owed</a>
-					<a class="btn light" href="#import">Import a statement</a>
-				</div>
+					<div class="f-acts">
+						<a class="btn dark" href="#money">Open money owed</a>
+						<a class="btn light" href="#import">Import a statement</a>
+					</div>
 				</div>
 			</section>
 
@@ -184,18 +188,18 @@
 				</div>
 				<div class="panel rows">
 					{#each recent.slice(0, 5) as o (o.id)}
-					{@const os = orderState(o.status)}
-					<a class="row" href="#{o.id}">
-						<span class="r-main">
-							<span class="r-title">{o.recipient}</span>
-							<span class="r-meta">{o.number} · {o.district_name} · {o.ago} ago</span>
-						</span>
-						<span class="r-amt">{formatMinor(o.total_minor, o.currency)}</span>
-						<span class="chip" data-tone={os.tone}>{os.word}</span>
-						<span class="go"
-							><HugeiconsIcon icon={ArrowRight01Icon} size={15} strokeWidth={stroke} /></span
-						>
-					</a>
+						{@const os = orderState(o.status)}
+						<a class="row" href="#{o.id}">
+							<span class="r-main">
+								<span class="r-title">{o.recipient}</span>
+								<span class="r-meta">{o.number} · {o.district_name} · {o.ago} ago</span>
+							</span>
+							<span class="r-amt">{formatMinor(o.total_minor, o.currency)}</span>
+							<span class="chip" data-tone={os.tone}>{os.word}</span>
+							<span class="go"
+								><HugeiconsIcon icon={ArrowRight01Icon} size={15} strokeWidth={stroke} /></span
+							>
+						</a>
 					{/each}
 				</div>
 			</section>
@@ -210,15 +214,15 @@
 				</div>
 				<div class="panel">
 					{#each issues.slice(0, 3) as i (i.id)}
-					<a class="mini" href="#{i.id}">
-						<span class="badge-sq" data-tone={severityTone(i.severity)}>
-							<HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} />
-						</span>
-						<span class="m-text">{i.detail}</span>
-						<span class="m-amt">
-							{formatMinor(i.expected_minor ?? i.actual_minor ?? 0, f.currency)}
-						</span>
-					</a>
+						<a class="mini" href="#{i.id}">
+							<span class="badge-sq" data-tone={severityTone(i.severity)}>
+								<HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} />
+							</span>
+							<span class="m-text">{i.detail}</span>
+							<span class="m-amt">
+								{formatMinor(i.expected_minor ?? i.actual_minor ?? 0, f.currency)}
+							</span>
+						</a>
 					{/each}
 				</div>
 			</section>
@@ -231,22 +235,22 @@
 				</div>
 				<div class="panel">
 					{#each bestSellers as b (b.name)}
-					<a class="mini" href="#{b.name}">
-						<span class="badge-sq"
-							><HugeiconsIcon icon={PackageIcon} size={15} strokeWidth={stroke} /></span
-						>
-						<span class="m-text">{b.name}</span>
-						<span class="m-amt">{b.sold} sold</span>
-					</a>
-				{/each}
-				{#each low.slice(0, 1) as l (l.variant_id)}
-					<a class="mini" href="#{l.variant_id}">
-						<span class="badge-sq" data-tone="danger"
-							><HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} /></span
-						>
-						<span class="m-text">{l.title} <span class="dim">out of stock</span></span>
-						<span class="m-amt">{l.available}</span>
-					</a>
+						<a class="mini" href="#{b.name}">
+							<span class="badge-sq"
+								><HugeiconsIcon icon={PackageIcon} size={15} strokeWidth={stroke} /></span
+							>
+							<span class="m-text">{b.name}</span>
+							<span class="m-amt">{b.sold} sold</span>
+						</a>
+					{/each}
+					{#each low.slice(0, 1) as l (l.variant_id)}
+						<a class="mini" href="#{l.variant_id}">
+							<span class="badge-sq" data-tone="danger"
+								><HugeiconsIcon icon={Alert02Icon} size={15} strokeWidth={stroke} /></span
+							>
+							<span class="m-text">{l.title} <span class="dim">out of stock</span></span>
+							<span class="m-amt">{l.available}</span>
+						</a>
 					{/each}
 				</div>
 			</section>
@@ -290,6 +294,8 @@
 		--d-ink: #17181a;
 		--d-muted: #71737a;
 		--d-faint: #a4a6ad;
+		--d-edge: rgba(23, 24, 26, 0.14);
+		--d-edge-strong: rgba(23, 24, 26, 0.28);
 		--d-lime: #b7ec2f;
 		--d-lime-deep: #9ed214;
 		--d-lime-ink: #101410;
@@ -304,6 +310,8 @@
 		--d-shell: #0c0d0f;
 		--d-sheet: #141517;
 		--d-card: #191a1d;
+		--d-edge: rgba(237, 237, 238, 0.16);
+		--d-edge-strong: rgba(237, 237, 238, 0.3);
 		--d-ink: #ededee;
 		--d-muted: #9a9ca2;
 		--d-faint: #6b6d72;
@@ -557,39 +565,32 @@
 	}
 
 	.light {
-		background: var(--d-sheet);
+		background: transparent;
 		color: var(--d-ink);
-		box-shadow: var(--d-softer);
+		box-shadow: inset 0 0 0 1px var(--d-edge);
+		transition:
+			background-color var(--d-quick),
+			box-shadow var(--d-quick);
+	}
+
+	.light:hover {
+		background: var(--d-card);
+		box-shadow: inset 0 0 0 1px var(--d-edge-strong);
 	}
 
 	/* ── Figures ──────────────────────────────────────────────────────── */
 
 	.stats {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		gap: 3px;
+		grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+		gap: 14px;
 		margin-bottom: 14px;
-		padding: 3px;
-		background: var(--d-card);
-		border-radius: var(--d-r);
-	}
-
-	.stat {
-		padding: 14px 16px;
-		background: var(--d-sheet);
-		border-radius: calc(var(--d-r) - 3px);
-	}
-
-	.s-label {
-		display: block;
-		font-size: 12.5px;
-		color: var(--d-muted);
 	}
 
 	.s-value {
 		display: block;
-		margin: 6px 0 2px;
-		font-size: 23px;
+		margin: 0 0 2px;
+		font-size: 25px;
 		font-weight: 650;
 		letter-spacing: -0.02em;
 		font-variant-numeric: tabular-nums;
@@ -616,6 +617,7 @@
 	@media (min-width: 1000px) {
 		.grid {
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+			align-items: stretch;
 		}
 	}
 
@@ -631,15 +633,35 @@
 	}
 
 	.panel {
+		display: flex;
 		flex: 1;
+		flex-direction: column;
 		min-height: 0;
 		padding: 10px;
 		background: var(--d-sheet);
 		border-radius: calc(var(--d-r) - 3px);
 	}
 
+	.panel > * {
+		flex: 1;
+	}
+
+	/* Anything that is prose or a stack of its own keeps its natural height. */
+	.f-panel > *,
+	.s-panel > * {
+		flex: none;
+	}
+
 	.f-panel {
+		justify-content: center;
 		padding: 20px;
+	}
+
+	/* The figure sits on the floor of its panel, so a card that stretches to
+	   match a taller neighbour still reads as one block. */
+	.s-panel {
+		justify-content: flex-end;
+		padding: 14px 16px 16px;
 	}
 
 	.rows {
@@ -732,6 +754,7 @@
 	.row {
 		display: flex;
 		align-items: center;
+		min-height: 0;
 		gap: 12px;
 		padding: 11px 12px;
 		border-radius: var(--d-r-sm);
@@ -830,6 +853,7 @@
 	@media (min-width: 900px) {
 		.three {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
+			align-items: stretch;
 		}
 	}
 
@@ -837,9 +861,9 @@
 		display: flex;
 		align-items: center;
 		gap: 11px;
+		min-height: 0;
 		padding: 9px 10px;
 		border-radius: 11px;
-		margin-bottom: 2px;
 		transition: background-color var(--d-quick);
 	}
 
