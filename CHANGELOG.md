@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Storefront on the real API: home, category, search, product detail with variant
+  selection, basket, checkout, order confirmation, order tracking, account with
+  order history, and phone OTP sign-in.
+- Admin: dashboard, orders with search and detail, cancel and courier booking,
+  products with create-and-publish, the reconciliation queue, and settings for
+  payment and courier credentials.
+- Reconciliation queue built for the money question it answers — critical issues
+  carry a heavy left rule and an inverted count, since no red exists in the
+  palette. Amounts show what should have arrived, what did, and the gap.
+- Server-side API layer: every call runs on the server so the tenant, session and
+  basket tokens never reach the browser. Money is integer minor units throughout,
+  divided once in `formatMinor` and printed with `Intl.NumberFormat`.
+- Guest basket carried in an httpOnly cookie and handed to the first signed-in
+  cart call, so the basket folds into the account on sign-in.
+- Out-of-stock at checkout treated as a normal outcome: the API's 409 message is
+  shown as written, the form keeps what was typed, and the shopper is sent back
+  to the basket.
+
 - SvelteKit 2 + Svelte 5 scaffold with TypeScript, Tailwind v4, ESLint and Prettier.
 - `src/routes/layout.css` as the single token source of truth: greyscale palette,
   fluid type scale, layout tokens, motion tokens and view-transition rules.
@@ -43,6 +61,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the error envelope into `ApiError` and mapping codes to plain-language copy.
 - Error handling: root and `/ds` error pages, 404, 500 and an offline banner.
 - `Seo` component emitting meta, canonical, OpenGraph and Twitter tags.
+
+### Changed
+
+- Error copy now comes from the API. `error.message` is rendered as written and
+  `error.fields` drives per-field messages; the frontend words only the transport
+  failures the API cannot answer at all.
+- The storefront takes `/`. The marketing page moved to `/platform`, since in
+  production the shop and the marketing site are different hosts.
+- `PUBLIC_API_URL` carries the shop subdomain, because the API resolves the
+  tenant from the request host and Node's fetch will not send a `Host` header.
 
 ### Removed
 

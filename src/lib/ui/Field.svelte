@@ -29,7 +29,7 @@
 <div class="field">
 	{#if label}
 		<label class="t-label" for={id}>
-			{label}{#if required}<span aria-hidden="true"> — required</span>{/if}
+			{label}{#if required}<span class="req">Required</span>{/if}
 		</label>
 	{/if}
 
@@ -57,6 +57,11 @@
 
 	label {
 		color: var(--faint);
+	}
+
+	.req {
+		margin-left: 10px;
+		opacity: 0.6;
 	}
 
 	.note {

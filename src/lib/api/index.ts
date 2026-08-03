@@ -1,9 +1,3 @@
-export { api, request } from './client';
-export { ApiError, isApiError, toUserMessage, toFieldMessages } from './errors';
-export type {
-	ApiErrorEnvelope,
-	ApiErrorKind,
-	ApiFieldIssue,
-	ApiSuccessEnvelope,
-	RequestOptions
-} from './types';
+export { ApiError, isApiError, toUserMessage, fieldErrors, isOutOfStock } from './errors';
+export type { ApiErrorKind } from './errors';
+export type * from './types';
