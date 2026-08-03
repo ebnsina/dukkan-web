@@ -192,8 +192,8 @@
 		--d-faint: #9a9ca2;
 		--d-r: 20px;
 		--d-r-sm: 16px;
-		--d-soft: 0 1px 2px rgba(20, 20, 24, 0.03), 0 10px 30px -18px rgba(20, 20, 24, 0.22);
-		--d-softer: 0 1px 2px rgba(20, 20, 24, 0.03), 0 6px 20px -14px rgba(20, 20, 24, 0.2);
+		--d-soft: 0 1px 2px -1px rgba(20, 20, 24, 0.04), 0 8px 24px -20px rgba(20, 20, 24, 0.12);
+		--d-softer: 0 1px 2px -1px rgba(20, 20, 24, 0.05);
 	}
 
 	:global([data-theme='dark']) .app {
@@ -204,8 +204,8 @@
 		--d-ink: #ededee;
 		--d-muted: #9a9ca2;
 		--d-faint: #6b6d72;
-		--d-soft: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
-		--d-softer: 0 1px 2px rgba(0, 0, 0, 0.4);
+		--d-soft: 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+		--d-softer: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
 	}
 
 	.rail {
@@ -283,7 +283,7 @@
 	}
 
 	.body {
-		margin: 12px 12px 12px 0;
+		margin: 6px 6px 6px 0;
 		padding: 20px 22px 26px;
 		min-width: 0;
 		background: var(--d-sheet);
