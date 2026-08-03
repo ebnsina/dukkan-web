@@ -1,42 +1,74 @@
-# sv
+# Dukkàn — web
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+The front end for Dukkàn: a hosted shop for merchants in Bangladesh. Storefront,
+admin and landing page in one SvelteKit app, talking to [`dukkan-api`][api] and
+nothing else.
 
-## Creating a project
+_dukkàn_ — "shop". The word the customer already uses.
 
-If you're seeing this, you've probably already done this step. Congrats!
+[api]: https://github.com/ebnsina/dukkan-api
+
+## What is here
+
+| Route      | What it is                                                    |
+| ---------- | ------------------------------------------------------------- |
+| `/`        | The landing page                                              |
+| `/shop`    | Storefront — catalogue, search, product, basket, checkout     |
+| `/orders`  | Order confirmation and tracking, for a customer               |
+| `/account` | Order history, behind phone OTP sign-in                       |
+| `/admin`   | Orders, products, the reconciliation queue, credentials       |
+| `/ds`      | The design system, rendered from the same tokens the app uses |
+
+Cash on delivery is most orders here, so reconciliation — what the courier
+collected against what the order said — is a first-class screen rather than a
+report.
+
+## Running it
+
+Needs Node 20.19+ or 22.12+ (Vite 8's requirement), and the API running locally.
 
 ```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:none" sveltekit-adapter="adapter:auto" --no-download-check --install npm dukkan-web
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+npm install
+cp .env.example .env
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
 
 ```sh
-npm run build
+npm run check     # svelte-check
+npm run lint      # prettier and eslint
+npm run build     # the gate before pushing
 ```
 
-You can preview the production build with `npm run preview`.
+### Environment
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Both are read at build time and neither has a fallback — a missing variable
+fails the build rather than shipping a page pointing somewhere wrong.
+
+| Variable          | Why                                                                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `PUBLIC_API_URL`  | Carries the shop subdomain. The API resolves the tenant from the request host, and Node's fetch will not send a `Host` header. |
+| `PUBLIC_SITE_URL` | Absolute URLs for canonical, OG and Twitter tags.                                                                              |
+
+## How it is built
+
+**Two surfaces.** The app is a neutral greyscale that follows a light/dark
+toggle. The landing page is a fixed light brand surface with lime as its only
+accent, its tokens namespaced `mk-` so the toggle cannot repaint half of it.
+Square corners and flat fills on both — no radius, no shadow, anywhere.
+
+**Mona Sans for words, Geist Mono for labels and numerals**, both self-hosted.
+
+**Money is integer minor units from the API**, rendered once through
+`$lib/utils/money` with `Intl`. Digits group South Asian style: ৳1,00,000.
+
+**Errors come from the API.** `error.message` renders as written; the front end
+words only the transport failures the API cannot answer at all.
+
+**Every product visual on the landing page is markup, not a screenshot**, so
+none of it can go stale.
+
+`CLAUDE.md` has the working rules in full.
+
+> The landing page ships with invented testimonials, merchant names and figures,
+> including the fee calculator's comparison rate. Replace them before it is
+> public.
