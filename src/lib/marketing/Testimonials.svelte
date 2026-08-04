@@ -90,7 +90,7 @@
 					<div class="flex items-center gap-3">
 						<span
 							aria-hidden="true"
-							class="grid size-[42px] flex-none place-items-center bg-mk-shell mk-display text-[13px] text-mk-ink"
+							class="grid size-[42px] flex-none place-items-center rounded-xl bg-mk-shell mk-display text-[13px] text-mk-ink"
 							>{story.name
 								.split(' ')
 								.map((part) => part[0])

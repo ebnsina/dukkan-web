@@ -84,7 +84,9 @@
 						<p
 							class="mb-4 flex items-center gap-2.5 font-mk-mono text-[11px] tracking-[0.14em] text-mk-muted uppercase"
 						>
-							<span class="bg-mk-brand px-1.5 py-0.5 text-mk-on-brand">{panel.index}</span>
+							<span class="rounded-md bg-mk-brand px-1.5 py-0.5 text-mk-on-brand"
+								>{panel.index}</span
+							>
 							{panel.name}
 						</p>
 						<h3 class="text-mk-h3">{panel.heading}</h3>

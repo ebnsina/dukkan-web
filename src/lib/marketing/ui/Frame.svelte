@@ -47,10 +47,15 @@
 </script>
 
 <!--
-	Two layers: a warm grey shell carries the header and footer, and the paper
-	panel sits inset by a 3px rail. Square, flat, no shadow.
+	Two layers: a grey shell carries the header and footer, and the paper panel
+	sits inset by a 3px rail — so its radius is the shell's less the rail.
+	Flat, no shadow.
 -->
-<div class="group/frame flex flex-col p-[3px] {dark ? 'bg-mk-dark-2' : 'bg-mk-shell'} {className}">
+<div
+	class="group/frame flex flex-col rounded-4xl p-[3px] {dark
+		? 'bg-mk-dark-2'
+		: 'bg-mk-shell'} {className}"
+>
 	{#if head || eyebrow || title || action}
 		<div class="flex items-center justify-between gap-4 px-5 py-3.5">
 			<div class="flex min-w-0 flex-1 items-center gap-3">
@@ -71,7 +76,7 @@
 					{/if}
 					{#if tag}
 						<span
-							class="bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
+							class="rounded-md bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 							>{tag}</span
 						>
 					{/if}
@@ -85,9 +90,9 @@
 
 	<div
 		style={ratio ? `aspect-ratio:${ratio}` : undefined}
-		class="min-h-0 border border-mk-ink/10 bg-mk-paper text-mk-ink {ratio ? '' : 'flex-1'} {clip
-			? 'relative overflow-hidden'
-			: ''} {bodyClass}"
+		class="min-h-0 rounded-[29px] border border-mk-ink/10 bg-mk-paper text-mk-ink {ratio
+			? ''
+			: 'flex-1'} {clip ? 'relative overflow-hidden' : ''} {bodyClass}"
 	>
 		{@render children()}
 	</div>

@@ -192,7 +192,7 @@
 			</ol>
 
 			{#if form?.message}
-				<p class="mt-6 border border-mk-ink/25 bg-mk-shell p-4 text-[14px] text-mk-ink">
+				<p class="mt-6 rounded-2xl border border-mk-ink/25 bg-mk-shell p-4 text-[14px] text-mk-ink">
 					{form.message}
 				</p>
 			{/if}
@@ -255,7 +255,7 @@
 							type="button"
 							disabled={!nameReady}
 							onclick={() => (step = 1)}
-							class="group flex cursor-pointer items-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:border-mk-shell-deep disabled:bg-mk-shell-deep disabled:text-mk-faint"
+							class="group flex cursor-pointer items-center gap-2 rounded-xl border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:border-mk-shell-deep disabled:bg-mk-shell-deep disabled:text-mk-faint"
 						>
 							Next
 							<span class="transition-transform duration-200 group-hover:translate-x-1">
@@ -366,7 +366,7 @@
 						<button
 							type="button"
 							onclick={() => (step = 3)}
-							class="group flex cursor-pointer items-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
+							class="group flex cursor-pointer items-center gap-2 rounded-xl border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
 						>
 							Next
 							<span class="transition-transform duration-200 group-hover:translate-x-1">
@@ -465,7 +465,7 @@
 
 							<button
 								type="submit"
-								class="group mt-6 flex w-full cursor-pointer items-center justify-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
+								class="group mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
 							>
 								Open my shop
 								<span class="transition-transform duration-200 group-hover:translate-x-1">

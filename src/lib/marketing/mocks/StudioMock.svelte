@@ -5,7 +5,7 @@
 
 <!-- Section list + live canvas, built from boxes rather than a screenshot. -->
 <div
-	class="grid grid-cols-1 gap-4 border border-mk-rule-soft bg-mk-paper p-3.5 sm:grid-cols-[160px_1fr]"
+	class="grid grid-cols-1 gap-4 rounded-2xl border border-mk-rule-soft bg-mk-paper p-3.5 sm:grid-cols-[160px_1fr]"
 >
 	<div
 		class="flex flex-col gap-1 border-b border-mk-rule-soft pb-3 sm:border-r sm:border-b-0 sm:pr-3.5 sm:pb-0"

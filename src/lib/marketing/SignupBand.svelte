@@ -61,13 +61,13 @@
 					aria-label="Email address"
 					aria-invalid={Boolean(error)}
 					aria-describedby={error ? 'mk-signup-error' : undefined}
-					class="flex-1 border bg-transparent px-4 py-[15px] text-[15px] text-mk-cream placeholder:text-mk-cream/35 focus:border-mk-brand focus:outline-none {error
+					class="flex-1 rounded-xl border bg-transparent px-4 py-[15px] text-[15px] text-mk-cream placeholder:text-mk-cream/35 focus:border-mk-brand focus:outline-none {error
 						? 'border-mk-brand'
 						: 'border-mk-cream/30'}"
 				/>
 				<button
 					type="submit"
-					class="cursor-pointer border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
+					class="cursor-pointer rounded-xl border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
 					>Start free</button
 				>
 			</form>
