@@ -24,15 +24,16 @@ export interface State {
 }
 
 /* One vocabulary per column, so a colour always means the same thing: green is
-   finished, amber needs a person, red is money or stock at risk. */
+   finished, blue is still moving, amber needs a person, red is money or stock
+   at risk. The brand takes none of the four. */
 const ORDER: Record<string, State> = {
 	placed: { word: 'Placed', tone: 'info', icon: Clock01Icon },
 	confirmed: { word: 'Confirmed', tone: 'info', icon: CheckmarkCircle02Icon },
 	processing: { word: 'Packing', tone: 'warning', icon: PackageIcon },
 	packed: { word: 'Packed', tone: 'warning', icon: PackageIcon },
-	shipped: { word: 'On its way', tone: 'accent', icon: DeliveryTruck01Icon },
-	in_transit: { word: 'On its way', tone: 'accent', icon: DeliveryTruck01Icon },
-	booked: { word: 'Booked', tone: 'accent', icon: DeliveryTruck01Icon },
+	shipped: { word: 'On its way', tone: 'info', icon: DeliveryTruck01Icon },
+	in_transit: { word: 'On its way', tone: 'info', icon: DeliveryTruck01Icon },
+	booked: { word: 'Booked', tone: 'info', icon: DeliveryTruck01Icon },
 	delivered: { word: 'Delivered', tone: 'success', icon: PackageDeliveredIcon },
 	partially_delivered: { word: 'Part delivered', tone: 'warning', icon: PackageIcon },
 	cancelled: { word: 'Cancelled', tone: 'neutral', icon: Cancel01Icon },

@@ -2,7 +2,7 @@
 
    Admin is not the storefront and not the marketing site. It is a room you sit
    in all day, so it has its own language: a grey shell holding one white sheet,
-   tinted frames inside it, and lime on anything you can press.
+   tinted frames inside it, and indigo on anything you can press.
 
    Every class here is prefixed `dk-` and every rule is scoped under `.dk-app`,
    so nothing in this file can reach the shop or the landing page. */
@@ -28,10 +28,10 @@
 	--d-edge: rgba(23, 24, 26, 0.14);
 	--d-edge-strong: rgba(23, 24, 26, 0.28);
 	--d-hover: rgba(23, 24, 26, 0.055);
-	--d-lime: #b7ec2f;
-	--d-lime-deep: #9ed214;
-	--d-lime-ink: #101410;
-	--d-press: #3f6a09;
+	--d-brand: #4b44c9;
+	--d-brand-deep: #3c36a8;
+	--d-brand-ink: #ffffff;
+	--d-press: #3c36a8;
 	--d-r: 20px;
 	--d-r-md: 16px;
 	--d-r-sm: 12px;
@@ -51,7 +51,10 @@
 	--d-ink: #ededee;
 	--d-muted: #a8aab0;
 	--d-faint: #909399;
-	--d-press: #b7ec2f;
+	--d-brand: #9b95f2;
+	--d-brand-deep: #8b85ee;
+	--d-brand-ink: #10101f;
+	--d-press: #9b95f2;
 	--d-soft: 0 1px 2px -1px rgba(0, 0, 0, 0.4);
 	--d-softer: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
 }
@@ -98,8 +101,8 @@
 	width: 30px;
 	height: 30px;
 	border-radius: var(--d-r-xs);
-	background: var(--d-lime);
-	color: var(--d-lime-ink);
+	background: var(--d-brand);
+	color: var(--d-brand-ink);
 	font-weight: 600;
 	flex: none;
 }
@@ -354,12 +357,12 @@
 }
 
 .dk-btn--solid {
-	background: var(--d-lime);
-	color: var(--d-lime-ink);
+	background: var(--d-brand);
+	color: var(--d-brand-ink);
 }
 
 .dk-btn--solid:not([disabled]):hover {
-	background: var(--d-lime-deep);
+	background: var(--d-brand-deep);
 }
 
 /* Quiet sits on paper, so it carries its own edge rather than a fill that
@@ -653,8 +656,8 @@ a.dk-view:hover {
 }
 
 .dk-row:hover .dk-go {
-	background: var(--d-lime);
-	color: var(--d-lime-ink);
+	background: var(--d-brand);
+	color: var(--d-brand-ink);
 }
 
 .dk-mini {
@@ -899,7 +902,7 @@ a.dk-num:hover {
 	display: block;
 	height: 100%;
 	border-radius: 999px;
-	background: var(--d-lime-deep);
+	background: var(--d-brand-deep);
 }
 
 .dk-bar-count {
@@ -1137,13 +1140,13 @@ a.dk-num:hover {
 }
 
 .dk-switch input:checked + .dk-switch-track {
-	background: var(--d-lime);
+	background: var(--d-brand);
 	box-shadow: inset 0 0 0 1px transparent;
 }
 
 .dk-switch input:checked + .dk-switch-track::after {
 	transform: translateX(17px);
-	background: var(--d-lime-ink);
+	background: var(--d-brand-ink);
 }
 
 .dk-switch input:focus-visible + .dk-switch-track {
@@ -1218,4 +1221,16 @@ a.dk-num:hover {
 
 .dk-empty-acts {
 	margin-top: 8px;
+}
+
+/* ── Embedded ─────────────────────────────────────────────────────────── */
+
+/* The shell is a full-height app frame. This drops it to ordinary flow so a
+   slice of the admin can sit inside another page — the design-system route
+   previews the real thing rather than a copy of it. */
+.dk-app.is-inline {
+	display: block;
+	height: auto;
+	overflow: visible;
+	background: transparent;
 }
