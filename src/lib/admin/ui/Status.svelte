@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Chip from './Chip.svelte';
+	import { Chip } from '$lib/ui';
 	import { orderState, paymentState } from '$lib/admin/state';
 
 	interface Props {

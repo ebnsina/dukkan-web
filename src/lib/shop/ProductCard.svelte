@@ -54,6 +54,7 @@
 		aspect-ratio: 1 / 1;
 		overflow: hidden;
 		border: 1px solid var(--rule);
+		border-radius: var(--r-panel);
 		transition: border-color var(--dur-hover) var(--ease-out);
 	}
 
@@ -63,9 +64,10 @@
 
 	.pc-gone {
 		position: absolute;
-		bottom: 0;
-		left: 0;
-		padding: 5px 8px;
+		bottom: 10px;
+		left: 10px;
+		padding: 5px 9px;
+		border-radius: var(--r-chip);
 		background: var(--inverse-paper);
 		color: var(--inverse-ink);
 	}

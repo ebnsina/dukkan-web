@@ -14,7 +14,8 @@ import {
 } from '@hugeicons/core-free-icons';
 import type { IconSvgElement } from '@hugeicons/svelte';
 
-export type Tone = 'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info';
+export type { Tone } from '$lib/ui/tone';
+import type { Tone } from '$lib/ui/tone';
 
 export interface State {
 	word: string;

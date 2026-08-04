@@ -49,5 +49,6 @@
 		height: 100%;
 		background: var(--surface);
 		border: 1px solid var(--rule);
+		border-radius: inherit;
 	}
 </style>

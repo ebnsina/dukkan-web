@@ -19,6 +19,15 @@
 
 	/* The shell is grey and the content floats on it as one white sheet.
 	   Frames inside the sheet tint rather than stacking another white on white. */
+	/* The standard names, rebound. A component reads --paper and --ink and
+	   gets the admin's paper and the admin's ink; it never reads --d-*. */
+	--paper: var(--n-0);
+	--surface: var(--n-25);
+	--rule: var(--n-200);
+	--rule-strong: var(--n-300);
+	--inverse-paper: var(--brand);
+	--inverse-ink: var(--brand-on);
+
 	--d-shell: var(--n-100);
 	--d-sheet: var(--n-0);
 	--d-card: var(--n-25);
@@ -38,6 +47,13 @@
 }
 
 [data-theme='dark'] .dk-app {
+	--paper: var(--nd-900);
+	--surface: var(--nd-850);
+	--rule: var(--nd-800);
+	--rule-strong: var(--nd-800);
+	--inverse-paper: var(--brand-lift);
+	--inverse-ink: var(--brand-on-lift);
+
 	--d-shell: var(--nd-950);
 	--d-sheet: var(--nd-900);
 	--d-card: var(--nd-850);

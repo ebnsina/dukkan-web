@@ -157,7 +157,7 @@
 								variant="quiet"
 								size="sm"
 								icon={Delete02Icon}
-								label="Remove choice {index + 1}"
+								aria-label="Remove choice {index + 1}"
 								onclick={() => (rows = rows.filter((_, i) => i !== index))}
 							>
 								Remove this choice

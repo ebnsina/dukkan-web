@@ -174,6 +174,7 @@
 		aspect-ratio: 4 / 5;
 		overflow: hidden;
 		border: 1px solid var(--rule);
+		border-radius: var(--r-panel);
 	}
 
 	.thumbs {
@@ -186,8 +187,10 @@
 		width: 64px;
 		height: 64px;
 		padding: 0;
+		overflow: hidden;
 		background: var(--surface);
 		border: 1px solid var(--rule);
+		border-radius: var(--r-tile);
 		cursor: pointer;
 	}
 
@@ -273,6 +276,7 @@
 		height: 15px;
 		appearance: none;
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-round);
 		background: var(--paper);
 		flex-shrink: 0;
 		align-self: center;
@@ -331,6 +335,7 @@
 		background: var(--paper);
 		color: var(--ink);
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		font-size: 15px;
 		font-variant-numeric: tabular-nums;
 	}

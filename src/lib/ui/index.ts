@@ -1,11 +1,13 @@
 export { default as Breadcrumb } from './Breadcrumb.svelte';
 export { default as Button } from './Button.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
+export { default as Chip } from './Chip.svelte';
 export { default as CtaBand } from './CtaBand.svelte';
 export { default as Dialog } from './Dialog.svelte';
 export { default as Disclosure } from './Disclosure.svelte';
 export { default as Empty } from './Empty.svelte';
 export { default as Field } from './Field.svelte';
+export { default as Frame } from './Frame.svelte';
 export { default as Input } from './Input.svelte';
 export { default as Menu } from './Menu.svelte';
 export { default as Note } from './Note.svelte';
@@ -27,6 +29,7 @@ export { default as Wordmark } from './Wordmark.svelte';
 export { toasts } from './toast.svelte';
 export { trapFocus } from './focus-trap';
 
+export type { Tone } from './tone';
 export type { Crumb } from './Breadcrumb.svelte';
 export type { FieldControl } from './Field.svelte';
 export type { MenuItem } from './Menu.svelte';

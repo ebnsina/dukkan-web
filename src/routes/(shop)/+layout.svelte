@@ -137,6 +137,7 @@
 		width: 34px;
 		height: 34px;
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		color: var(--muted);
 		text-decoration: none;
 		transition:

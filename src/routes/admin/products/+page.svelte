@@ -99,7 +99,7 @@
 										type="submit"
 										variant="quiet"
 										size="sm"
-										label="{product.status === 'active'
+										aria-label="{product.status === 'active'
 											? 'Take off sale'
 											: 'Put on sale'}: {product.title}"
 									>

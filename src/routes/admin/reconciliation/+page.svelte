@@ -146,7 +146,7 @@
 						variant="quiet"
 						size="sm"
 						icon={CheckmarkCircle02Icon}
-						label="Mark as dealt with: {HEADING[issue.kind] ?? issue.kind}"
+						aria-label="Mark as dealt with: {HEADING[issue.kind] ?? issue.kind}"
 						onclick={() => (openId = issue.id)}
 					>
 						Mark as dealt with
