@@ -11,15 +11,20 @@
 		['rule', 'Hairline dividers'],
 		['rule-strong', 'Borders with presence'],
 		['inverse-paper', 'Solid button background'],
-		['inverse-ink', 'Text on a solid button']
+		['inverse-ink', 'Text on a solid button'],
+		['accent', 'The brand, where a shop has not set its own'],
+		['success', 'Done: paid, delivered'],
+		['warning', 'Needs a person'],
+		['danger', 'Money or stock at risk'],
+		['info', 'Still moving']
 	];
 </script>
 
 <Section
 	id="palette"
 	eyebrow="01 / Palette"
-	heading="One palette, and it is greyscale."
-	lead="There is no accent colour, and no colour for state either. Nothing here carries a hue, including errors, warnings and success. When something has to stand out it gets more weight, more size, or more space around it."
+	heading="Greyscale neutrals, and colour only for state."
+	lead="The neutrals carry the page and a shop repaints them with its own theme. Hue is reserved for state — green means done, amber needs a person, red is money or stock at risk, blue is still moving — so a colour on this screen always means something happened."
 >
 	<DsBlock
 		label="Tokens"

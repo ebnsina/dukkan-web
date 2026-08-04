@@ -70,8 +70,8 @@
 <Section
 	id="forms"
 	eyebrow="05 / Forms"
-	heading="Fields that fail without a hue."
-	lead="Every control is 46px, square, and shares one hairline. An error is not red: the field takes a heavier left edge and the message sits behind a 2px rule at full ink."
+	heading="Fields, and how they fail."
+	lead="Every control is 46px, rounded to the control step, and shares one hairline. An error takes the danger colour on both the message and its rule — the one thing on a form that must not read as ordinary text."
 	rule
 >
 	<DsBlock label="Text" flow="stack">

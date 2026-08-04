@@ -9,7 +9,8 @@
  * component.
  */
 
-/* ─ Tokens ─ One greyscale palette, one radius scale, no shadow. */
+/* ─ Tokens ─ Greyscale neutrals, a semantic state palette, and a radius
+   scale keyed to the size of the box. No shadow. */
 
 :root {
 	--paper: #ffffff;
@@ -144,7 +145,6 @@
 	::before,
 	::after {
 		border-color: var(--rule);
-		border-radius: 0;
 	}
 
 	html {

@@ -38,7 +38,7 @@
 
 <Seo
 	title="Design system"
-	description="The Dukkan design system: one greyscale palette, a fluid type scale worked through the width axis, the rail grid, and every component in every state."
+	description="The shared foundation: greyscale neutrals, a semantic state palette, a fluid type scale and a radius scale."
 	noindex
 />
 
@@ -56,8 +56,8 @@
 <main>
 	<PageHeader
 		eyebrow="Reference"
-		title="Monochrome, by intent."
-		standfirst="No hue anywhere, no radius anywhere, no shadow anywhere. Hierarchy comes from weight, from the width axis, and from space. What follows is every token and every component in every state it can reach."
+		title="The shared foundation."
+		standfirst="Greyscale neutrals a shop repaints with its own theme, a semantic palette that only speaks when something has a state, and a radius scale keyed to the size of the box. The admin and the marketing site build their own language on top; what follows is what they share."
 	>
 		{#snippet actions()}
 			<Button href="#palette" arrow>Start at the palette</Button>

@@ -70,13 +70,14 @@
 		color: var(--faint);
 	}
 
-	/* No hue for errors. Weight and a heavier rule carry the state. */
+	/* An error is the one thing on a form that must not be read as ordinary
+	   text, so it takes the state colour and a rule in the same hue. */
 	.error {
 		font-size: 13px;
 		line-height: 1.5;
 		font-weight: 600;
-		color: var(--ink);
+		color: var(--danger);
 		padding-left: 10px;
-		border-left: 2px solid var(--ink);
+		border-left: 2px solid var(--danger);
 	}
 </style>

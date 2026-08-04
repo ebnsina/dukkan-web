@@ -120,7 +120,7 @@
 </section>
 
 <style>
-	/* Range thumbs can't be styled with utilities — square, green, no radius. */
+	/* Range thumbs can't be styled with utilities, so they are drawn by hand. */
 	.mk-range {
 		appearance: none;
 		width: 100%;
@@ -134,7 +134,7 @@
 		width: 20px;
 		height: 20px;
 		border: 0;
-		border-radius: 0;
+		border-radius: 999px;
 		background: var(--color-mk-brand-deep);
 		cursor: pointer;
 	}
@@ -143,7 +143,7 @@
 		width: 20px;
 		height: 20px;
 		border: 0;
-		border-radius: 0;
+		border-radius: 999px;
 		background: var(--color-mk-brand-deep);
 		cursor: pointer;
 	}

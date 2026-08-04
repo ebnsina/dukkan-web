@@ -10,6 +10,14 @@
 	];
 
 	const steps = [4, 8, 12, 16, 24, 32, 48, 64, 104];
+
+	const radii: [string, string, string][] = [
+		['r-card', '20px', 'Cards and dialogs'],
+		['r-panel', '16px', 'Panels inside a card'],
+		['r-control', '12px', 'Anything you press or type into'],
+		['r-tile', '8px', 'Small square tiles'],
+		['r-chip', '6px', 'Chips and badges']
+	];
 </script>
 
 <Section
@@ -48,13 +56,19 @@
 
 	<DsBlock
 		label="Corners"
-		note="Zero, everywhere. Rounding one thing would make the rest look unfinished."
+		note="One step per size of box, so a control and the card holding it are never the same corner."
 	>
-		<div class="corner"><span class="t-mono">0px</span></div>
-		<p class="corner-note">
-			There is no radius token, because there is no radius. Not on buttons, inputs, cards, images or
-			the header.
-		</p>
+		<ul class="corners">
+			{#each radii as [token, px, use] (token)}
+				<li>
+					<span class="corner" style="border-radius: var(--{token})"></span>
+					<span class="corner-meta">
+						<span class="t-mono">--{token} · {px}</span>
+						<span class="corner-use">{use}</span>
+					</span>
+				</li>
+			{/each}
+		</ul>
 	</DsBlock>
 </Section>
 
@@ -103,21 +117,35 @@
 		background: var(--ink);
 	}
 
-	.corner {
-		display: grid;
-		place-items: center;
-		width: 96px;
-		height: 96px;
-		border: 1px solid var(--rule-strong);
-		font-size: 11px;
-		color: var(--faint);
+	.corners {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px;
 	}
 
-	.corner-note {
-		font-size: 14px;
-		line-height: 1.6;
+	.corners li {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.corner {
+		width: 84px;
+		height: 84px;
+		border: 1px solid var(--rule-strong);
+		background: var(--surface);
+	}
+
+	.corner-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		font-size: 11px;
+	}
+
+	.corner-use {
+		font-size: 12px;
 		color: var(--muted);
-		max-width: 40ch;
 	}
 
 	@media (min-width: 720px) {

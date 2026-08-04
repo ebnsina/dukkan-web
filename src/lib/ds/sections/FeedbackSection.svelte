@@ -26,8 +26,8 @@
 <Section
 	id="feedback"
 	eyebrow="06 / Feedback"
-	heading="Telling people things, without colour."
-	lead="A quiet note sits on a surface behind a hairline. A firm one gets a 3px edge at full ink and a heavier title. That is the whole range, and it is enough."
+	heading="Telling people things."
+	lead="A quiet note sits on a surface behind a hairline. Anything with a state takes a 3px edge and a wash in its own colour, so a warning is legible as a warning before the sentence is read."
 	rule
 >
 	<DsBlock label="Note" flow="stack">
