@@ -14,7 +14,7 @@
 		Wallet01Icon
 	} from '@hugeicons/core-free-icons';
 	import { theme } from '$lib/theme/theme.svelte';
-	import '$lib/tokens/admin.css';
+	import '$lib/surfaces/admin.css';
 
 	let { data, children } = $props();
 

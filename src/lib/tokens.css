@@ -1,0 +1,96 @@
+/* Every value, defined once.
+ *
+ * Colour, radius and motion live here and nowhere else. The three surfaces —
+ * storefront, admin, marketing — differ in how they *arrange* these, never in
+ * what they are worth: one indigo, one radius scale, one set of state colours.
+ * A surface file may bind a value to a name Tailwind needs (`--color-mk-brand`,
+ * `--radius-mk-card`), but it must bind, never redeclare.
+ *
+ * If you are about to write a hex or a pixel radius in a component or a
+ * surface file, it belongs here instead.
+ */
+
+:root {
+	/* ── Brand ──────────────────────────────────────────────────────────
+	   Indigo carries both roles: a fill under white text at 7.07:1, and type
+	   on paper at 9.19:1. `lift` is the sibling a dark ground needs, since the
+	   fill itself disappears into one. */
+	--brand: #4b44c9;
+	--brand-deep: #3c36a8;
+	--brand-lift: #9b95f2;
+	--brand-lift-deep: #8b85ee;
+	--brand-on: #ffffff;
+	--brand-on-lift: #10101f;
+	--brand-tint: #ecebfa;
+	--brand-tint-dark: #1b1a3a;
+
+	/* ── Neutrals ─────────────────────────────────────────────────────
+	   One ramp, biased a little toward the brand so a grey reads as chosen
+	   rather than inherited. Surfaces alias these; they never pick their own.
+	   `n-` is the light ramp, `nd-` the dark one. */
+	--n-0: #ffffff;
+	--n-25: #fbfbfd;
+	--n-50: #f7f7fa;
+	--n-100: #f2f2f7;
+	--n-200: #eaeaf0;
+	--n-300: #dbdbe3;
+	--n-500: #6d6d7c;
+	--n-600: #5b5b6a;
+	--n-950: #12121a;
+
+	--nd-950: #0c0d10;
+	--nd-900: #131318;
+	--nd-850: #1a1a21;
+	--nd-800: #22222a;
+	--nd-300: #8f8f9c;
+	--nd-200: #a8a8b4;
+	--nd-50: #ededf0;
+
+	/* ── State ──────────────────────────────────────────────────────────
+	   Hue is reserved for state, and the brand takes none of the four: green
+	   is done, amber needs a person, red is money or stock at risk, blue is
+	   still moving. Each passes AA on paper, with a wash to sit it on. */
+	--success: #1f7a3d;
+	--success-soft: #e8f4ec;
+	--warning: #8f5a05;
+	--warning-soft: #fbf1de;
+	--danger: #b3261e;
+	--danger-soft: #fceceb;
+	--info: #1f5f9e;
+	--info-soft: #eaf2fa;
+	/* The marketing site's one alarm, warmer than --danger because it sits on
+	   a page selling rather than reporting. */
+	--alert: #b8452f;
+
+	/* ── Radius ─────────────────────────────────────────────────────────
+	   One step per size of box, so a control and the card holding it are never
+	   the same corner. `panel` is `card` less the 3px rail a framed panel is
+	   inset by — the two are always used together. */
+	--r-card: 20px;
+	--r-panel: 17px;
+	--r-nested: 16px;
+	--r-control: 12px;
+	--r-tile: 8px;
+	--r-chip: 6px;
+	--r-round: 999px;
+
+	/* ── Motion ─────────────────────────────────────────────────────────── */
+	--dur-hover: 140ms;
+	--dur-enter: 220ms;
+	--ease-out: cubic-bezier(0.2, 0, 0.2, 1);
+	--ease-mk: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* On a near-black page the same hues need lifting to stay legible, and the
+   washes become dark tints rather than pale ones. Only the values move; every
+   name above stays the name a component asks for. */
+:root[data-theme='dark'] {
+	--success: #4ec27a;
+	--success-soft: #0f2418;
+	--warning: #e0a63a;
+	--warning-soft: #2a1f08;
+	--danger: #f0736a;
+	--danger-soft: #2c1210;
+	--info: #63aee8;
+	--info-soft: #0d1d2c;
+}

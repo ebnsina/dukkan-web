@@ -1,13 +1,15 @@
 /* The stylesheet the app loads.
  *
- * Everything it holds lives in src/lib/tokens/, one file per surface. This
- * file only decides what is global: the admin carries its own palette and is
- * imported by the admin layout instead, so a shopper never downloads it.
+ * tokens.css holds every colour, radius and motion value in the product. The
+ * surfaces/ files decide how each of the three arranges them — they bind, they
+ * never redeclare. The admin's is imported by the admin layout instead of
+ * here, so a shopper never downloads a palette they cannot see.
  */
 
 @import 'tailwindcss';
 
-@import '../lib/tokens/fonts.css';
-@import '../lib/tokens/app.css';
-@import '../lib/tokens/shop.css';
-@import '../lib/tokens/site.css';
+@import '../lib/tokens.css';
+@import '../lib/surfaces/fonts.css';
+@import '../lib/surfaces/app.css';
+@import '../lib/surfaces/shop.css';
+@import '../lib/surfaces/site.css';

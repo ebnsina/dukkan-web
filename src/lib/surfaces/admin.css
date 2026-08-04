@@ -19,42 +19,38 @@
 
 	/* The shell is grey and the content floats on it as one white sheet.
 	   Frames inside the sheet tint rather than stacking another white on white. */
-	--d-shell: #f7f8f9;
-	--d-sheet: #ffffff;
-	--d-card: #fbfbfc;
-	--d-ink: #17181a;
-	--d-muted: #5c5e66;
-	--d-faint: #6f7178;
+	--d-shell: var(--n-100);
+	--d-sheet: var(--n-0);
+	--d-card: var(--n-25);
+	--d-ink: var(--n-950);
+	--d-muted: var(--n-600);
+	--d-faint: var(--n-500);
 	--d-edge: rgba(23, 24, 26, 0.14);
 	--d-edge-strong: rgba(23, 24, 26, 0.28);
 	--d-hover: rgba(23, 24, 26, 0.055);
-	--d-brand: #4b44c9;
-	--d-brand-deep: #3c36a8;
-	--d-brand-ink: #ffffff;
-	--d-press: #3c36a8;
-	--d-r: 20px;
-	--d-r-md: 16px;
-	--d-r-sm: 12px;
-	--d-r-xs: 9px;
+	--d-brand: var(--brand);
+	--d-brand-deep: var(--brand-deep);
+	--d-brand-ink: var(--brand-on);
+	--d-press: var(--brand-deep);
 	--d-soft: 0 1px 2px -1px rgba(20, 20, 24, 0.04), 0 8px 24px -20px rgba(20, 20, 24, 0.12);
 	--d-softer: 0 1px 2px -1px rgba(20, 20, 24, 0.05);
 	--d-quick: 140ms cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 [data-theme='dark'] .dk-app {
-	--d-shell: #101113;
-	--d-sheet: #17181b;
-	--d-card: #1d1e22;
+	--d-shell: var(--nd-950);
+	--d-sheet: var(--nd-900);
+	--d-card: var(--nd-850);
 	--d-edge: rgba(237, 237, 238, 0.16);
 	--d-edge-strong: rgba(237, 237, 238, 0.3);
 	--d-hover: rgba(237, 237, 238, 0.07);
-	--d-ink: #ededee;
-	--d-muted: #a8aab0;
-	--d-faint: #909399;
-	--d-brand: #9b95f2;
-	--d-brand-deep: #8b85ee;
-	--d-brand-ink: #10101f;
-	--d-press: #9b95f2;
+	--d-ink: var(--nd-50);
+	--d-muted: var(--nd-200);
+	--d-faint: var(--nd-300);
+	--d-brand: var(--brand-lift);
+	--d-brand-deep: var(--brand-lift-deep);
+	--d-brand-ink: var(--brand-on-lift);
+	--d-press: var(--brand-lift);
 	--d-soft: 0 1px 2px -1px rgba(0, 0, 0, 0.4);
 	--d-softer: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
 }
@@ -100,7 +96,7 @@
 	place-items: center;
 	width: 30px;
 	height: 30px;
-	border-radius: var(--d-r-xs);
+	border-radius: var(--r-tile);
 	background: var(--d-brand);
 	color: var(--d-brand-ink);
 	font-weight: 600;
@@ -129,7 +125,7 @@
 	align-items: center;
 	gap: 11px;
 	padding: 9px 10px;
-	border-radius: var(--d-r-sm);
+	border-radius: var(--r-control);
 	color: var(--d-muted);
 	transition:
 		background-color var(--d-quick),
@@ -171,12 +167,12 @@
 
 .dk-badge[data-tone='danger'] {
 	background: var(--danger);
-	color: #fff;
+	color: var(--n-0);
 }
 
 .dk-badge[data-tone='warning'] {
 	background: var(--warning);
-	color: #fff;
+	color: var(--n-0);
 }
 
 /* ── Sheet ────────────────────────────────────────────────────────────── */
@@ -186,7 +182,7 @@
 	padding: 18px 22px 24px;
 	min-width: 0;
 	background: var(--d-sheet);
-	border-radius: var(--d-r);
+	border-radius: var(--r-card);
 	box-shadow: var(--d-soft);
 	overflow-y: auto;
 	overscroll-behavior: contain;
@@ -343,7 +339,7 @@
 	text-transform: uppercase;
 	padding: 14px 20px;
 	border: 0;
-	border-radius: var(--d-r-md);
+	border-radius: var(--r-control);
 	white-space: nowrap;
 	cursor: pointer;
 	transition:
@@ -385,12 +381,12 @@
 
 .dk-btn--danger:not([disabled]):hover {
 	background: var(--danger);
-	color: #fff;
+	color: var(--n-0);
 }
 
 .dk-btn--sm {
 	padding: 10px 14px;
-	border-radius: var(--d-r-sm);
+	border-radius: var(--r-control);
 	font-size: 11px;
 }
 
@@ -402,7 +398,7 @@
 	display: flex;
 	flex-direction: column;
 	background: var(--d-card);
-	border-radius: var(--d-r);
+	border-radius: var(--r-card);
 	padding: 3px;
 }
 
@@ -459,7 +455,7 @@ a.dk-view:hover {
 	min-height: 0;
 	padding: 10px;
 	background: var(--d-sheet);
-	border-radius: calc(var(--d-r) - 3px);
+	border-radius: var(--r-panel);
 }
 
 .dk-panel > * {
@@ -605,7 +601,7 @@ a.dk-view:hover {
 	min-height: 0;
 	gap: 12px;
 	padding: 11px 12px;
-	border-radius: var(--d-r-sm);
+	border-radius: var(--r-control);
 	transition: background-color var(--d-quick);
 }
 
@@ -666,7 +662,7 @@ a.dk-view:hover {
 	gap: 11px;
 	min-height: 0;
 	padding: 9px 10px;
-	border-radius: var(--d-r-sm);
+	border-radius: var(--r-control);
 	transition: background-color var(--d-quick);
 }
 
@@ -679,7 +675,7 @@ a.dk-view:hover {
 	place-items: center;
 	width: 30px;
 	height: 30px;
-	border-radius: var(--d-r-xs);
+	border-radius: var(--r-tile);
 	background: var(--d-card);
 	color: var(--d-muted);
 	flex: none;
@@ -728,7 +724,7 @@ a.dk-view:hover {
 	align-items: center;
 	gap: 6px;
 	padding: 5px 9px;
-	border-radius: var(--d-r-xs);
+	border-radius: var(--r-tile);
 	font-family: var(--font-mono);
 	font-size: 11px;
 	font-weight: 500;
@@ -787,14 +783,14 @@ a.dk-view:hover {
 
 .dk-table th:first-child,
 .dk-table td:first-child {
-	border-top-left-radius: var(--d-r-sm);
-	border-bottom-left-radius: var(--d-r-sm);
+	border-top-left-radius: var(--r-control);
+	border-bottom-left-radius: var(--r-control);
 }
 
 .dk-table th:last-child,
 .dk-table td:last-child {
-	border-top-right-radius: var(--d-r-sm);
-	border-bottom-right-radius: var(--d-r-sm);
+	border-top-right-radius: var(--r-control);
+	border-bottom-right-radius: var(--r-control);
 }
 
 .dk-table th {
@@ -942,7 +938,7 @@ a.dk-num:hover {
 	width: 100%;
 	padding: 11px 13px;
 	border: 0;
-	border-radius: var(--d-r-sm);
+	border-radius: var(--r-control);
 	background: var(--d-card);
 	color: var(--d-ink);
 	font: inherit;
@@ -1009,7 +1005,7 @@ a.dk-num:hover {
 	gap: 12px;
 	margin: 0;
 	padding: 14px 16px;
-	border-radius: var(--d-r-md);
+	border-radius: var(--r-control);
 	background: var(--d-card);
 	color: var(--d-muted);
 	font-size: 13.5px;
@@ -1175,15 +1171,15 @@ a.dk-num:hover {
 	padding: 22px;
 	border: 0;
 	border-radius: 20px;
-	background: #ffffff;
-	color: #17181a;
+	background: var(--n-0);
+	color: var(--n-950);
 	font-size: 14px;
 	line-height: 1.5;
 }
 
 [data-theme='dark'] .dk-dialog {
-	background: #17181b;
-	color: #ededee;
+	background: var(--nd-900);
+	color: var(--nd-50);
 }
 
 .dk-dialog::backdrop {
@@ -1199,11 +1195,11 @@ a.dk-num:hover {
 
 .dk-dialog p {
 	margin: 0 0 20px;
-	color: #71737a;
+	color: var(--n-600);
 }
 
 [data-theme='dark'] .dk-dialog p {
-	color: #9a9ca2;
+	color: var(--nd-200);
 }
 
 .dk-dialog-acts {

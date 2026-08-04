@@ -13,41 +13,23 @@
    scale keyed to the size of the box. No shadow. */
 
 :root {
-	--paper: #ffffff;
-	--surface: #f7f7f8;
-	--ink: #0b0b0d;
-	--muted: #63636d;
-	--faint: #94949f;
-	--rule: #ededf0;
-	/* Radius by the size of the box, so a control and the card holding it are
-	 * never the same corner. The storefront wears the shop's colours; the shape
-	 * is ours, and it matches the admin and the marketing site. */
-	--r-card: 20px;
-	--r-panel: 16px;
-	--r-control: 12px;
-	--r-tile: 8px;
-	--r-chip: 6px;
-
-	--rule-strong: #dededf;
-	--inverse-paper: #0b0b0d;
-	--inverse-ink: #f4f4f6;
+	--paper: var(--n-0);
+	--surface: var(--n-50);
+	--ink: var(--n-950);
+	--muted: var(--n-600);
+	--faint: var(--n-500);
+	--rule: var(--n-200);
+	--rule-strong: var(--n-300);
+	--inverse-paper: var(--n-950);
+	--inverse-ink: var(--n-0);
 
 	/* ─ App palette ─ Dukkan's own, never the shop's: a seller who repaints
 	 * their storefront must not repaint the tool. The accent is the brand
-	 * indigo; the admin carries its own copy in $lib/tokens/admin.css.
+	 * indigo; the admin carries its own copy in $lib/surfaces/admin.css.
 	 * Each state is a colour that passes AA on paper and a wash to sit it on. */
-	--accent: #3c36a8;
-	--accent-ink: #ffffff;
-	--accent-soft: #ecebfa;
-
-	--success: #1f7a3d;
-	--success-soft: #e8f4ec;
-	--warning: #8f5a05;
-	--warning-soft: #fbf1de;
-	--danger: #b3261e;
-	--danger-soft: #fceceb;
-	--info: #1f5f9e;
-	--info-soft: #eaf2fa;
+	--accent: var(--brand-deep);
+	--accent-ink: var(--brand-on);
+	--accent-soft: var(--brand-tint);
 
 	--font-bangla: 'Noto Sans Bengali', 'Kohinoor Bangla', 'Bangla MN', 'SolaimanLipi', sans-serif;
 	--font-arabic: 'SF Arabic', 'Geeza Pro', 'Noto Naskh Arabic', serif;
@@ -76,30 +58,21 @@
 }
 
 :root[data-theme='dark'] {
-	--paper: #0a0a0c;
-	--surface: #111114;
-	--ink: #ececef;
-	--muted: #9797a2;
-	--faint: #6b6b76;
-	--rule: #1c1c21;
-	--rule-strong: #2b2b32;
-	--inverse-paper: #f4f4f6;
-	--inverse-ink: #0b0b0d;
+	--paper: var(--nd-950);
+	--surface: var(--nd-900);
+	--ink: var(--nd-50);
+	--muted: var(--nd-200);
+	--faint: var(--nd-300);
+	--rule: var(--nd-850);
+	--rule-strong: var(--nd-800);
+	--inverse-paper: var(--nd-50);
+	--inverse-ink: var(--nd-950);
 
 	/* On a near-black page the same hues need lifting to stay legible, and the
 	 * washes become dark tints rather than pale ones. */
-	--accent: #9b95f2;
-	--accent-ink: #10101f;
-	--accent-soft: #1b1a3a;
-
-	--success: #4ec27a;
-	--success-soft: #0f2418;
-	--warning: #e0a63a;
-	--warning-soft: #2a1f08;
-	--danger: #f0736a;
-	--danger-soft: #2c1210;
-	--info: #63aee8;
-	--info-soft: #0d1d2c;
+	--accent: var(--brand-lift);
+	--accent-ink: var(--brand-on-lift);
+	--accent-soft: var(--brand-tint-dark);
 
 	color-scheme: dark;
 }

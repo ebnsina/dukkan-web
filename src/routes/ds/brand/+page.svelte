@@ -8,7 +8,7 @@
 	import { ArrowRight01Icon, PlusSignIcon, FileImportIcon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Chip } from '$lib/admin/ui';
-	import '$lib/tokens/admin.css';
+	import '$lib/surfaces/admin.css';
 
 	const stroke = 1.6;
 
@@ -373,7 +373,7 @@
 		padding: 16px 18px;
 		margin-bottom: 26px;
 		background: var(--d-card);
-		border-radius: var(--d-r);
+		border-radius: var(--r-card);
 		box-shadow: inset 0 0 0 1px var(--d-edge);
 	}
 
@@ -417,7 +417,7 @@
 		gap: 12px;
 		padding: 16px;
 		background: var(--d-sheet);
-		border-radius: var(--d-r);
+		border-radius: var(--r-card);
 		box-shadow: var(--d-soft);
 	}
 
@@ -451,7 +451,7 @@
 		flex-direction: column;
 		padding: 9px 11px;
 		background: var(--d-card);
-		border-radius: var(--d-r-sm);
+		border-radius: var(--r-control);
 	}
 
 	.ramp dt {
@@ -482,7 +482,7 @@
 		margin: 0;
 		padding: 11px 13px;
 		background: var(--d-card);
-		border-radius: var(--d-r-sm);
+		border-radius: var(--r-control);
 		font-size: 12.5px;
 	}
 

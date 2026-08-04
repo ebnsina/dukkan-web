@@ -23,15 +23,15 @@
  */
 
 .shop-surface {
-	--paper: #ffffff;
-	--surface: var(--shop-surface, #f7f7f8);
-	--ink: #0b0b0d;
-	--muted: #63636d;
-	--faint: #94949f;
-	--rule: #ededf0;
-	--rule-strong: #dededf;
-	--inverse-paper: var(--shop-accent, #0b0b0d);
-	--inverse-ink: var(--shop-accent-ink, #f4f4f6);
+	--paper: var(--n-0);
+	--surface: var(--shop-surface, var(--n-50));
+	--ink: var(--n-950);
+	--muted: var(--n-600);
+	--faint: var(--n-500);
+	--rule: var(--n-200);
+	--rule-strong: var(--n-300);
+	--inverse-paper: var(--shop-accent, var(--n-950));
+	--inverse-ink: var(--shop-accent-ink, var(--n-0));
 
 	background-color: var(--paper);
 	color: var(--ink);

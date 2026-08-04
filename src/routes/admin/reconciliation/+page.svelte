@@ -200,7 +200,7 @@
 		display: grid;
 		gap: 18px;
 		padding: 16px 12px;
-		border-radius: var(--d-r-sm);
+		border-radius: var(--r-control);
 	}
 
 	.issue + .issue {

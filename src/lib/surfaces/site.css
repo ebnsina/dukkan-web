@@ -19,30 +19,30 @@
  */
 
 @theme {
-	--color-mk-paper: #ffffff;
-	--color-mk-ink: #111120;
-	--color-mk-muted: #5b5b6a;
-	--color-mk-faint: #6d6d7c;
+	--color-mk-paper: var(--n-0);
+	--color-mk-ink: var(--n-950);
+	--color-mk-muted: var(--n-600);
+	--color-mk-faint: var(--n-500);
 	/* The sibling for the few dark surfaces, where the paper value goes muddy. */
-	--color-mk-faint-inv: #9a9aa8;
+	--color-mk-faint-inv: var(--nd-300);
 	/* Indigo carries both roles lime could not: a fill under white text, and
 	 * type on paper at 9.19:1. `lift` is the sibling a dark ground needs, since
 	 * the fill itself disappears into one. */
-	--color-mk-brand: #4b44c9;
-	--color-mk-brand-deep: #3c36a8;
-	--color-mk-brand-type: #3c36a8;
-	--color-mk-brand-lift: #9b95f2;
-	--color-mk-on-brand: #ffffff;
-	--color-mk-dark: #161624;
-	--color-mk-dark-2: #20202f;
-	--color-mk-cream: #f3f3f8;
-	--color-mk-alert: #b8452f;
+	--color-mk-brand: var(--brand);
+	--color-mk-brand-deep: var(--brand-deep);
+	--color-mk-brand-type: var(--brand-deep);
+	--color-mk-brand-lift: var(--brand-lift);
+	--color-mk-on-brand: var(--brand-on);
+	--color-mk-dark: var(--nd-900);
+	--color-mk-dark-2: var(--nd-850);
+	--color-mk-cream: var(--nd-50);
+	--color-mk-alert: var(--alert);
 	/* Shell greys are solid, not ink at low alpha. `shell` leans a little toward
 	 * the indigo — enough that a frame reads as ours rather than as default
 	 * chrome, not enough to spend the accent. `shell-deep` stays neutral: it
 	 * backs bars and tracks, where a tinted grey would tint what sits on it. */
-	--color-mk-shell: #f3f3fb;
-	--color-mk-shell-deep: #e5e5ed;
+	--color-mk-shell: var(--n-50);
+	--color-mk-shell-deep: var(--n-300);
 	--color-mk-rule: rgba(17, 17, 32, 0.16);
 	--color-mk-rule-soft: rgba(17, 17, 32, 0.08);
 	--color-mk-rule-inv: rgba(243, 243, 248, 0.14);
@@ -63,17 +63,17 @@
 
 	/* Radius by the size of the box: a card, the panel inset inside it by the
 	 * 3px rail, a nested panel, a control, a tile, a chip. */
-	--radius-mk-card: 24px;
-	--radius-mk-panel: 21px;
-	--radius-mk-nested: 16px;
-	--radius-mk-control: 12px;
-	--radius-mk-tile: 8px;
-	--radius-mk-chip: 6px;
+	--radius-mk-card: var(--r-card);
+	--radius-mk-panel: var(--r-panel);
+	--radius-mk-nested: var(--r-nested);
+	--radius-mk-control: var(--r-control);
+	--radius-mk-tile: var(--r-tile);
+	--radius-mk-chip: var(--r-chip);
 
 	--spacing-mk-gutter: clamp(20px, 5vw, 64px);
 	--spacing-mk-section: clamp(64px, 8vw, 116px);
 
-	--ease-mk: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--ease-mk: var(--ease-mk-curve, cubic-bezier(0.2, 0.7, 0.2, 1));
 
 	--animate-mk-pulse: mk-pulse 2s infinite;
 	--animate-mk-kenburns: mk-kenburns 22s ease-in-out infinite alternate;
@@ -223,7 +223,7 @@
 
 	&:hover {
 		background: var(--color-mk-ink);
-		color: #fff;
+		color: var(--n-0);
 	}
 }
 
