@@ -1,12 +1,10 @@
-/* The storefront surface.
+/* The storefront.
  *
- * A shop's own design, not ours. GET /v1/store/theme returns four tokens
- * and a layout; the layout sets them as inline custom properties on the
- * wrapper, and the arrangements below read them.
+ * A shop's own design, not ours. GET /v1/store/theme returns four tokens and
+ * a layout; the shop layout sets them as inline custom properties, and the
+ * arrangements below read them.
  *
- * Part of src/lib/tokens/ — one file per surface, so a colour, a radius or a
- * type step is defined once and changed once. Nothing here is redeclared in a
- * component.
+ * Values come from tokens.css. This file arranges them; it never picks one.
  */
 
 /* ─ Storefront surface ─

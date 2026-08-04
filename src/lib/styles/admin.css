@@ -1,11 +1,11 @@
-/* The dashboard design system.
-
-   Admin is not the storefront and not the marketing site. It is a room you sit
-   in all day, so it has its own language: a grey shell holding one white sheet,
-   tinted frames inside it, and indigo on anything you can press.
-
-   Every class here is prefixed `dk-` and every rule is scoped under `.dk-app`,
-   so nothing in this file can reach the shop or the landing page. */
+/* The admin.
+ *
+ * A room a shop owner sits in all day, so it has its own language in the
+ * `dk-` namespace: a grey ground holding one white sheet, tinted frames
+ * inside it, and indigo on anything you can press.
+ *
+ * Values come from tokens.css. This file arranges them; it never picks one.
+ */
 
 .dk-app {
 	display: grid;

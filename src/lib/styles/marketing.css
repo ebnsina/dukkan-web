@@ -1,12 +1,10 @@
-/* The marketing surface.
+/* The marketing site.
  *
- * The landing page and signup, in their own `mk-` namespace. A fixed,
- * always-light brand surface: the theme toggle cannot repaint it half-way,
- * and nothing here reaches the storefront or the admin.
+ * The landing page and signup, in their own `mk-` namespace. Fixed and always
+ * light: the theme toggle cannot repaint it half-way, and nothing here
+ * reaches the storefront or the admin.
  *
- * Part of src/lib/tokens/ — one file per surface, so a colour, a radius or a
- * type step is defined once and changed once. Nothing here is redeclared in a
- * component.
+ * Values come from tokens.css. This file arranges them; it never picks one.
  */
 
 /* ─ Marketing surface ─
