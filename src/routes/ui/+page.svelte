@@ -8,6 +8,9 @@
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { CheckmarkCircle02Icon, PlusSignIcon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
+	// The admin's bindings are loaded by its own layout, so this page has to
+	// ask for them to show that column honestly.
+	import '$lib/styles/admin.css';
 	import {
 		Banner,
 		Button,

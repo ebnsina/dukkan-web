@@ -42,7 +42,9 @@
 	/* A modal <dialog> renders in the top layer, outside any surface wrapper,
 	   so it reads the ramp from :root rather than a rebound name. */
 	.dialog {
+		margin: auto;
 		width: min(420px, calc(100vw - 32px));
+		max-height: calc(100dvh - 48px);
 		padding: 22px;
 		border: 0;
 		border-radius: var(--r-card);
@@ -57,7 +59,7 @@
 		color: var(--nd-50);
 	}
 
-	.dialog::backdrop {
+	:global(.dialog::backdrop) {
 		background: rgba(16, 17, 19, 0.55);
 	}
 

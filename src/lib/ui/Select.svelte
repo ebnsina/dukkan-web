@@ -74,7 +74,7 @@
 	}
 
 	.is-invalid {
-		border-color: var(--ink);
+		border-color: var(--danger);
 		border-left-width: 2px;
 	}
 
