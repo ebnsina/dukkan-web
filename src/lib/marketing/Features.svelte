@@ -84,7 +84,7 @@
 						<p
 							class="mb-4 flex items-center gap-2.5 font-mk-mono text-[11px] tracking-[0.14em] text-mk-muted uppercase"
 						>
-							<span class="bg-mk-lime px-1.5 py-0.5 text-mk-ink">{panel.index}</span>
+							<span class="bg-mk-brand px-1.5 py-0.5 text-mk-on-brand">{panel.index}</span>
 							{panel.name}
 						</p>
 						<h3 class="text-mk-h3">{panel.heading}</h3>
@@ -94,7 +94,7 @@
 							<ul class="mt-7 flex flex-col gap-3.5 text-[15px] text-mk-ink">
 								{#each panel.points as point (point)}
 									<li class="flex items-start gap-3">
-										<span class="mt-[1px] flex-none text-mk-lime-ink">
+										<span class="mt-[1px] flex-none text-mk-brand-type">
 											<HugeiconsIcon icon={CheckmarkBadge01Icon} size={18} strokeWidth={1.8} />
 										</span>
 										{point}

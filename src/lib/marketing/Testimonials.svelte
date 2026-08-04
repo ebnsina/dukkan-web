@@ -80,7 +80,7 @@
 					<p class="flex-1 mk-display text-[19px] leading-[1.35] font-bold">
 						&ldquo;{story.quote}&rdquo;
 					</p>
-					<div class="mk-num text-[16px] text-mk-lime-ink">
+					<div class="mk-num text-[16px] text-mk-brand-type">
 						{story.stat}
 						<span
 							class="font-mk-mono text-[10px] font-normal tracking-[0.12em] text-mk-muted uppercase"

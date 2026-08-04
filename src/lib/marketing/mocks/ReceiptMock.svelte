@@ -22,7 +22,7 @@
 		{#each lines as line (line.label)}
 			<li
 				class="flex justify-between border-b border-dashed border-mk-cream/15 py-2.5 text-[13px] {line.highlight
-					? 'relative pl-3 text-mk-cream before:absolute before:top-3 before:bottom-3 before:left-0 before:w-[3px] before:bg-mk-lime before:content-[""]'
+					? 'relative pl-3 text-mk-cream before:absolute before:top-3 before:bottom-3 before:left-0 before:w-[3px] before:bg-mk-brand before:content-[""]'
 					: 'text-mk-cream/60'}"
 			>
 				<span>{line.label}</span>
@@ -31,7 +31,7 @@
 		{/each}
 	</ul>
 
-	<div class="mt-3.5 flex items-center justify-between pt-3.5 text-[13px] text-mk-lime">
+	<div class="mt-3.5 flex items-center justify-between pt-3.5 text-[13px] text-mk-brand-lift">
 		<span>Payout &middot; tomorrow</span>
 		<span class="mk-num">{takaExact(3570.84)}</span>
 	</div>

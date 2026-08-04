@@ -28,7 +28,8 @@
 					<span class="text-[15px] text-mk-cream/55">{stat.label}</span>
 					{#if i < stats.length - 1}
 						<!-- Trailing, so a wrapped line never opens with a stray mark. -->
-						<span aria-hidden="true" class="ml-1 text-[clamp(24px,2.4vw,36px)] text-mk-lime">/</span
+						<span aria-hidden="true" class="ml-1 text-[clamp(24px,2.4vw,36px)] text-mk-brand-lift"
+							>/</span
 						>
 					{/if}
 				</span>

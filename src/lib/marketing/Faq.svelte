@@ -47,8 +47,8 @@
 								onclick={() => (open = isOpen ? null : i)}
 								aria-expanded={isOpen}
 								aria-controls="mk-faq-{i}"
-								class="flex w-full cursor-pointer items-center justify-between gap-5 py-6 text-left mk-display text-[clamp(17px,1.7vw,21px)] font-bold transition-colors duration-200 hover:text-mk-lime-ink {isOpen
-									? 'text-mk-lime-ink'
+								class="flex w-full cursor-pointer items-center justify-between gap-5 py-6 text-left mk-display text-[clamp(17px,1.7vw,21px)] font-bold transition-colors duration-200 hover:text-mk-brand-type {isOpen
+									? 'text-mk-brand-type'
 									: ''}"
 							>
 								{item.q}
@@ -56,12 +56,12 @@
 								<span aria-hidden="true" class="relative size-4 flex-none">
 									<i
 										class="absolute top-[7.5px] left-0 h-[1.5px] w-4 {isOpen
-											? 'bg-mk-lime-ink'
+											? 'bg-mk-brand-type'
 											: 'bg-mk-ink'}"
 									></i>
 									<i
 										class="absolute top-0 left-[7.5px] h-4 w-[1.5px] origin-center transition-transform duration-300 {isOpen
-											? 'rotate-90 bg-mk-lime-ink'
+											? 'rotate-90 bg-mk-brand-type'
 											: 'bg-mk-ink'}"
 									></i>
 								</span>

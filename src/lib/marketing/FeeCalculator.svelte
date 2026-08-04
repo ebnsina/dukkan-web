@@ -81,7 +81,7 @@
 			<Frame eyebrow="Cost a month" bodyClass="p-7">
 				<!-- Both bars share one scale, so the taller cost is the full width. -->
 				<div class="flex flex-col gap-7">
-					{#each [{ label: 'Legacy platform', value: legacy, width: legacyWidth, fill: 'bg-mk-ink/30', note: `3% + ${money(LEGACY_PER_ORDER)} an order` }, { label: 'Dukkàn', value: dukkan, width: dukkanWidth, fill: 'bg-mk-lime', note: `1.9% + ${money(DUKKAN_FLAT)} flat, per month` }] as row (row.label)}
+					{#each [{ label: 'Legacy platform', value: legacy, width: legacyWidth, fill: 'bg-mk-ink/30', note: `3% + ${money(LEGACY_PER_ORDER)} an order` }, { label: 'Dukkàn', value: dukkan, width: dukkanWidth, fill: 'bg-mk-brand', note: `1.9% + ${money(DUKKAN_FLAT)} flat, per month` }] as row (row.label)}
 						<div>
 							<div class="mb-2.5 flex items-baseline justify-between gap-4">
 								<span class="mk-mono text-mk-muted">{row.label}</span>
@@ -104,7 +104,7 @@
 					<div class="flex flex-wrap items-baseline justify-between gap-4">
 						<p class="mk-mono text-mk-muted">You keep, per year</p>
 						<p
-							class="mk-num text-[clamp(30px,3.6vw,44px)] leading-none tracking-[-0.045em] text-mk-lime-ink"
+							class="mk-num text-[clamp(30px,3.6vw,44px)] leading-none tracking-[-0.045em] text-mk-brand-type"
 						>
 							{money(saved)}
 						</p>
@@ -135,7 +135,7 @@
 		height: 20px;
 		border: 0;
 		border-radius: 0;
-		background: var(--color-mk-lime-deep);
+		background: var(--color-mk-brand-deep);
 		cursor: pointer;
 	}
 
@@ -144,7 +144,7 @@
 		height: 20px;
 		border: 0;
 		border-radius: 0;
-		background: var(--color-mk-lime-deep);
+		background: var(--color-mk-brand-deep);
 		cursor: pointer;
 	}
 </style>

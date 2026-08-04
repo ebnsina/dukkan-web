@@ -30,7 +30,7 @@
 		>
 			<span>{row.sku}</span>
 			<div class="h-1.5 bg-mk-rule-soft">
-				<i class="block h-full {row.low ? 'bg-mk-alert' : 'bg-mk-lime'}" style="width:{row.pct}%"
+				<i class="block h-full {row.low ? 'bg-mk-alert' : 'bg-mk-brand'}" style="width:{row.pct}%"
 				></i>
 			</div>
 			<span class="text-right mk-num">{row.stock}</span>

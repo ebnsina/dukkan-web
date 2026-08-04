@@ -3,7 +3,7 @@
 
 	interface Props {
 		href?: string;
-		variant?: 'lime' | 'ghost';
+		variant?: 'brand' | 'ghost';
 		full?: boolean;
 		arrow?: boolean;
 		type?: 'button' | 'submit';
@@ -24,7 +24,8 @@
 		'group inline-flex items-center justify-center gap-2 border px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] uppercase cursor-pointer transition-colors duration-200';
 
 	const variants = {
-		lime: 'border-mk-lime bg-mk-lime text-mk-ink hover:border-mk-lime-deep hover:bg-mk-lime-deep',
+		brand:
+			'border-mk-brand bg-mk-brand text-mk-on-brand hover:border-mk-brand-deep hover:bg-mk-brand-deep',
 		ghost:
 			'border-mk-ink/25 bg-transparent text-mk-ink hover:border-mk-ink hover:bg-mk-ink hover:text-mk-paper'
 	} as const;

@@ -12,7 +12,7 @@
 		class="mk-wrap grid grid-cols-1 items-center gap-[clamp(32px,3.6vw,56px)] lg:grid-cols-[1.02fr_0.98fr]"
 	>
 		<div>
-			<p use:reveal use:scramble class="mb-5 block mk-kicker text-mk-lime-ink">
+			<p use:reveal use:scramble class="mb-5 block mk-kicker text-mk-brand-type">
 				Storefront &middot; Payments &middot; Inventory &middot; Shipping
 			</p>
 
@@ -25,12 +25,12 @@
 					><span>Everything your store needs.</span></span
 				>
 				<span use:lineMask={130} class="block overflow-hidden"
-					><span class="text-mk-lime-ink">Nothing it doesn't.</span></span
+					><span class="text-mk-brand-type">Nothing it doesn't.</span></span
 				>
 			</h1>
 
 			<p
-				class="my-[26px] border-l-2 border-mk-lime pl-3 font-mk-mono text-[12px] tracking-[0.04em] text-mk-muted"
+				class="my-[26px] border-l-2 border-mk-brand pl-3 font-mk-mono text-[12px] tracking-[0.04em] text-mk-muted"
 			>
 				dukk&agrave;n &mdash; "shop". The word your customers already use.
 			</p>
@@ -45,7 +45,7 @@
 				use:reveal={180}
 				class="mt-8 grid w-full gap-3 sm:w-fit sm:auto-cols-fr sm:grid-flow-col"
 			>
-				<MkButton href="#cta" variant="lime">Start free</MkButton>
+				<MkButton href="#cta" variant="brand">Start free</MkButton>
 				<MkButton href="/shop">See live stores</MkButton>
 			</div>
 

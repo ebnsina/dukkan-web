@@ -24,7 +24,7 @@
 	<p
 		use:reveal
 		use:scramble
-		class="mb-5 block mk-kicker {tone === 'dark' ? 'text-mk-lime' : 'text-mk-lime-ink'}"
+		class="mb-5 block mk-kicker {tone === 'dark' ? 'text-mk-brand-lift' : 'text-mk-brand-type'}"
 	>
 		{kicker}
 	</p>

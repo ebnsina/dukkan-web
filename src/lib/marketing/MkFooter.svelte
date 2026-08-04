@@ -45,7 +45,7 @@
 				<a href="#top" class="flex items-center gap-[11px]">
 					<span
 						aria-hidden="true"
-						class="grid size-[34px] flex-none place-items-center bg-mk-lime text-[19px] leading-none text-mk-ink"
+						class="grid size-[34px] flex-none place-items-center bg-mk-brand text-[19px] leading-none text-mk-on-brand"
 						>&#1583;</span
 					>
 					<span class="block mk-display text-[21px] leading-tight">Dukk&agrave;n</span>
@@ -55,7 +55,7 @@
 					still arrives in cash.
 				</p>
 				<span
-					class="inline-flex items-center gap-2 border border-mk-rule-soft px-3 py-[7px] font-mk-mono text-[10px] tracking-[0.14em] text-mk-lime-ink uppercase"
+					class="inline-flex items-center gap-2 border border-mk-rule-soft px-3 py-[7px] font-mk-mono text-[10px] tracking-[0.14em] text-mk-brand-type uppercase"
 				>
 					<MkPulse />
 					All systems operational
@@ -69,7 +69,7 @@
 						{#each column.links as [label, href] (label)}
 							<a
 								{href}
-								class="mk-underline w-fit text-[14px] text-mk-muted transition-colors duration-200 after:bg-mk-lime-ink hover:text-mk-ink"
+								class="mk-underline w-fit text-[14px] text-mk-muted transition-colors duration-200 after:bg-mk-brand-type hover:text-mk-on-brand"
 								>{label}</a
 							>
 						{/each}

@@ -16,7 +16,7 @@
 
 <section class="pt-3.5 pb-11">
 	<div class="mk-wrap">
-		<p use:reveal use:scramble class="mb-4 block mk-kicker text-mk-lime-ink">
+		<p use:reveal use:scramble class="mb-4 block mk-kicker text-mk-brand-type">
 			Trusted by shopkeepers
 		</p>
 		<!--
@@ -27,7 +27,7 @@
 			{#each merchants as merchant, i (merchant)}
 				<li
 					use:reveal={i * 45}
-					class="border-r border-b border-mk-rule-soft px-4 py-6 text-center mk-display text-[15px] font-bold text-mk-muted transition-colors duration-200 hover:bg-mk-lime/10 hover:text-mk-ink"
+					class="border-r border-b border-mk-rule-soft px-4 py-6 text-center mk-display text-[15px] font-bold text-mk-muted transition-colors duration-200 hover:bg-mk-brand/10 hover:text-mk-on-brand"
 				>
 					{merchant}
 				</li>

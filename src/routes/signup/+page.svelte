@@ -139,7 +139,7 @@
 		{#if done}
 			<!-- The shop exists. Everything here is a way into it. -->
 			<div class="text-center">
-				<p class="mb-3 flex items-center justify-center gap-2 mk-kicker text-mk-lime-ink">
+				<p class="mb-3 flex items-center justify-center gap-2 mk-kicker text-mk-brand-type">
 					<HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} strokeWidth={1.8} />
 					Your shop is open
 				</p>
@@ -153,7 +153,7 @@
 					<div class="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
 						<a
 							href={done.storefront}
-							class="font-mk-mono text-[clamp(15px,2vw,20px)] break-all text-mk-ink underline decoration-mk-lime-ink underline-offset-4"
+							class="font-mk-mono text-[clamp(15px,2vw,20px)] break-all text-mk-ink underline decoration-mk-brand-type underline-offset-4"
 						>
 							{done.storefront}
 						</a>
@@ -165,12 +165,12 @@
 				</Frame>
 
 				<div class="mt-8 flex flex-wrap justify-center gap-3">
-					<MkButton href={done.storefront} variant="lime" arrow>Open my shop</MkButton>
+					<MkButton href={done.storefront} variant="brand" arrow>Open my shop</MkButton>
 					<MkButton href="/admin">Go to the dashboard</MkButton>
 				</div>
 			</div>
 		{:else}
-			<p class="mb-3 block mk-kicker text-mk-lime-ink">Open your shop</p>
+			<p class="mb-3 block mk-kicker text-mk-brand-type">Open your shop</p>
 			<h1 class="text-mk-h2">Four answers and you are trading.</h1>
 
 			<!-- The rail names every step, so nobody is guessing how long this is. -->
@@ -179,7 +179,7 @@
 					<li class="flex items-center gap-2">
 						<span
 							class="grid h-5 w-5 place-items-center font-mk-mono text-[10px] {index <= step
-								? 'bg-mk-lime text-mk-ink'
+								? 'bg-mk-brand text-mk-on-brand'
 								: 'bg-mk-shell-deep text-mk-faint'}">{index + 1}</span
 						>
 						<span
@@ -244,7 +244,7 @@
 						{:else if checkFailed}
 							<span class="text-mk-muted">{checkFailed}</span>
 						{:else if address?.available}
-							<span class="text-mk-lime-ink">{address.slug}.dukkan.store is free</span>
+							<span class="text-mk-brand-type">{address.slug}.dukkan.store is free</span>
 						{:else if address?.reason}
 							<span class="text-mk-muted">{address.reason}</span>
 						{/if}
@@ -255,7 +255,7 @@
 							type="button"
 							disabled={!nameReady}
 							onclick={() => (step = 1)}
-							class="group flex cursor-pointer items-center gap-2 border border-mk-lime bg-mk-lime px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-ink uppercase transition-colors duration-200 hover:border-mk-lime-deep hover:bg-mk-lime-deep disabled:cursor-not-allowed disabled:border-mk-shell-deep disabled:bg-mk-shell-deep disabled:text-mk-faint"
+							class="group flex cursor-pointer items-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:border-mk-shell-deep disabled:bg-mk-shell-deep disabled:text-mk-faint"
 						>
 							Next
 							<span class="transition-transform duration-200 group-hover:translate-x-1">
@@ -281,7 +281,7 @@
 									? 'border-mk-ink bg-mk-shell'
 									: 'border-mk-ink/15 hover:border-mk-ink'}"
 							>
-								<span class="text-mk-lime-ink">
+								<span class="text-mk-brand-type">
 									<HugeiconsIcon icon={industryIcon(trade.code)} size={20} strokeWidth={1.6} />
 								</span>
 								<span class="text-[14px] text-mk-ink">{industryLabel(trade.code)}</span>
@@ -366,7 +366,7 @@
 						<button
 							type="button"
 							onclick={() => (step = 3)}
-							class="group flex cursor-pointer items-center gap-2 border border-mk-lime bg-mk-lime px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-ink uppercase transition-colors duration-200 hover:border-mk-lime-deep hover:bg-mk-lime-deep"
+							class="group flex cursor-pointer items-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
 						>
 							Next
 							<span class="transition-transform duration-200 group-hover:translate-x-1">
@@ -465,7 +465,7 @@
 
 							<button
 								type="submit"
-								class="group mt-6 flex w-full cursor-pointer items-center justify-center gap-2 border border-mk-lime bg-mk-lime px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-ink uppercase transition-colors duration-200 hover:border-mk-lime-deep hover:bg-mk-lime-deep"
+								class="group mt-6 flex w-full cursor-pointer items-center justify-center gap-2 border border-mk-brand bg-mk-brand px-6 py-[15px] font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:border-mk-brand-deep hover:bg-mk-brand-deep"
 							>
 								Open my shop
 								<span class="transition-transform duration-200 group-hover:translate-x-1">

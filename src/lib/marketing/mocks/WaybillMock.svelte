@@ -23,7 +23,7 @@
 
 	<div class="flex items-center justify-between bg-mk-dark px-3 py-2.5 text-mk-cream">
 		<span class="mk-mono">Cash to collect</span>
-		<span class="mk-num text-mk-lime">{taka(3640)}</span>
+		<span class="mk-num text-mk-brand-lift">{taka(3640)}</span>
 	</div>
 
 	<ol>
@@ -35,7 +35,7 @@
 			>
 				<span
 					class="absolute top-[5px] left-0 size-2 rounded-full border-[1.5px] {leg.done
-						? 'border-mk-lime bg-mk-lime'
+						? 'border-mk-brand bg-mk-brand'
 						: 'border-mk-rule-soft bg-mk-paper'}"
 				></span>
 				{#if i < route.length - 1}

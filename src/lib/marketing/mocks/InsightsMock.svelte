@@ -13,7 +13,7 @@
 	<div class="flex h-33 items-end gap-[5px]">
 		{#each bars as height, i (i)}
 			<i
-				class="block flex-1 {i === bars.length - 1 ? 'bg-mk-lime' : 'bg-mk-rule-soft'}"
+				class="block flex-1 {i === bars.length - 1 ? 'bg-mk-brand' : 'bg-mk-rule-soft'}"
 				style="height:{height}%"
 			></i>
 		{/each}

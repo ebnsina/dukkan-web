@@ -75,13 +75,13 @@
 	--inverse-paper: #0b0b0d;
 	--inverse-ink: #f4f4f6;
 
-	/* ─ Admin palette ─ Dukkan's own, never the shop's: a seller who repaints
-	 * their storefront must not repaint the tool. Bright lime is a marketing
-	 * fill and dies at 14px, so the interface accent is its legible sibling.
+	/* ─ App palette ─ Dukkan's own, never the shop's: a seller who repaints
+	 * their storefront must not repaint the tool. The accent is the brand
+	 * indigo; the admin carries its own copy in $lib/admin/dashboard.css.
 	 * Each state is a colour that passes AA on paper and a wash to sit it on. */
-	--accent: #4a7c0b;
+	--accent: #3c36a8;
 	--accent-ink: #ffffff;
-	--accent-soft: #eff7dd;
+	--accent-soft: #ecebfa;
 
 	--success: #1f7a3d;
 	--success-soft: #e8f4ec;
@@ -131,9 +131,9 @@
 
 	/* On a near-black page the same hues need lifting to stay legible, and the
 	 * washes become dark tints rather than pale ones. */
-	--accent: #a8d92b;
-	--accent-ink: #101410;
-	--accent-soft: #1e2610;
+	--accent: #9b95f2;
+	--accent-ink: #10101f;
+	--accent-soft: #1b1a3a;
 
 	--success: #4ec27a;
 	--success-soft: #0f2418;
@@ -527,36 +527,39 @@
  *
  * The app proper is a neutral greyscale that flips with the theme. The
  * marketing page is a fixed, always-light brand surface, so its palette lives
- * in its own `mk-` namespace: `bg-mk-lime`, `font-mk-head`. The
+ * in its own `mk-` namespace: `bg-mk-brand`, `font-mk-head`. The
  * theme toggle can't repaint it half-way, and nothing here leaks into the
  * storefront or admin unless a component asks for it by name.
  */
 
 @theme {
 	--color-mk-paper: #ffffff;
-	--color-mk-ink: #101410;
-	--color-mk-muted: #5a625a;
-	--color-mk-faint: #8a928a;
-	/* Lime works as a fill under ink text, never as text on white. `lime-ink`
-	 * is the legible sibling for type, rules and accents on the paper. */
-	--color-mk-lime: #b7ec2f;
-	--color-mk-lime-deep: #9ed214;
-	--color-mk-lime-ink: #4a7c0b;
-	--color-mk-dark: #171d17;
-	--color-mk-dark-2: #202720;
-	--color-mk-cream: #f2f4f1;
+	--color-mk-ink: #111120;
+	--color-mk-muted: #5b5b6a;
+	--color-mk-faint: #6d6d7c;
+	/* The sibling for the few dark surfaces, where the paper value goes muddy. */
+	--color-mk-faint-inv: #9a9aa8;
+	/* Indigo carries both roles lime could not: a fill under white text, and
+	 * type on paper at 9.19:1. `lift` is the sibling a dark ground needs, since
+	 * the fill itself disappears into one. */
+	--color-mk-brand: #4b44c9;
+	--color-mk-brand-deep: #3c36a8;
+	--color-mk-brand-type: #3c36a8;
+	--color-mk-brand-lift: #9b95f2;
+	--color-mk-on-brand: #ffffff;
+	--color-mk-dark: #161624;
+	--color-mk-dark-2: #20202f;
+	--color-mk-cream: #f3f3f8;
 	--color-mk-alert: #b8452f;
-	/* Shell greys are solid, not ink at low alpha: ink is a green-black, and an
-	 * alpha tint of it lands on a cold grey that fights the lime. `shell` leans
-	 * a little toward the lime — enough that a frame reads as ours rather than
-	 * as default chrome, not enough to spend the accent. `shell-deep` stays
-	 * neutral: it backs bars and tracks, and anything dark sitting on a limed
-	 * grey turns khaki. */
-	--color-mk-shell: #f5f7ec;
-	--color-mk-shell-deep: #e6e4dc;
-	--color-mk-rule: rgba(16, 20, 16, 0.16);
-	--color-mk-rule-soft: rgba(16, 20, 16, 0.08);
-	--color-mk-rule-inv: rgba(242, 244, 241, 0.14);
+	/* Shell greys are solid, not ink at low alpha. `shell` leans a little toward
+	 * the indigo — enough that a frame reads as ours rather than as default
+	 * chrome, not enough to spend the accent. `shell-deep` stays neutral: it
+	 * backs bars and tracks, where a tinted grey would tint what sits on it. */
+	--color-mk-shell: #f3f3fb;
+	--color-mk-shell-deep: #e5e5ed;
+	--color-mk-rule: rgba(17, 17, 32, 0.16);
+	--color-mk-rule-soft: rgba(17, 17, 32, 0.08);
+	--color-mk-rule-inv: rgba(243, 243, 248, 0.14);
 
 	/* One family across headings, body and numerals — Mona Sans is already
 	 * self-hosted above, and its width axis does the display work. */
@@ -587,10 +590,10 @@
 
 	@keyframes mk-pulse {
 		70% {
-			box-shadow: 0 0 0 7px rgba(158, 210, 20, 0);
+			box-shadow: 0 0 0 7px rgba(75, 68, 201, 0);
 		}
 		100% {
-			box-shadow: 0 0 0 0 rgba(158, 210, 20, 0);
+			box-shadow: 0 0 0 0 rgba(75, 68, 201, 0);
 		}
 	}
 
@@ -667,12 +670,12 @@
 	}
 
 	.mk-surface ::selection {
-		background: var(--color-mk-lime);
+		background: var(--color-mk-brand);
 		color: var(--color-mk-ink);
 	}
 
 	.mk-surface :focus-visible {
-		outline: 2px solid var(--color-mk-lime-ink);
+		outline: 2px solid var(--color-mk-brand-type);
 		outline-offset: 2px;
 	}
 }

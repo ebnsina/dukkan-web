@@ -7,24 +7,27 @@
 	import IphoneFrame from './ui/IphoneFrame.svelte';
 	import { taka } from './money';
 
-	/** The swatches repaint the window by swapping its CSS custom properties. */
+	/* The swatches repaint the window by swapping its CSS custom properties.
+	   These are three presets the API actually ships — surface and accent come
+	   straight from the seeded token sets, so the page cannot advertise a
+	   theme a shop owner then cannot pick. */
 	const themes = {
-		ivory: {
-			'--shop-bg': '#fbfaf7',
-			'--shop-fg': '#101410',
-			'--shop-accent': '#b7ec2f',
-			'--shop-on-accent': '#101410'
+		warm: {
+			'--shop-bg': '#faf6f2',
+			'--shop-fg': '#1a1512',
+			'--shop-accent': '#b4552d',
+			'--shop-on-accent': '#ffffff'
 		},
 		ink: {
-			'--shop-bg': '#141814',
-			'--shop-fg': '#f2f4f1',
-			'--shop-accent': '#b7ec2f',
-			'--shop-on-accent': '#101410'
+			'--shop-bg': '#141414',
+			'--shop-fg': '#f4f4f4',
+			'--shop-accent': '#ffffff',
+			'--shop-on-accent': '#0b0b0d'
 		},
-		lime: {
-			'--shop-bg': '#f2f7e6',
-			'--shop-fg': '#16200c',
-			'--shop-accent': '#4a7c0b',
+		rose: {
+			'--shop-bg': '#fdf7f8',
+			'--shop-fg': '#1d1417',
+			'--shop-accent': '#a63d5c',
 			'--shop-on-accent': '#ffffff'
 		}
 	} as const;
@@ -32,9 +35,9 @@
 	type ThemeName = keyof typeof themes;
 
 	const swatches: { name: ThemeName; label: string; chip: string }[] = [
-		{ name: 'ivory', label: 'Ivory', chip: 'bg-[#fbfaf7]' },
-		{ name: 'ink', label: 'Ink', chip: 'bg-[#141814]' },
-		{ name: 'lime', label: 'Lime', chip: 'bg-mk-lime' }
+		{ name: 'warm', label: 'Warm clay', chip: 'bg-[#b4552d]' },
+		{ name: 'ink', label: 'Ink', chip: 'bg-[#141414]' },
+		{ name: 'rose', label: 'Rose', chip: 'bg-[#a63d5c]' }
 	];
 
 	const products = [
@@ -52,7 +55,7 @@
 		{ label: 'Nagad', amount: taka(980) }
 	];
 
-	let theme = $state<ThemeName>('ivory');
+	let theme = $state<ThemeName>('warm');
 
 	/* Three real entries, newest first: the arrival pushes the rest back a rank,
 	   which is what stops it reading as one card replaying. */
@@ -155,7 +158,7 @@
 					>
 						<span
 							aria-hidden="true"
-							class="grid size-[20px] flex-none place-items-center rounded-[6px] bg-mk-lime text-[11px] leading-none text-mk-ink"
+							class="grid size-[20px] flex-none place-items-center rounded-[6px] bg-mk-brand text-[11px] leading-none text-mk-on-brand"
 						>
 							&#1583;
 						</span>
@@ -189,7 +192,7 @@
 					aria-pressed={theme === swatch.name}
 					class="size-5 cursor-pointer border transition-transform duration-200 hover:-translate-y-0.5 {swatch.chip} {theme ===
 					swatch.name
-						? 'border-mk-lime'
+						? 'border-mk-brand'
 						: 'border-mk-ink/20'}"
 				></button>
 			{/each}

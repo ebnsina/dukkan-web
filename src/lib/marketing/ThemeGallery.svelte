@@ -131,7 +131,7 @@
 						>
 							<span
 								class="w-7 shrink-0 mk-num text-[11px] transition-colors duration-200 {isActive
-									? 'text-mk-lime-ink'
+									? 'text-mk-brand-type'
 									: 'text-mk-faint'}">0{i + 1}</span
 							>
 
@@ -144,7 +144,7 @@
 									>
 									{#if item.badge}
 										<span
-											class="bg-mk-lime px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-ink uppercase"
+											class="bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 											>{item.badge}</span
 										>
 									{/if}

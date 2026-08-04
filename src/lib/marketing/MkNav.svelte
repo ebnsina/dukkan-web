@@ -29,7 +29,7 @@
 		<a href="#top" class="flex items-center gap-[11px]">
 			<span
 				aria-hidden="true"
-				class="grid size-[34px] flex-none place-items-center bg-mk-lime text-[19px] leading-none text-mk-ink"
+				class="grid size-[34px] flex-none place-items-center bg-mk-brand text-[19px] leading-none text-mk-on-brand"
 				>&#1583;</span
 			>
 			<span>
@@ -53,7 +53,7 @@
 				>Sign in</a
 			>
 			<span class="hidden md:inline-flex">
-				<MkButton href="#cta" variant="lime" arrow>Get started</MkButton>
+				<MkButton href="#cta" variant="brand" arrow>Get started</MkButton>
 			</span>
 
 			<button
@@ -105,7 +105,7 @@
 				>Sign in</a
 			>
 			<div class="mt-5">
-				<MkButton href="#cta" variant="lime" full arrow>Get started</MkButton>
+				<MkButton href="#cta" variant="brand" full arrow>Get started</MkButton>
 			</div>
 		</div>
 	</nav>

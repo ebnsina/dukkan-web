@@ -71,7 +71,7 @@
 					{/if}
 					{#if tag}
 						<span
-							class="bg-mk-lime px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-ink uppercase"
+							class="bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 							>{tag}</span
 						>
 					{/if}

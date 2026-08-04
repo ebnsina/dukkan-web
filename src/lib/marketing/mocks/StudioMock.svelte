@@ -38,9 +38,14 @@
 	</div>
 
 	<div class="flex flex-col gap-2">
-		<ArtSlot seed={1} tone="var(--color-mk-lime)" base="var(--color-mk-paper)" class="aspect-2/1" />
+		<ArtSlot
+			seed={1}
+			tone="var(--color-mk-brand)"
+			base="var(--color-mk-paper)"
+			class="aspect-2/1"
+		/>
 		<div class="flex gap-2">
-			<span class="h-2.5 flex-[0.4] bg-mk-lime"></span>
+			<span class="h-2.5 flex-[0.4] bg-mk-brand"></span>
 			<span class="h-2.5 flex-1 bg-mk-rule-soft"></span>
 			<span class="h-2.5 flex-1 bg-mk-rule-soft"></span>
 		</div>

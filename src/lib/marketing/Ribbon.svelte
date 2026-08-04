@@ -10,7 +10,7 @@
 	<div class="mk-wrap flex flex-wrap items-center gap-x-5 gap-y-2.5 py-2.5">
 		<p class="mr-auto flex min-w-0 items-baseline gap-3 text-mk-cream/80">
 			<span
-				class="flex-none bg-mk-lime px-2 py-[3px] font-mk-mono text-[10px] tracking-[0.16em] text-mk-ink uppercase"
+				class="flex-none bg-mk-brand px-2 py-[3px] font-mk-mono text-[10px] tracking-[0.16em] text-mk-on-brand uppercase"
 				>New</span
 			>
 			<span
@@ -18,6 +18,6 @@
 				advances against your next 90 days of sales.</span
 			>
 		</p>
-		<MkLink href="#pricing" tone="lime-bright">Check eligibility</MkLink>
+		<MkLink href="#pricing" tone="brand-bright">Check eligibility</MkLink>
 	</div>
 </div>

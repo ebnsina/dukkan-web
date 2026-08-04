@@ -55,7 +55,7 @@
 <section class="py-[clamp(64px,8vw,104px)]">
 	<div class="mk-wrap">
 		<div use:reveal class="mx-auto max-w-[760px] text-center">
-			<p use:scramble class="mb-4 block mk-kicker text-mk-lime-ink">Claim your address</p>
+			<p use:scramble class="mb-4 block mk-kicker text-mk-brand-type">Claim your address</p>
 			<h2 class="text-mk-h2">Your shop is one name away.</h2>
 			<p class="mx-auto mt-4 max-w-[46ch] text-[17px] text-mk-muted">
 				Take a free address now, connect your own domain whenever you like.
@@ -68,7 +68,7 @@
 			<Frame
 				eyebrow="Your address"
 				class="mt-9"
-				bodyClass="transition-colors duration-200 group-focus-within/frame:border-mk-lime-ink/40"
+				bodyClass="transition-colors duration-200 group-focus-within/frame:border-mk-brand-type/40"
 			>
 				<div class="relative flex flex-col gap-2 p-2 sm:flex-row sm:items-center">
 					<!-- Marks the field as an address, and holds the left end of the row. -->
@@ -88,7 +88,7 @@
 							spellcheck="false"
 							autocomplete="off"
 							placeholder="yourshop"
-							class="min-w-0 bg-transparent text-right font-mk-mono text-[clamp(18px,2vw,24px)] text-mk-ink caret-mk-lime-ink placeholder:text-mk-faint focus:outline-none"
+							class="min-w-0 bg-transparent text-right font-mk-mono text-[clamp(18px,2vw,24px)] text-mk-ink caret-mk-brand-type placeholder:text-mk-faint focus:outline-none"
 						/>
 						<span class="font-mk-mono text-[clamp(18px,2vw,24px)] whitespace-nowrap text-mk-faint"
 							>{SUFFIX}</span
@@ -98,7 +98,7 @@
 					<button
 						type="button"
 						disabled={!result.success}
-						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch bg-mk-lime px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-ink uppercase transition-colors duration-200 hover:bg-mk-lime-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
+						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch bg-mk-brand px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
 					>
 						Claim it
 						<span
@@ -119,10 +119,10 @@
 				{:else if problem}
 					<span class="text-mk-muted">{problem}</span>
 				{:else}
-					<span class="text-mk-lime-ink">
+					<span class="text-mk-brand-type">
 						<HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} strokeWidth={1.8} />
 					</span>
-					<span class="text-mk-lime-ink">{handle}{SUFFIX} is available</span>
+					<span class="text-mk-brand-type">{handle}{SUFFIX} is available</span>
 				{/if}
 			</p>
 		</div>

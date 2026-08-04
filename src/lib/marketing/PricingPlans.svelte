@@ -94,7 +94,9 @@
 						: 'text-mk-muted hover:text-mk-ink'}"
 				>
 					Annual
-					<em class="not-italic {annual ? 'text-mk-lime' : 'text-mk-lime-ink'}">&minus;20%</em>
+					<em class="not-italic {annual ? 'text-mk-brand-lift' : 'text-mk-brand-type'}"
+						>&minus;20%</em
+					>
 				</button>
 			</div>
 		</MkSectionHead>
@@ -115,14 +117,14 @@
 					>
 						<p
 							class="font-mk-mono text-[11px] tracking-[0.16em] uppercase {tier.featured
-								? 'text-mk-lime'
+								? 'text-mk-brand-lift'
 								: 'text-mk-muted'}"
 						>
 							{tier.name}
 						</p>
 						{#if tier.featured}
 							<span
-								class="bg-mk-lime px-2 py-1 font-mk-mono text-[9px] tracking-[0.14em] text-mk-ink uppercase"
+								class="bg-mk-brand px-2 py-1 font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 								>Most popular</span
 							>
 						{/if}
@@ -161,8 +163,8 @@
 								<li class="flex items-start gap-3">
 									<span
 										class="mt-[7px] size-1.5 flex-none {tier.featured
-											? 'bg-mk-lime'
-											: 'bg-mk-lime-ink'}"
+											? 'bg-mk-brand-lift'
+											: 'bg-mk-brand-type'}"
 									></span>
 									{feature}
 								</li>
@@ -170,7 +172,7 @@
 						</ul>
 
 						<div class="mt-8">
-							<MkButton href="#cta" variant={tier.featured ? 'lime' : 'ghost'} full
+							<MkButton href="#cta" variant={tier.featured ? 'brand' : 'ghost'} full
 								>{tier.cta}</MkButton
 							>
 						</div>
