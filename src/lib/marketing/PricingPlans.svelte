@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { Button, Link, SectionHead } from '$lib/ui';
+	import { Button, Link, SectionHead, Ticker } from '$lib/ui';
+	import { HugeiconsIcon } from '@hugeicons/svelte';
+	import { CheckmarkBadge01Icon } from '@hugeicons/core-free-icons';
 	import { reveal } from './motion';
 	import { taka } from './money';
 
@@ -54,20 +56,16 @@
 	];
 
 	let annual = $state(false);
-	let flipping = $state(false);
 
+	/* The figure rolls to the new price rather than being replaced by it: the
+	   digits that change are the ones that move, so the eye is told what the
+	   toggle did instead of being handed a different number. */
 	function setBilling(next: boolean) {
-		if (next === annual) return;
-		// Prices drop out, swap, and come back — no layout shift while they move.
-		flipping = true;
-		setTimeout(() => {
-			annual = next;
-			flipping = false;
-		}, 180);
+		annual = next;
 	}
 </script>
 
-<section id="pricing" class="py-mk-section">
+<section id="pricing" class="bg-mk-shell py-mk-section">
 	<div class="mk-wrap">
 		<SectionHead
 			kicker="Pricing"
@@ -76,7 +74,7 @@
 		>
 			<div
 				use:reveal
-				class="mt-7 inline-flex overflow-hidden rounded-mk-control border border-mk-ink"
+				class="mt-7 inline-flex overflow-hidden rounded-mk-control border border-mk-rule-soft"
 			>
 				<button
 					type="button"
@@ -84,18 +82,18 @@
 					aria-pressed={!annual}
 					class="cursor-pointer px-5 py-[11px] font-mk-mono text-[11px] tracking-[0.12em] uppercase transition-colors duration-200 {annual
 						? 'text-mk-muted hover:text-mk-ink'
-						: 'bg-mk-dark text-mk-cream'}">Monthly</button
+						: 'bg-mk-brand text-mk-on-brand'}">Monthly</button
 				>
 				<button
 					type="button"
 					onclick={() => setBilling(true)}
 					aria-pressed={annual}
 					class="flex cursor-pointer items-center gap-[7px] px-5 py-[11px] font-mk-mono text-[11px] tracking-[0.12em] uppercase transition-colors duration-200 {annual
-						? 'bg-mk-dark text-mk-cream'
+						? 'bg-mk-brand text-mk-on-brand'
 						: 'text-mk-muted hover:text-mk-ink'}"
 				>
 					Annual
-					<em class="not-italic {annual ? 'text-mk-brand-lift' : 'text-mk-brand-type'}"
+					<em class="not-italic {annual ? 'text-mk-on-brand/75' : 'text-mk-brand-type'}"
 						>&minus;20%</em
 					>
 				</button>
@@ -135,11 +133,11 @@
 						<p
 							class="flex items-baseline gap-1.5 text-[clamp(38px,4.4vw,52px)] leading-none tracking-[-0.045em]"
 						>
-							<span
-								class="inline-block mk-num transition-[opacity,transform] duration-200 {flipping
-									? '-translate-y-2 opacity-0'
-									: ''}">{taka(annual ? tier.annual : tier.monthly)}</span
-							>
+							<Ticker
+								value={annual ? tier.annual : tier.monthly}
+								format={taka}
+								class="mk-num"
+							/>
 							<i
 								class="font-mk-mono text-[12px] tracking-[0.1em] not-italic {tier.featured
 									? 'text-mk-cream/50'
@@ -160,13 +158,17 @@
 								? 'border-mk-cream/15 text-mk-cream/70'
 								: 'border-mk-rule-soft text-mk-muted'}"
 						>
+							<!-- The same tick the product section uses. A square dot here and a
+							     checkmark there were two marks for one idea: this is included. -->
 							{#each tier.features as feature (feature)}
 								<li class="flex items-start gap-3">
 									<span
-										class="mt-[7px] size-1.5 flex-none {tier.featured
-											? 'bg-mk-brand-lift'
-											: 'bg-mk-brand-type'}"
-									></span>
+										class="mt-[1px] flex-none {tier.featured
+											? 'text-mk-brand-lift'
+											: 'text-mk-brand-type'}"
+									>
+										<HugeiconsIcon icon={CheckmarkBadge01Icon} size={16} strokeWidth={1.8} />
+									</span>
 									{feature}
 								</li>
 							{/each}

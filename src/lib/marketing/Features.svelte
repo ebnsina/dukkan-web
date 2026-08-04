@@ -63,7 +63,7 @@
 	];
 </script>
 
-<section id="product" class="py-mk-section">
+<section id="product" class="bg-mk-shell py-mk-section">
 	<div class="mk-wrap">
 		<SectionHead
 			kicker="The product"

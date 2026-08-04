@@ -45,6 +45,7 @@ export { default as Status } from './Status.svelte';
 export { default as Table } from './Table.svelte';
 export { default as Tabs } from './Tabs.svelte';
 export { default as Textarea } from './Textarea.svelte';
+export { default as Ticker } from './Ticker.svelte';
 export { default as Toaster } from './Toaster.svelte';
 export { default as Toggle } from './Toggle.svelte';
 export { default as Tooltip } from './Tooltip.svelte';

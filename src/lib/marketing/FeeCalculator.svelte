@@ -34,7 +34,7 @@
 	let dukkanWidth = $derived(Math.max(4, Math.round((dukkan / peak) * 100)));
 </script>
 
-<section id="calc" class="py-mk-section">
+<section id="calc" class="bg-mk-shell py-mk-section">
 	<div class="mk-wrap">
 		<SectionHead
 			kicker="The math"
@@ -45,7 +45,7 @@
 		<div use:reveal class="grid grid-cols-1 gap-5 lg:grid-cols-[0.85fr_1.15fr]">
 			<!-- The control gets its own frame: it is an instrument, not a caption. -->
 			<Frame eyebrow="Monthly sales" bodyClass="p-7">
-				<p class="mk-num text-[clamp(40px,4.8vw,58px)] leading-none tracking-[-0.045em]">
+				<p class="mk-num text-[clamp(30px,3.4vw,42px)] leading-none tracking-[-0.04em]">
 					{money(sales)}
 				</p>
 				<label class="sr-only" for="mk-sales">Monthly sales</label>
@@ -119,19 +119,39 @@
 </section>
 
 <style>
-	/* Range thumbs can't be styled with utilities, so they are drawn by hand. */
+	/* Ranges can't be styled with utilities, so they are drawn by hand.
+	 *
+	 * The ground goes on the track, not on the input. Painted on the element the
+	 * fill takes the whole control — which is ~42px tall, because a range keeps
+	 * its intrinsic height whatever `height` says — so the hairline came out as
+	 * a grey slab with square ends. */
 	.mk-range {
 		appearance: none;
 		width: 100%;
-		height: 2px;
-		background: var(--color-mk-rule);
+		background: transparent;
 		outline: none;
+		cursor: pointer;
 	}
 
+	.mk-range::-webkit-slider-runnable-track {
+		height: 3px;
+		border-radius: var(--radius-mk-chip);
+		background: var(--color-mk-rule);
+	}
+
+	.mk-range::-moz-range-track {
+		height: 3px;
+		border-radius: var(--radius-mk-chip);
+		background: var(--color-mk-rule);
+	}
+
+	/* The thumb is a grab handle, so it stays round, and is pulled up by half
+	   its own height less half the track's to sit centred on the line. */
 	.mk-range::-webkit-slider-thumb {
 		appearance: none;
-		width: 20px;
-		height: 20px;
+		width: 18px;
+		height: 18px;
+		margin-top: -7.5px;
 		border: 0;
 		border-radius: 999px;
 		background: var(--color-mk-brand-deep);
@@ -139,8 +159,8 @@
 	}
 
 	.mk-range::-moz-range-thumb {
-		width: 20px;
-		height: 20px;
+		width: 18px;
+		height: 18px;
 		border: 0;
 		border-radius: 999px;
 		background: var(--color-mk-brand-deep);

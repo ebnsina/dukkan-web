@@ -69,7 +69,10 @@
 	--radius-mk-chip: var(--r-chip);
 
 	--spacing-mk-gutter: clamp(20px, 5vw, 64px);
-	--spacing-mk-section: clamp(64px, 8vw, 116px);
+	/* The page is a long one, and every band arriving straight after the last
+	   is what makes it read as a lot to get through. Space is the cheapest way
+	   to say "this is a new thought". */
+	--spacing-mk-section: clamp(80px, 10vw, 152px);
 
 	--ease-mk: var(--ease-mk-curve, cubic-bezier(0.2, 0.7, 0.2, 1));
 
@@ -223,22 +226,34 @@
 	text-transform: uppercase;
 }
 
+/* The carousel's two controls, built like every other control on the page:
+ * the control corner, the resting border weight, and the brand on hover —
+ * not a hard square outlined in full-strength ink, which made them the
+ * heaviest-drawn thing in a section whose subject is the quote. */
 @utility mk-arrow-btn {
+	display: grid;
+	place-items: center;
 	width: 46px;
 	height: 46px;
-	border: 1px solid var(--color-mk-ink);
+	border: 1px solid var(--rule-strong);
+	border-radius: var(--radius-mk-control);
 	background: none;
+	color: var(--ink);
 	cursor: pointer;
-	font-size: 15px;
 	transition:
-		transform 180ms,
-		box-shadow 180ms,
-		background-color 180ms,
-		color 180ms;
+		background-color var(--dur-hover) var(--ease-out),
+		border-color var(--dur-hover) var(--ease-out),
+		color var(--dur-hover) var(--ease-out),
+		transform var(--dur-press) var(--ease-out);
 
 	&:hover {
-		background: var(--color-mk-ink);
-		color: var(--n-0);
+		border-color: var(--accent);
+		background: var(--accent-soft);
+		color: var(--accent);
+	}
+
+	&:active {
+		transform: scale(0.94);
 	}
 }
 

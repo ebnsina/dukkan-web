@@ -9,18 +9,12 @@
 		{ href: '#faq', label: 'FAQ' }
 	];
 
-	let scrollY = $state(0);
 	let open = $state(false);
-	let scrolled = $derived(scrollY > 8);
 </script>
 
-<svelte:window bind:scrollY />
-
-<header
-	class="sticky top-0 z-50 bg-mk-paper/95 backdrop-blur-[2px] transition-shadow duration-300 {scrolled
-		? 'shadow-[0_1px_0_0_var(--color-mk-rule-soft)]'
-		: ''}"
->
+<!-- No rule under the bar. The page behind it scrolling under the blur is
+     already the edge; a hairline as well marks it twice. -->
+<header class="sticky top-0 z-50 bg-mk-paper/95 backdrop-blur-[2px]">
 	<!--
 		Three tracks: mark, centred nav, actions. The actions name their column —
 		below md the nav is `display: none` and leaves no cell behind.

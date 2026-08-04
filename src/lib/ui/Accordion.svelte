@@ -25,6 +25,10 @@
 		/** Where these rows sit in the page's outline — a heading that skips a
 		 * level breaks the document's structure for a screen reader. */
 		headingLevel?: 2 | 3 | 4 | 5;
+		/** `lg` is for a page where the rows are the content — an FAQ — rather
+		 * than a section of a form. The face comes from the surface's own
+		 * heading rule, so it is the display type on the marketing page. */
+		size?: 'md' | 'lg';
 		panel: Snippet<[string]>;
 		class?: string;
 	}
@@ -34,6 +38,7 @@
 		single = false,
 		open = $bindable([]),
 		headingLevel = 3,
+		size = 'md',
 		panel,
 		class: className
 	}: Props = $props();
@@ -46,7 +51,7 @@
 	}
 </script>
 
-<div class={cn('accordion', className)}>
+<div class={cn('accordion', `is-${size}`, className)}>
 	{#each items as item (item.value)}
 		{@const isOpen = open.includes(item.value)}
 		<div class="row">
@@ -116,6 +121,22 @@
 		display: block;
 		font-size: 14.5px;
 		font-weight: 600;
+	}
+
+	/* The heading element is the parent, so the family and weight are whatever
+	   that surface gives a heading — display type on the marketing page. */
+	.is-lg .trigger {
+		padding-block: 24px;
+	}
+
+	.is-lg .label {
+		font: inherit;
+		font-size: clamp(17px, 1.7vw, 21px);
+	}
+
+	.is-lg .panel {
+		padding-bottom: 26px;
+		font-size: 15px;
 	}
 
 	.meta {

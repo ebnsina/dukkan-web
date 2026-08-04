@@ -10,50 +10,38 @@
 		name: string;
 		slug: string;
 		group: string;
-		tint: string;
-		onTint: 'light' | 'dark';
 	}
 
 	const integrations: Integration[] = [
-		{ name: 'bKash', slug: 'bkash', group: 'Wallets', tint: '#e2136e', onTint: 'light' },
-		{ name: 'Nagad', slug: 'nagad', group: 'Wallets', tint: '#ee1c25', onTint: 'light' },
-		{ name: 'Rocket', slug: 'rocket', group: 'Wallets', tint: '#8c3494', onTint: 'light' },
-		{ name: 'JazzCash', slug: 'jazzcash', group: 'Wallets', tint: '#c8102e', onTint: 'light' },
-		{ name: 'Easypaisa', slug: 'easypaisa', group: 'Wallets', tint: '#00a651', onTint: 'light' },
-		{ name: 'UPI', slug: 'upi', group: 'Wallets', tint: '#097939', onTint: 'light' },
-		{ name: 'mada', slug: 'mada', group: 'Cards', tint: '#00953b', onTint: 'light' },
-		{ name: 'KNET', slug: 'knet', group: 'Cards', tint: '#0069b4', onTint: 'light' },
-		{ name: 'Fawry', slug: 'fawry', group: 'Cards', tint: '#ffcc00', onTint: 'dark' },
-		{ name: 'Visa', slug: 'visa', group: 'Cards', tint: '#1a1f71', onTint: 'light' },
-		{ name: 'Mastercard', slug: 'mastercard', group: 'Cards', tint: '#eb001b', onTint: 'light' },
-		{ name: 'Apple Pay', slug: 'apple-pay', group: 'Cards', tint: '#101410', onTint: 'light' },
-		{ name: 'Tabby', slug: 'tabby', group: 'Pay later', tint: '#3eedbf', onTint: 'dark' },
-		{ name: 'Tamara', slug: 'tamara', group: 'Pay later', tint: '#2b0a3d', onTint: 'light' },
-		{ name: 'Pathao', slug: 'pathao', group: 'Shipping', tint: '#e63946', onTint: 'light' },
-		{ name: 'Steadfast', slug: 'steadfast', group: 'Shipping', tint: '#0d3b66', onTint: 'light' },
-		{ name: 'RedX', slug: 'redx', group: 'Shipping', tint: '#d32027', onTint: 'light' },
-		{ name: 'Aramex', slug: 'aramex', group: 'Shipping', tint: '#c8102e', onTint: 'light' },
-		{ name: 'DHL', slug: 'dhl', group: 'Shipping', tint: '#ffcc00', onTint: 'dark' },
-		{ name: 'WhatsApp', slug: 'whatsapp', group: 'Channels', tint: '#25d366', onTint: 'dark' },
-		{ name: 'Meta Ads', slug: 'meta-ads', group: 'Channels', tint: '#0866ff', onTint: 'light' },
+		{ name: 'bKash', slug: 'bkash', group: 'Wallets' },
+		{ name: 'Nagad', slug: 'nagad', group: 'Wallets' },
+		{ name: 'Rocket', slug: 'rocket', group: 'Wallets' },
+		{ name: 'JazzCash', slug: 'jazzcash', group: 'Wallets' },
+		{ name: 'Easypaisa', slug: 'easypaisa', group: 'Wallets' },
+		{ name: 'UPI', slug: 'upi', group: 'Wallets' },
+		{ name: 'mada', slug: 'mada', group: 'Cards' },
+		{ name: 'KNET', slug: 'knet', group: 'Cards' },
+		{ name: 'Fawry', slug: 'fawry', group: 'Cards' },
+		{ name: 'Visa', slug: 'visa', group: 'Cards' },
+		{ name: 'Mastercard', slug: 'mastercard', group: 'Cards' },
+		{ name: 'Apple Pay', slug: 'apple-pay', group: 'Cards' },
+		{ name: 'Tabby', slug: 'tabby', group: 'Pay later' },
+		{ name: 'Tamara', slug: 'tamara', group: 'Pay later' },
+		{ name: 'Pathao', slug: 'pathao', group: 'Shipping' },
+		{ name: 'Steadfast', slug: 'steadfast', group: 'Shipping' },
+		{ name: 'RedX', slug: 'redx', group: 'Shipping' },
+		{ name: 'Aramex', slug: 'aramex', group: 'Shipping' },
+		{ name: 'DHL', slug: 'dhl', group: 'Shipping' },
+		{ name: 'WhatsApp', slug: 'whatsapp', group: 'Channels' },
+		{ name: 'Meta Ads', slug: 'meta-ads', group: 'Channels' },
 		{
 			name: 'TikTok Shop',
 			slug: 'tiktok-shop',
-			group: 'Channels',
-			tint: '#fe2c55',
-			onTint: 'light'
+			group: 'Channels'
 		},
-		{ name: 'QuickBooks', slug: 'quickbooks', group: 'Finance', tint: '#2ca01c', onTint: 'light' },
-		{ name: 'Xero', slug: 'xero', group: 'Finance', tint: '#13b5ea', onTint: 'light' }
+		{ name: 'QuickBooks', slug: 'quickbooks', group: 'Finance' },
+		{ name: 'Xero', slug: 'xero', group: 'Finance' }
 	];
-
-	// Lit from the top-left, shadowed bottom-right, in the brand's own hue.
-	const aurora = (tint: string) =>
-		[
-			`radial-gradient(140% 140% at 18% 0%, color-mix(in oklab, ${tint}, white 26%) 0%, transparent 66%)`,
-			`radial-gradient(150% 150% at 100% 100%, color-mix(in oklab, ${tint}, black 22%) 0%, transparent 70%)`,
-			`linear-gradient(${tint}, ${tint})`
-		].join(',');
 
 	const monogram = (name: string) =>
 		name
@@ -65,7 +53,7 @@
 			.toUpperCase();
 </script>
 
-<section class="pb-mk-section">
+<section class="py-mk-section">
 	<div class="mk-wrap">
 		<SectionHead
 			kicker="Integrations"
@@ -79,12 +67,12 @@
 			{#each integrations as item, i (item.slug)}
 				<li use:reveal={Math.min(i, 8) * 40} data-group={item.group}>
 					<span class="group flex w-full items-center gap-3.5">
+						<!-- Neutral tiles. The colours here were approximations of other
+						     companies' brands, invented and applied to monograms we drew
+						     ourselves — two dozen borrowed hues on a page that has one. A
+						     real logo, when there is one, brings its own colour. -->
 						<span
-							style="background-image:{aurora(item.tint)}"
-							class="grid size-10 flex-none place-items-center mk-display text-[13px] transition-transform duration-200 group-hover:-translate-y-0.5 {item.onTint ===
-							'light'
-								? 'text-white'
-								: 'text-mk-ink'}"
+							class="grid size-10 flex-none place-items-center rounded-mk-control bg-mk-shell mk-display text-[13px] text-mk-ink transition-transform duration-200 group-hover:-translate-y-0.5"
 						>
 							{#if withLogo.has(item.slug)}
 								<img

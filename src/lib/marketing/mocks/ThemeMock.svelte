@@ -45,18 +45,20 @@
 	The theme's own palette on the same storefront. Colour never transitions:
 	gradients cannot interpolate, so a fade would show a theme that does not exist.
 -->
-<div {style} class="border border-mk-ink/10 bg-[var(--t-bg)] text-[var(--t-fg)]">
-	<div class="flex items-center gap-2 border-b border-current/10 px-5 py-3.5">
-		{#each [0, 1, 2] as dot (dot)}
-			<span class="size-2 rounded-full bg-current/20"></span>
-		{/each}
-		<span
-			class="mx-auto border border-current/10 px-3 py-1 font-mk-mono text-[10px] tracking-[0.08em] opacity-50"
-		>
-			{name.toLowerCase()}.dukkan.store
-		</span>
-	</div>
-
+	<!--
+	No browser chrome. The Frame around this already names the address in its
+	header, so the dots and the URL pill drew it twice and spent the top of the
+	preview on a picture of a window instead of on the theme.
+-->
+	<!--
+	The corner is the frame's less the rail it sits inside: a 17px panel with a
+	10px inset wants 7px here, so the two curves stay concentric instead of a
+	square box sitting in a rounded one.
+-->
+<div
+	{style}
+	class="overflow-hidden rounded-mk-tile border border-mk-ink/10 bg-[var(--t-bg)] text-[var(--t-fg)]"
+>
 	<div class="p-6">
 		<div class="mb-5 flex items-baseline justify-between">
 			<p class="mk-display text-[22px]">{rtl && localName ? localName : name}</p>

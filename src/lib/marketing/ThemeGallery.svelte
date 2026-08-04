@@ -115,18 +115,28 @@
 			sub="Every theme ships multilingual, RTL-ready and under 90KB. Swap it on a Tuesday without touching your products."
 		/>
 
-		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(280px,0.8fr)_1.7fr] lg:gap-16">
-			<!-- The index. Picking a row repaints the preview beside it. -->
-			<ul use:reveal class="flex flex-col border-t border-mk-rule-soft">
+		<div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(300px,0.95fr)_1.6fr] lg:gap-12">
+			<!--
+				The index. Picking a row repaints the preview beside it.
+
+				No rules between rows: hairlines made a list of six choices read as a
+				table of six records, and the row you had chosen was told apart only by
+				the weight of its type. The chosen one is a filled row instead — the
+				same way a selected item reads anywhere else in the system — which is
+				also what lets everything sit centred on one line.
+			-->
+			<ul use:reveal class="flex flex-col gap-1">
 				{#each themes as item, i (item.name)}
 					{@const isActive = i === selected}
-					<li class="border-b border-mk-rule-soft">
+					<li>
 						<button
 							type="button"
 							onclick={() => (selected = i)}
 							onmouseenter={() => (selected = i)}
 							aria-pressed={isActive}
-							class="group flex w-full cursor-pointer items-baseline gap-4 py-4 text-left transition-colors duration-200"
+							class="group flex w-full cursor-pointer items-center gap-4 rounded-mk-control px-4 py-4 text-left transition-colors duration-200 {isActive
+								? 'bg-mk-shell'
+								: 'hover:bg-mk-shell/55'}"
 						>
 							<span
 								class="w-7 shrink-0 mk-num text-[11px] transition-colors duration-200 {isActive
@@ -155,7 +165,8 @@
 								>
 							</span>
 
-							<span class="font-mk-mono text-[9px] tracking-[0.14em] text-mk-faint uppercase"
+							<span
+								class="shrink-0 font-mk-mono text-[9px] tracking-[0.14em] text-mk-faint uppercase"
 								>{item.category}</span
 							>
 						</button>

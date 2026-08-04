@@ -18,8 +18,9 @@
 	let { kicker, heading, sub, tone = 'light', centered = false, aside, children }: Props = $props();
 </script>
 
-<!-- Heading left, sub-copy right, one baseline: stacked, half the width sits
-	empty and it reads like an article. -->
+<!-- Kicker, heading, then the sub-copy under it. Set beside the heading the
+	sub-copy read as a second, competing column; under it, it is what it is —
+	the sentence that explains the line above. -->
 <div class="mb-14 {centered ? 'text-center' : ''}">
 	<p
 		use:reveal
@@ -34,30 +35,25 @@
 			? 'items-center'
 			: 'lg:flex-row lg:items-end lg:justify-between lg:gap-16'}"
 	>
-		<h2 class="text-mk-h2 {centered ? '' : 'lg:max-w-[26ch] lg:flex-[1.35]'}">
+		<h2 class="text-mk-h2 {centered ? '' : 'lg:max-w-[24ch]'}">
 			<span use:maskReveal class="block overflow-hidden"><span>{heading}</span></span>
 		</h2>
 
-		{#if sub || aside}
-			<div
-				class="flex flex-col gap-6 {centered
-					? 'items-center'
-					: 'lg:max-w-[36ch] lg:flex-1 lg:items-end lg:pb-2'}"
-			>
-				{#if sub}
-					<p
-						use:reveal={80}
-						class="text-[17px] {tone === 'dark' ? 'text-mk-cream/60' : 'text-mk-muted'}"
-					>
-						{sub}
-					</p>
-				{/if}
-				{#if aside}
-					<div use:reveal class="lg:self-end">{@render aside()}</div>
-				{/if}
-			</div>
+		{#if aside}
+			<div use:reveal class="lg:shrink-0 lg:self-end">{@render aside()}</div>
 		{/if}
 	</div>
+
+	{#if sub}
+		<p
+			use:reveal={80}
+			class="mt-6 max-w-[58ch] text-[17px] {centered ? 'mx-auto' : ''} {tone === 'dark'
+				? 'text-mk-cream/60'
+				: 'text-mk-muted'}"
+		>
+			{sub}
+		</p>
+	{/if}
 
 	{#if children}
 		<div class={centered ? 'flex justify-center' : ''}>{@render children()}</div>
