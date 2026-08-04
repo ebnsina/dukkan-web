@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Field, Input, Note } from '$lib/ui';
+	import { Banner, Button, Field, Input } from '$lib/ui';
 
 	let { form } = $props();
 </script>
@@ -14,7 +14,7 @@
 		<p class="lead">We text you a code. No password to remember.</p>
 
 		{#if form?.message}
-			<Note title="Try again" tone="firm">{form.message}</Note>
+			<Banner title="Try again" tone="danger">{form.message}</Banner>
 		{/if}
 
 		{#if !form?.sent}

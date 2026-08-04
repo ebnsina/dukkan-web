@@ -1,7 +1,6 @@
 <script lang="ts">
+	import { Frame, SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
-	import Frame from './ui/Frame.svelte';
 	import { taka } from './money';
 
 	/* Local figures, not converted ones — and still placeholders. Confirm against
@@ -37,7 +36,7 @@
 
 <section id="calc" class="py-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead
+		<SectionHead
 			kicker="The math"
 			heading="Legacy platforms charge per transaction. We charge once."
 			sub="Drag your monthly sales. Assumes a {money(AVERAGE_ORDER)} average order."

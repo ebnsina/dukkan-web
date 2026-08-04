@@ -8,8 +8,8 @@
 		Radio,
 		Section,
 		Select,
-		Switch,
-		Textarea
+		Textarea,
+		Toggle
 	} from '$lib/ui';
 	import DsBlock from '../DsBlock.svelte';
 
@@ -141,9 +141,9 @@
 		</div>
 
 		<div class="stack">
-			<Switch bind:checked={cash} label="Take cash on delivery" />
-			<Switch bind:checked={autoPay} label="Pay sellers every week" description="Sundays, 22:00." />
-			<Switch checked disabled label="Turned off" />
+			<Toggle bind:checked={cash} label="Take cash on delivery" />
+			<Toggle bind:checked={autoPay} label="Pay sellers every week" description="Sundays, 22:00." />
+			<Toggle checked disabled label="Turned off" />
 		</div>
 	</DsBlock>
 

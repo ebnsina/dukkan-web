@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MkButton from './ui/MkButton.svelte';
+	import { Button } from '$lib/ui';
 
 	const links = [
 		{ href: '#product', label: 'Product' },
@@ -53,7 +53,7 @@
 				>Sign in</a
 			>
 			<span class="hidden md:inline-flex">
-				<MkButton href="#cta" variant="brand" arrow>Get started</MkButton>
+				<Button href="#cta" variant="solid" arrow>Get started</Button>
 			</span>
 
 			<button
@@ -105,7 +105,7 @@
 				>Sign in</a
 			>
 			<div class="mt-5">
-				<MkButton href="#cta" variant="brand" full arrow>Get started</MkButton>
+				<Button href="#cta" variant="solid" full arrow>Get started</Button>
 			</div>
 		</div>
 	</nav>

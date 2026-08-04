@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { ArrowLeft01Icon } from '@hugeicons/core-free-icons';
-	import { Button } from '$lib/admin/ui';
+	import { Button } from '$lib/ui';
 	import { formatNumber } from '$lib/utils/format';
 </script>
 

@@ -12,7 +12,7 @@
 		Wallet01Icon
 	} from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Banner, Button, Empty, Frame, Stat, Status } from '$lib/admin/ui';
+	import { Banner, Button, Empty, Frame, Stat, Status } from '$lib/ui';
 	import { severityTone, stockTone } from '$lib/admin/state';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';

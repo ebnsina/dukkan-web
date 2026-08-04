@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
 
 	/* Monograms until a real mark exists: drop the SVG in `static/logos/<slug>.svg`
 	   and add its slug to `withLogo`. Tints are approximations — replace before launch. */
@@ -67,7 +67,7 @@
 
 <section class="pb-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead
+		<SectionHead
 			kicker="Integrations"
 			heading="Already connected to how you get paid."
 			sub="Payments, couriers, channels and books — connected in a click, not a quarter."

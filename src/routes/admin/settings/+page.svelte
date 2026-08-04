@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Field, Frame, Toggle } from '$lib/admin/ui';
+	import { Banner, Button, Field, Frame, Toggle } from '$lib/ui';
 
 	let { data, form } = $props();
 
@@ -41,18 +41,13 @@
 		{/if}
 
 		<form method="POST" action="?/payments" use:enhance class="dk-form">
-			<Field label="Store ID" id="store_id" required error={form?.fields?.store_id}>
-				{#snippet children(props)}
+			<Field label="Store ID" required error={form?.fields?.store_id}>
+				{#snippet control(props)}
 					<input {...props} class="dk-input" name="store_id" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field
-				label="Store password"
-				id="store_password"
-				required
-				error={form?.fields?.store_password}
-			>
-				{#snippet children(props)}
+			<Field label="Store password" required error={form?.fields?.store_password}>
+				{#snippet control(props)}
 					<input
 						{...props}
 						class="dk-input"
@@ -90,13 +85,13 @@
 		{/if}
 
 		<form method="POST" action="?/courier" use:enhance class="dk-form">
-			<Field label="API key" id="api_key" required error={form?.fields?.api_key}>
-				{#snippet children(props)}
+			<Field label="API key" required error={form?.fields?.api_key}>
+				{#snippet control(props)}
 					<input {...props} class="dk-input" name="api_key" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field label="Secret key" id="secret_key" required error={form?.fields?.secret_key}>
-				{#snippet children(props)}
+			<Field label="Secret key" required error={form?.fields?.secret_key}>
+				{#snippet control(props)}
 					<input
 						{...props}
 						class="dk-input"
@@ -109,11 +104,10 @@
 			</Field>
 			<Field
 				label="Webhook token"
-				id="webhook_token"
 				hint="Steadfast sends parcel updates with this. Make up a long random one."
 				error={form?.fields?.webhook_token}
 			>
-				{#snippet children(props)}
+				{#snippet control(props)}
 					<input {...props} class="dk-input" name="webhook_token" autocomplete="off" />
 				{/snippet}
 			</Field>

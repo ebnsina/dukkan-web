@@ -3,7 +3,7 @@
 
 	interface Props {
 		href: string;
-		tone?: 'ink' | 'brand' | 'brand-bright';
+		tone?: 'ink' | 'brand' | 'bright';
 		children: Snippet;
 	}
 
@@ -11,8 +11,8 @@
 
 	const tones = {
 		ink: 'text-mk-ink',
-		brand: 'text-mk-brand-type',
-		'brand-bright': 'text-mk-brand-lift'
+		brand: 'text-accent',
+		bright: 'text-mk-brand-lift'
 	} as const;
 </script>
 

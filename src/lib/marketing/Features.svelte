@@ -1,9 +1,9 @@
 <script lang="ts">
+	import MockFrame from '$lib/marketing/art/MockFrame.svelte';
+	import { SectionHead } from '$lib/ui';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { CheckmarkBadge01Icon } from '@hugeicons/core-free-icons';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
-	import MockFrame from './ui/MockFrame.svelte';
 	import StudioMock from './mocks/StudioMock.svelte';
 	import ReceiptMock from './mocks/ReceiptMock.svelte';
 	import InventoryMock from './mocks/InventoryMock.svelte';
@@ -65,7 +65,7 @@
 
 <section id="product" class="py-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead
+		<SectionHead
 			kicker="The product"
 			heading="One login runs the whole operation."
 			sub="Five systems most merchants stitch together from four vendors and a spreadsheet. Here they share one database, one order, one payout."

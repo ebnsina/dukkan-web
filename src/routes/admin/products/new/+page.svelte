@@ -8,7 +8,7 @@
 		PlusSignIcon
 	} from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Banner, Button, Field, Frame, Toggle } from '$lib/admin/ui';
+	import { Banner, Button, Field, Frame, Toggle } from '$lib/ui';
 
 	let { data, form } = $props();
 
@@ -49,20 +49,20 @@
 	<Frame eyebrow="Details" title="What it is" variant="pad">
 		<div class="dk-form">
 			<div class="pair">
-				<Field label="Name" id="title" required error={form?.fields?.title}>
-					{#snippet children(props)}
+				<Field label="Name" required error={form?.fields?.title}>
+					{#snippet control(props)}
 						<input {...props} class="dk-input" name="title" value={value('title')} required />
 					{/snippet}
 				</Field>
-				<Field label="Name in Bangla" id="title_bn" hint="Shown to customers reading in Bangla.">
-					{#snippet children(props)}
+				<Field label="Name in Bangla" hint="Shown to customers reading in Bangla.">
+					{#snippet control(props)}
 						<input {...props} class="dk-input" name="title_bn" value={value('title_bn')} />
 					{/snippet}
 				</Field>
 			</div>
 
-			<Field label="Category" id="category_id">
-				{#snippet children(props)}
+			<Field label="Category">
+				{#snippet control(props)}
 					<select {...props} class="dk-select" name="category_id">
 						<option value="">No category</option>
 						{#each data.categories as category (category.id)}
@@ -74,14 +74,14 @@
 				{/snippet}
 			</Field>
 
-			<Field label="One-line summary" id="summary">
-				{#snippet children(props)}
+			<Field label="One-line summary">
+				{#snippet control(props)}
 					<input {...props} class="dk-input" name="summary" value={value('summary')} />
 				{/snippet}
 			</Field>
 
-			<Field label="Description" id="description">
-				{#snippet children(props)}
+			<Field label="Description">
+				{#snippet control(props)}
 					<textarea {...props} class="dk-textarea" name="description" rows="4"
 						>{value('description')}</textarea
 					>
@@ -105,21 +105,15 @@
 				<div class="row">
 					<Field
 						label="Choice"
-						id="variant-title-{index}"
 						hint="Like “Red” or “Large”."
 						error={form?.fields?.[`variant.${index}.title`]}
 					>
-						{#snippet children(props)}
+						{#snippet control(props)}
 							<input {...props} class="dk-input" name="variant_title" bind:value={row.title} />
 						{/snippet}
 					</Field>
-					<Field
-						label="Price in taka"
-						id="variant-price-{index}"
-						required
-						error={form?.fields?.[`variant.${index}.price`]}
-					>
-						{#snippet children(props)}
+					<Field label="Price in taka" required error={form?.fields?.[`variant.${index}.price`]}>
+						{#snippet control(props)}
 							<input
 								{...props}
 								class="dk-input"
@@ -131,12 +125,8 @@
 							/>
 						{/snippet}
 					</Field>
-					<Field
-						label="In stock"
-						id="variant-stock-{index}"
-						error={form?.fields?.[`variant.${index}.on_hand`]}
-					>
-						{#snippet children(props)}
+					<Field label="In stock" error={form?.fields?.[`variant.${index}.on_hand`]}>
+						{#snippet control(props)}
 							<input
 								{...props}
 								class="dk-input"
@@ -146,8 +136,8 @@
 							/>
 						{/snippet}
 					</Field>
-					<Field label="Your code" id="variant-sku-{index}" hint="Optional.">
-						{#snippet children(props)}
+					<Field label="Your code" hint="Optional.">
+						{#snippet control(props)}
 							<input {...props} class="dk-input" name="variant_sku" bind:value={row.sku} />
 						{/snippet}
 					</Field>

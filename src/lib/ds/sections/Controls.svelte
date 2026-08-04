@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { MoreHorizontalIcon } from '@hugeicons/core-free-icons';
-	import { Breadcrumb, Button, Menu, Pagination, Section, Tabs, Tag, toasts } from '$lib/ui';
+	import { Breadcrumb, Button, Chip, Menu, Pagination, Section, Tabs, toasts } from '$lib/ui';
 	import DsBlock from '../DsBlock.svelte';
 
 	let busy = $state(false);
@@ -57,10 +57,11 @@
 		<Button href="/ds#controls" arrow>As a link</Button>
 	</DsBlock>
 
-	<DsBlock label="Tag">
-		<Tag>Outline</Tag>
-		<Tag variant="solid">Solid</Tag>
-		<Tag variant="bare">Bare</Tag>
+	<DsBlock label="Chip">
+		<Chip label="Neutral" />
+		<Chip label="Paid" tone="success" />
+		<Chip label="Needs a person" tone="warning" />
+		<Chip label="Short by" tone="danger" />
 	</DsBlock>
 
 	<DsBlock label="Tabs" note="Arrow keys, Home and End move between tabs." flow="stack">

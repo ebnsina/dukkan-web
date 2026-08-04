@@ -3,7 +3,7 @@
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowLeft01Icon, Cancel01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Banner, Button, Confirm, Frame, Status } from '$lib/admin/ui';
+	import { Banner, Button, Confirm, Frame, Status } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatDateTime, formatNumber } from '$lib/utils/format';
 

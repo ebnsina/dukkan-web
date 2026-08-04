@@ -1,7 +1,7 @@
 <script lang="ts">
+	import WordmarkCycle from '$lib/marketing/art/WordmarkCycle.svelte';
 	import * as v from 'valibot';
 	import { reveal, scramble } from './motion';
-	import WordmarkCycle from './ui/WordmarkCycle.svelte';
 
 	// The server is the real validator; this only catches typos before a round trip.
 	const EmailSchema = v.pipe(

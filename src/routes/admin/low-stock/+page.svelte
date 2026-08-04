@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Alert02Icon, PackageIcon } from '@hugeicons/core-free-icons';
-	import { Chip, Empty, Frame } from '$lib/admin/ui';
+	import { Chip, Empty, Frame } from '$lib/ui';
 	import { stockTone } from '$lib/admin/state';
 	import { formatNumber } from '$lib/utils/format';
 

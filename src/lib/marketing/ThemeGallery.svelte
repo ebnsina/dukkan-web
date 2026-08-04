@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { Frame, SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
 	import ThemeMock from './mocks/ThemeMock.svelte';
-	import Frame from './ui/Frame.svelte';
 
 	/* A theme store, not a grid of cards. The accents belong to the demo shops —
 	   the one place other hues are legitimate, because variety is the product. */
@@ -110,7 +109,7 @@
 
 <section id="themes" class="py-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead
+		<SectionHead
 			kicker="Themes"
 			heading="A storefront for every kind of trade."
 			sub="Every theme ships multilingual, RTL-ready and under 90KB. Swap it on a Tuesday without touching your products."

@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Button } from '$lib/ui';
 	import { lineMask, reveal, scramble } from './motion';
-	import MkButton from './ui/MkButton.svelte';
 	import StorefrontPreview from './StorefrontPreview.svelte';
 
 	// Shopkeepers, named rather than illustrated with stock faces.
@@ -45,8 +45,8 @@
 				use:reveal={180}
 				class="mt-8 grid w-full gap-3 sm:w-fit sm:auto-cols-fr sm:grid-flow-col"
 			>
-				<MkButton href="#cta" variant="brand">Start free</MkButton>
-				<MkButton href="/shop">See live stores</MkButton>
+				<Button href="#cta" variant="solid">Start free</Button>
+				<Button href="/shop">See live stores</Button>
 			</div>
 
 			<div use:reveal={260} class="mt-9 flex items-center gap-3.5">

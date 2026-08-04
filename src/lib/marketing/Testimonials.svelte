@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MkSectionHead from './ui/MkSectionHead.svelte';
+	import { SectionHead } from '$lib/ui';
 
 	const stories = [
 		{
@@ -50,7 +50,7 @@
 
 <section id="stories" class="py-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead kicker="Stories" heading="Shopkeepers, not case studies.">
+		<SectionHead kicker="Stories" heading="Shopkeepers, not case studies.">
 			{#snippet aside()}
 				<div class="flex gap-2">
 					<button
@@ -67,7 +67,7 @@
 					>
 				</div>
 			{/snippet}
-		</MkSectionHead>
+		</SectionHead>
 
 		<div
 			bind:this={row}

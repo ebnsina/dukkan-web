@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { Button, Dialog, Empty, Note, Section, Skeleton, Spinner, Table, toasts } from '$lib/ui';
+	import {
+		Banner,
+		Button,
+		Confirm,
+		Empty,
+		Section,
+		Skeleton,
+		Spinner,
+		Table,
+		toasts
+	} from '$lib/ui';
 	import { ApiError, toUserMessage } from '$lib/api';
 	import { formatCurrency, formatDate, formatNumber } from '$lib/utils/format';
 	import DsBlock from '../DsBlock.svelte';
@@ -30,24 +40,24 @@
 	lead="A quiet note sits on a surface behind a hairline. Anything with a state takes a 3px edge and a wash in its own colour, so a warning is legible as a warning before the sentence is read."
 	rule
 >
-	<DsBlock label="Note" flow="stack">
+	<DsBlock label="Banner" flow="stack">
 		<div class="stack">
-			<Note title="Payout booked">The next one runs on Sunday at 22:00.</Note>
-			<Note title="Nearly at your order limit" tone="firm">
+			<Banner title="Payout booked">The next one runs on Sunday at 22:00.</Banner>
+			<Banner title="Nearly at your order limit" tone="danger">
 				You have used 4,600 of 5,000 orders this month. Move up a plan to keep selling.
 				{#snippet actions()}
 					<Button variant="ghost" href="/ds#feedback">See plans</Button>
 				{/snippet}
-			</Note>
+			</Banner>
 			{#if !dismissed}
-				<Note
+				<Banner
 					title="We cannot reach bKash"
-					tone="firm"
+					tone="danger"
 					dismissible
 					ondismiss={() => (dismissed = true)}
 				>
 					Payments are paused until it comes back. Nobody was charged twice.
-				</Note>
+				</Banner>
 			{:else}
 				<Button variant="ghost" onclick={() => (dismissed = false)}>Bring the note back</Button>
 			{/if}
@@ -138,7 +148,7 @@
 	</DsBlock>
 </Section>
 
-<Dialog
+<Confirm
 	bind:open={plain}
 	title="Invite a seller"
 	description="They get an email with a link to set up their shop."
@@ -151,9 +161,9 @@
 		<Button variant="ghost" onclick={() => (plain = false)}>Cancel</Button>
 		<Button onclick={() => (plain = false)} arrow>Send it</Button>
 	{/snippet}
-</Dialog>
+</Confirm>
 
-<Dialog bind:open={confirm} title="Pause Nokshi Home?">
+<Confirm bind:open={confirm} title="Pause Nokshi Home?">
 	<p>
 		Their shop goes dark straight away. Orders already placed stay open. You can undo this later.
 	</p>
@@ -161,7 +171,7 @@
 		<Button variant="ghost" onclick={() => (confirm = false)}>Leave it running</Button>
 		<Button onclick={() => (confirm = false)}>Pause the seller</Button>
 	{/snippet}
-</Dialog>
+</Confirm>
 
 <style>
 	.stack {

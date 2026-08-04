@@ -8,7 +8,7 @@
 	type="button"
 	class="toggle"
 	onclick={() => theme.toggle()}
-	aria-label="Switch to {theme.resolved === 'dark' ? 'light' : 'dark'} theme"
+	aria-label="Toggle to {theme.resolved === 'dark' ? 'light' : 'dark'} theme"
 >
 	<HugeiconsIcon
 		icon={theme.resolved === 'dark' ? Sun03Icon : Moon02Icon}

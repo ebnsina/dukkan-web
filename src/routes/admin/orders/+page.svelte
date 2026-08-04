@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Search01Icon } from '@hugeicons/core-free-icons';
-	import { Button, Empty, Frame, Status } from '$lib/admin/ui';
+	import { Button, Empty, Frame, Status } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
 

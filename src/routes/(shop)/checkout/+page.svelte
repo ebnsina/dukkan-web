@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Field, Input, Note, Select, Textarea } from '$lib/ui';
+	import { Banner, Button, Field, Input, Select, Textarea } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 
 	let { data, form } = $props();
@@ -22,7 +22,7 @@
 	<h1 class="t-heading">Checkout</h1>
 
 	{#if form?.message}
-		<Note title={form.soldOut ? 'Someone got there first' : 'Check your details'} tone="firm">
+		<Banner title={form.soldOut ? 'Someone got there first' : 'Check your details'} tone="danger">
 			{form.message}
 			{#if form.soldOut}
 				<p class="fix">Go back to your basket and change the quantity, or remove that item.</p>
@@ -30,7 +30,7 @@
 			{#snippet actions()}
 				{#if form.soldOut}<Button href="/cart" variant="ghost">Back to basket</Button>{/if}
 			{/snippet}
-		</Note>
+		</Banner>
 	{/if}
 
 	<div class="cols">
@@ -153,7 +153,7 @@
 				{/if}
 			</section>
 
-			<Field label="Note for the shop" hint="Optional.">
+			<Field label="Banner for the shop" hint="Optional.">
 				{#snippet control(props)}
 					<Textarea {...props} name="note" rows={3} value={value('note')} />
 				{/snippet}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MkLink from './ui/MkLink.svelte';
+	import { Link } from '$lib/ui';
 </script>
 
 <div class="relative z-60 bg-mk-dark text-[13px] text-mk-cream">
@@ -18,6 +18,6 @@
 				advances against your next 90 days of sales.</span
 			>
 		</p>
-		<MkLink href="#pricing" tone="brand-bright">Check eligibility</MkLink>
+		<Link href="#pricing" tone="bright">Check eligibility</Link>
 	</div>
 </div>

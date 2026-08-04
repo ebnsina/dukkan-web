@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
 
 	const questions = [
 		{
@@ -35,7 +35,7 @@
 <section id="faq" class="py-mk-section">
 	<div class="mk-wrap max-w-[980px]">
 		<div class="text-center">
-			<MkSectionHead kicker="FAQ" heading="What merchants ask before they start." centered />
+			<SectionHead kicker="FAQ" heading="What merchants ask before they start." centered />
 
 			<div use:reveal class="border-t border-mk-rule-soft text-left">
 				{#each questions as item, i (item.q)}

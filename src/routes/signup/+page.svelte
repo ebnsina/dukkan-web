@@ -11,8 +11,7 @@
 	import Seo from '$lib/seo/Seo.svelte';
 	import MkNav from '$lib/marketing/MkNav.svelte';
 	import MkFooter from '$lib/marketing/MkFooter.svelte';
-	import Frame from '$lib/marketing/ui/Frame.svelte';
-	import MkButton from '$lib/marketing/ui/MkButton.svelte';
+	import { Button, Frame } from '$lib/ui';
 	import ThemePreview from '$lib/signup/ThemePreview.svelte';
 	import { industryIcon, industryLabel } from '$lib/signup/industries';
 	import type { Availability, ThemePreset, ThemeSummary } from '$lib/api/types';
@@ -165,8 +164,8 @@
 				</Frame>
 
 				<div class="mt-8 flex flex-wrap justify-center gap-3">
-					<MkButton href={done.storefront} variant="brand" arrow>Open my shop</MkButton>
-					<MkButton href="/admin">Go to the dashboard</MkButton>
+					<Button href={done.storefront} variant="solid" arrow>Open my shop</Button>
+					<Button href="/admin">Go to the dashboard</Button>
 				</div>
 			</div>
 		{:else}

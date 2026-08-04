@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { PlusSignIcon, Search01Icon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Chip, Empty, Frame } from '$lib/admin/ui';
+	import { Banner, Button, Chip, Empty, Frame } from '$lib/ui';
 	import { productState } from '$lib/admin/state';
 	import { formatMinorRange } from '$lib/utils/money';
 	import { formatNumber } from '$lib/utils/format';

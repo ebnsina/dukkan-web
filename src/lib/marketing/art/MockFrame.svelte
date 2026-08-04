@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Frame } from '$lib/ui';
 	import type { Snippet } from 'svelte';
-	import Frame from './Frame.svelte';
 
 	interface Props {
 		/** The wide panel's mock gets more room than the half-width ones. */

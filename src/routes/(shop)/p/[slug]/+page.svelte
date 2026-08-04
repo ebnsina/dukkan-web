@@ -3,7 +3,7 @@
 	import Seo from '$lib/seo/Seo.svelte';
 	import Photo from '$lib/shop/Photo.svelte';
 	import { SIZES } from '$lib/shop/photo';
-	import { Button, Note } from '$lib/ui';
+	import { Banner, Button } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber } from '$lib/utils/format';
 
@@ -85,7 +85,7 @@
 		{#if product.description}<p class="description">{product.description}</p>{/if}
 
 		{#if form?.message}
-			<Note title="We could not add that" tone="firm">{form.message}</Note>
+			<Banner title="We could not add that" tone="danger">{form.message}</Banner>
 		{/if}
 
 		<form method="POST" action="?/add" use:enhance class="buy">

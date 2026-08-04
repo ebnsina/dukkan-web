@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { Frame } from '$lib/ui';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowRight02Icon, CheckmarkBadge01Icon, Globe02Icon } from '@hugeicons/core-free-icons';
 	import * as v from 'valibot';
 	import { reveal, scramble } from './motion';
-	import Frame from './ui/Frame.svelte';
 
 	/* Front-end only, and a courtesy: the server is the authority on whether a
 	   handle is free. */

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MkPulse from './ui/MkPulse.svelte';
+	import { Pulse } from '$lib/ui';
 
 	const columns = [
 		{
@@ -57,7 +57,7 @@
 				<span
 					class="inline-flex items-center gap-2 rounded-mk-control border border-mk-rule-soft px-3 py-[7px] font-mk-mono text-[10px] tracking-[0.14em] text-mk-brand-type uppercase"
 				>
-					<MkPulse />
+					<Pulse />
 					All systems operational
 				</span>
 			</div>

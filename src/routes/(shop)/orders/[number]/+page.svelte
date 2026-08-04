@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Note } from '$lib/ui';
+	import { Banner, Button } from '$lib/ui';
 	import OrderDetail from '$lib/shop/OrderDetail.svelte';
 
 	let { data } = $props();
@@ -25,12 +25,12 @@
 	{#if data.order}
 		<OrderDetail order={data.order} />
 	{:else}
-		<Note title="We need your mobile number">
+		<Banner title="We need your mobile number">
 			To show this order we need the mobile number it was placed with.
 			{#snippet actions()}
 				<Button href="/track" variant="ghost">Look up the order</Button>
 			{/snippet}
-		</Note>
+		</Banner>
 	{/if}
 
 	<div class="on">

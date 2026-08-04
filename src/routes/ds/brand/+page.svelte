@@ -7,7 +7,7 @@
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowRight01Icon, PlusSignIcon, FileImportIcon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Chip } from '$lib/admin/ui';
+	import { Chip } from '$lib/ui';
 	import '$lib/styles/admin.css';
 
 	const stroke = 1.6;

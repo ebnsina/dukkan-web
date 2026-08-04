@@ -11,6 +11,6 @@
 <span
 	aria-hidden="true"
 	class="size-1.5 flex-none animate-mk-pulse rounded-full {tone === 'paper'
-		? 'bg-mk-paper shadow-[0_0_0_0_rgba(255,255,255,0.6)]'
-		: 'bg-mk-brand shadow-[0_0_0_0_rgba(75,68,201,0.6)]'}"
+		? 'bg-paper shadow-[0_0_0_0_rgba(255,255,255,0.6)]'
+		: 'bg-accent shadow-[0_0_0_0_rgba(75,68,201,0.6)]'}"
 ></span>

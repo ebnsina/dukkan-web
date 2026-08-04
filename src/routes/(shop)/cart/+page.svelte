@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Empty, Note } from '$lib/ui';
+	import { Banner, Button, Empty } from '$lib/ui';
 	import Photo from '$lib/shop/Photo.svelte';
 	import { SIZES } from '$lib/shop/photo';
 	import { formatMinor } from '$lib/utils/money';
@@ -21,7 +21,7 @@
 	<h1 class="t-heading">Your basket</h1>
 
 	{#if form?.message}
-		<Note title="That did not work" tone="firm">{form.message}</Note>
+		<Banner title="That did not work" tone="danger">{form.message}</Banner>
 	{/if}
 
 	{#if cart.lines.length === 0}
@@ -32,7 +32,7 @@
 		</Empty>
 	{:else}
 		{#if unavailable.length > 0}
-			<Note title="Some items need a change" tone="firm">
+			<Banner title="Some items need a change" tone="danger">
 				{#each unavailable as line (line.variant_id)}
 					<p>
 						{line.title} — {line.available > 0
@@ -40,7 +40,7 @@
 							: 'now sold out'}.
 					</p>
 				{/each}
-			</Note>
+			</Banner>
 		{/if}
 
 		<div class="lines">

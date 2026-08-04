@@ -11,6 +11,10 @@
 		eyebrow?: string;
 		/** What this particular one is. */
 		title?: string;
+		/** A brand chip beside the title, for a status or a claim. */
+		tag?: string;
+		/** Clip the panel so its contents can bleed past the edge. */
+		clip?: boolean;
 		/** A link or a value on the right of the header. */
 		action?: string;
 		actionHref?: string;
@@ -32,6 +36,8 @@
 	let {
 		eyebrow,
 		title,
+		tag,
+		clip = false,
 		action,
 		actionHref,
 		head,
@@ -63,6 +69,7 @@
 			{:else}
 				{#if eyebrow}<span class="eyebrow">{eyebrow}</span>{/if}
 				{#if title}<h2 class="title" id={headingId}>{title}</h2>{/if}
+				{#if tag}<span class="tag">{tag}</span>{/if}
 			{/if}
 			{#if action}
 				{#if actionHref}
@@ -79,7 +86,7 @@
 	{/if}
 
 	<div
-		class={cn('panel', `panel-${variant}`, bodyClass)}
+		class={cn('panel', `panel-${variant}`, clip && 'is-clipped', bodyClass)}
 		style={ratio ? `aspect-ratio:${ratio}` : undefined}
 	>
 		{@render children()}
@@ -172,6 +179,22 @@
 
 	.panel-flush {
 		padding: 6px;
+	}
+
+	.tag {
+		padding: 3px 8px;
+		border-radius: var(--r-chip);
+		background: var(--inverse-paper);
+		color: var(--inverse-ink);
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.is-clipped {
+		position: relative;
+		overflow: hidden;
 	}
 
 	.foot {

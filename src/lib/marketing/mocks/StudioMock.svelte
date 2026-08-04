@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ArtSlot from '../ui/ArtSlot.svelte';
+	import ArtSlot from '$lib/marketing/art/ArtSlot.svelte';
 	const sections = ['Hero banner', 'Featured edit', 'Collection grid', 'Size guide', 'Reviews'];
 </script>
 

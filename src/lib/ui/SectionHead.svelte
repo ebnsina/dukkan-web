@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { maskReveal, reveal, scramble } from '../motion';
+	import { maskReveal, reveal, scramble } from '$lib/marketing/motion';
 
 	interface Props {
 		kicker: string;

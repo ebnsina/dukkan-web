@@ -343,97 +343,12 @@
 
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 
-.dk-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 9px;
-	font-family: var(--font-mono);
-	font-size: 11.5px;
-	font-weight: 500;
-	letter-spacing: 0.14em;
-	text-transform: uppercase;
-	padding: 14px 20px;
-	border: 0;
-	border-radius: var(--r-control);
-	white-space: nowrap;
-	cursor: pointer;
-	transition:
-		background-color var(--d-quick),
-		box-shadow var(--d-quick);
-}
-
-.dk-btn[disabled] {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-.dk-btn--solid {
-	background: var(--d-brand);
-	color: var(--d-brand-ink);
-}
-
-.dk-btn--solid:not([disabled]):hover {
-	background: var(--d-brand-deep);
-}
-
 /* Quiet sits on paper, so it carries its own edge rather than a fill that
    would be the same colour as the panel behind it. */
-.dk-btn--quiet {
-	background: transparent;
-	color: var(--d-ink);
-	box-shadow: inset 0 0 0 1px var(--d-edge);
-}
-
-.dk-btn--quiet:not([disabled]):hover {
-	background: var(--d-hover);
-	box-shadow: inset 0 0 0 1px var(--d-edge-strong);
-}
-
-.dk-btn--danger {
-	background: var(--danger-soft);
-	color: var(--danger);
-}
-
-.dk-btn--danger:not([disabled]):hover {
-	background: var(--danger);
-	color: var(--n-0);
-}
-
-.dk-btn--sm {
-	padding: 10px 14px;
-	border-radius: var(--r-control);
-	font-size: 11px;
-}
-
 /* ── Frames ───────────────────────────────────────────────────────────── */
 
 /* Shell, then panel: the heading belongs to the tint and the content sits on
    paper, inset by a 3px rail. The same frame the landing page uses. */
-.dk-frame {
-	display: flex;
-	flex-direction: column;
-	background: var(--d-card);
-	border-radius: var(--r-card);
-	padding: 3px;
-}
-
-.dk-head {
-	display: flex;
-	align-items: baseline;
-	gap: 12px;
-	padding: 11px 14px 12px;
-}
-
-.dk-frame-foot {
-	display: flex;
-	align-items: baseline;
-	gap: 12px;
-	padding: 10px 14px 9px;
-	font-size: 13px;
-	color: var(--d-faint);
-}
-
 .dk-eyebrow {
 	font-family: var(--font-mono);
 	font-size: 11px;
@@ -442,108 +357,17 @@
 	color: var(--d-faint);
 }
 
-.dk-h2 {
-	margin: 0;
-	font-size: 15px;
-	font-weight: 650;
-}
-
-.dk-view {
-	margin-left: auto;
-	font-size: 13px;
-	color: var(--d-muted);
-}
-
 a.dk-view:hover {
 	color: var(--d-press);
 }
 
-.dk-view.is-plain {
-	color: var(--d-faint);
-}
-
 /* The panel fills its frame, and its children share the height between them,
    so a card never shows a band of bare paper under a short list. */
-.dk-panel {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	min-height: 0;
-	padding: 10px;
-	background: var(--d-sheet);
-	border-radius: var(--r-panel);
-}
-
-.dk-panel > * {
-	flex: 1;
-}
-
 /* Prose and stacks of their own keep their natural height. */
-.dk-panel--pad > *,
-.dk-panel--stat > *,
-.dk-panel--flush > * {
-	flex: none;
-}
-
-.dk-panel--pad {
-	justify-content: center;
-	padding: 20px;
-}
-
-.dk-panel--rows {
-	padding: 6px;
-}
-
-.dk-panel--flush {
-	padding: 6px;
-}
-
 /* ── Figures ──────────────────────────────────────────────────────────── */
-
-.dk-stats {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
-	gap: 14px;
-	margin-bottom: 14px;
-}
 
 /* The figure sits on the floor of its panel, so a card that stretches to match
    a taller neighbour still reads as one block. */
-.dk-panel--stat {
-	justify-content: center;
-	padding: 16px;
-}
-
-.dk-stat-value {
-	display: block;
-	margin: 0 0 2px;
-	font-size: 25px;
-	font-weight: 650;
-	letter-spacing: -0.02em;
-	font-variant-numeric: tabular-nums;
-}
-
-.dk-stat-value[data-tone='accent'] {
-	color: var(--accent);
-}
-.dk-stat-value[data-tone='success'] {
-	color: var(--success);
-}
-.dk-stat-value[data-tone='warning'] {
-	color: var(--warning);
-}
-.dk-stat-value[data-tone='danger'] {
-	color: var(--danger);
-}
-.dk-stat-value[data-tone='info'] {
-	color: var(--info);
-}
-
-.dk-stat-sub {
-	font-size: 13px;
-	color: var(--d-faint);
-}
-
 .dk-kicker {
 	font-size: 13px;
 	color: var(--d-muted);
@@ -652,21 +476,6 @@ a.dk-view:hover {
 }
 
 /* The round arrow is the affordance: a row carrying one can be opened. */
-.dk-go {
-	display: grid;
-	place-items: center;
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	background: var(--d-sheet);
-	color: var(--d-muted);
-	flex: none;
-	box-shadow: var(--d-softer);
-	transition:
-		background-color var(--d-quick),
-		color var(--d-quick);
-}
-
 .dk-row:hover .dk-go {
 	background: var(--d-brand);
 	color: var(--d-brand-ink);
@@ -684,34 +493,6 @@ a.dk-view:hover {
 
 .dk-mini:hover {
 	background: var(--d-hover);
-}
-
-.dk-sq {
-	display: grid;
-	place-items: center;
-	width: 30px;
-	height: 30px;
-	border-radius: var(--r-tile);
-	background: var(--d-card);
-	color: var(--d-muted);
-	flex: none;
-}
-
-.dk-sq[data-tone='danger'] {
-	background: var(--danger-soft);
-	color: var(--danger);
-}
-.dk-sq[data-tone='warning'] {
-	background: var(--warning-soft);
-	color: var(--warning);
-}
-.dk-sq[data-tone='info'] {
-	background: var(--info-soft);
-	color: var(--info);
-}
-.dk-sq[data-tone='success'] {
-	background: var(--success-soft);
-	color: var(--success);
 }
 
 .dk-mini-text {
@@ -735,56 +516,6 @@ a.dk-view:hover {
 /* A badge is a small button that does nothing: same mono type, same radius
    scale — smaller box, tighter corner — and a wash rather than a fill, so a
    column of forty does not shout. */
-.dk-chip {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	padding: 5px 9px;
-	border-radius: var(--r-tile);
-	font-family: var(--font-mono);
-	font-size: 11px;
-	font-weight: 500;
-	letter-spacing: 0.1em;
-	line-height: 1.3;
-	text-transform: uppercase;
-	background: var(--d-card);
-	color: var(--d-muted);
-	box-shadow: inset 0 0 0 1px var(--d-edge);
-	white-space: nowrap;
-}
-
-.dk-chip-icon {
-	display: grid;
-	place-items: center;
-	margin-left: -1px;
-}
-
-.dk-chip[data-tone='success'] {
-	background: var(--success-soft);
-	color: var(--success);
-	box-shadow: none;
-}
-.dk-chip[data-tone='warning'] {
-	background: var(--warning-soft);
-	color: var(--warning);
-	box-shadow: none;
-}
-.dk-chip[data-tone='danger'] {
-	background: var(--danger-soft);
-	color: var(--danger);
-	box-shadow: none;
-}
-.dk-chip[data-tone='info'] {
-	background: var(--info-soft);
-	color: var(--info);
-	box-shadow: none;
-}
-.dk-chip[data-tone='accent'] {
-	background: var(--accent-soft);
-	color: var(--accent);
-	box-shadow: none;
-}
-
 /* ── Tables ───────────────────────────────────────────────────────────── */
 
 .dk-scroll {
@@ -932,22 +663,6 @@ a.dk-num:hover {
 	gap: 18px;
 }
 
-.dk-field {
-	display: flex;
-	flex-direction: column;
-	gap: 7px;
-}
-
-.dk-label {
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--d-ink);
-}
-
-.dk-req {
-	color: var(--danger);
-}
-
 .dk-input,
 .dk-select,
 .dk-textarea {
@@ -989,11 +704,6 @@ a.dk-num:hover {
 	color: var(--d-faint);
 }
 
-.dk-error {
-	font-size: 12.5px;
-	color: var(--danger);
-}
-
 .dk-filters {
 	display: flex;
 	flex-wrap: wrap;
@@ -1014,64 +724,6 @@ a.dk-num:hover {
 }
 
 /* ── Messages ─────────────────────────────────────────────────────────── */
-
-.dk-banner {
-	display: flex;
-	align-items: flex-start;
-	gap: 12px;
-	margin: 0;
-	padding: 14px 16px;
-	border-radius: var(--r-control);
-	background: var(--d-card);
-	color: var(--d-muted);
-	font-size: 13.5px;
-}
-
-.dk-banner[data-tone='danger'] {
-	background: var(--danger-soft);
-	color: var(--danger);
-}
-.dk-banner[data-tone='warning'] {
-	background: var(--warning-soft);
-	color: var(--warning);
-}
-.dk-banner[data-tone='success'] {
-	background: var(--success-soft);
-	color: var(--success);
-}
-.dk-banner[data-tone='info'] {
-	background: var(--info-soft);
-	color: var(--info);
-}
-
-.dk-banner-title {
-	display: block;
-	font-weight: 650;
-	color: inherit;
-}
-
-.dk-empty {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	padding: 40px 24px;
-	text-align: center;
-}
-
-.dk-empty-title {
-	font-size: 15px;
-	font-weight: 650;
-	color: var(--d-ink);
-}
-
-.dk-empty-desc {
-	margin: 0;
-	max-width: 44ch;
-	color: var(--d-muted);
-	font-size: 13.5px;
-}
 
 .dk-dim {
 	color: var(--d-faint);
@@ -1106,133 +758,6 @@ a.dk-num:hover {
 	.dk-body {
 		margin: 0 6px 6px;
 	}
-}
-
-/* ── Toggle ───────────────────────────────────────────────────────────── */
-
-.dk-switch {
-	display: flex;
-	align-items: flex-start;
-	gap: 12px;
-	cursor: pointer;
-}
-
-.dk-switch input {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
-}
-
-.dk-switch-track {
-	position: relative;
-	flex: none;
-	width: 40px;
-	height: 23px;
-	margin-top: 1px;
-	border-radius: 999px;
-	background: var(--d-card);
-	box-shadow: inset 0 0 0 1px var(--d-edge);
-	transition:
-		background-color var(--d-quick),
-		box-shadow var(--d-quick);
-}
-
-.dk-switch-track::after {
-	content: '';
-	position: absolute;
-	top: 3px;
-	left: 3px;
-	width: 17px;
-	height: 17px;
-	border-radius: 50%;
-	background: var(--d-sheet);
-	box-shadow: var(--d-softer);
-	transition: transform var(--d-quick);
-}
-
-.dk-switch input:checked + .dk-switch-track {
-	background: var(--d-brand);
-	box-shadow: inset 0 0 0 1px transparent;
-}
-
-.dk-switch input:checked + .dk-switch-track::after {
-	transform: translateX(17px);
-	background: var(--d-brand-ink);
-}
-
-.dk-switch input:focus-visible + .dk-switch-track {
-	outline: 2px solid var(--d-press);
-	outline-offset: 2px;
-}
-
-.dk-switch-text {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
-.dk-switch-label {
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--d-ink);
-}
-
-/* ── Confirm ──────────────────────────────────────────────────────────── */
-
-/* Not scoped under .dk-app: a modal <dialog> is rendered in the top layer,
-   outside the shell, so it carries the tokens itself. */
-.dk-dialog {
-	width: min(420px, calc(100vw - 32px));
-	padding: 22px;
-	border: 0;
-	border-radius: 20px;
-	background: var(--n-0);
-	color: var(--n-950);
-	font-size: 14px;
-	line-height: 1.5;
-}
-
-[data-theme='dark'] .dk-dialog {
-	background: var(--nd-900);
-	color: var(--nd-50);
-}
-
-.dk-dialog::backdrop {
-	background: rgba(16, 17, 19, 0.55);
-}
-
-.dk-dialog h2 {
-	margin: 0 0 8px;
-	font-size: 16px;
-	font-weight: 650;
-	letter-spacing: -0.02em;
-}
-
-.dk-dialog p {
-	margin: 0 0 20px;
-	color: var(--n-600);
-}
-
-[data-theme='dark'] .dk-dialog p {
-	color: var(--nd-200);
-}
-
-.dk-dialog-acts {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-	gap: 10px;
-}
-
-.dk-btn-icon {
-	display: grid;
-	place-items: center;
-	margin-left: -2px;
-}
-
-.dk-empty-acts {
-	margin-top: 8px;
 }
 
 /* ── Embedded ─────────────────────────────────────────────────────────── */

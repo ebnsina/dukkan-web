@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ArtSlot from '../ui/ArtSlot.svelte';
+	import ArtSlot from '$lib/marketing/art/ArtSlot.svelte';
 	import { taka } from '../money';
 
 	interface Props {

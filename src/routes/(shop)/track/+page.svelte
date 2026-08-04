@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Button, Field, Input, Note } from '$lib/ui';
+	import { Banner, Button, Field, Input } from '$lib/ui';
 	import OrderDetail from '$lib/shop/OrderDetail.svelte';
 
 	let { form } = $props();
@@ -22,7 +22,7 @@
 		</p>
 
 		{#if form?.message}
-			<Note title="We could not find it" tone="firm">{form.message}</Note>
+			<Banner title="We could not find it" tone="danger">{form.message}</Banner>
 		{/if}
 
 		<form method="POST" use:enhance class="form">

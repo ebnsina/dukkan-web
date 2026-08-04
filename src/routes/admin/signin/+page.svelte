@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { ArrowRight01Icon, MessageNotification01Icon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Field } from '$lib/admin/ui';
+	import { Banner, Button, Field } from '$lib/ui';
 
 	let { form } = $props();
 	const denied = $derived(page.url.searchParams.get('denied') === '1');
@@ -32,8 +32,8 @@
 
 	{#if !form?.sent}
 		<form method="POST" action="?/request" use:enhance class="dk-form">
-			<Field label="Mobile number" id="phone" required>
-				{#snippet children(props)}
+			<Field label="Mobile number" required>
+				{#snippet control(props)}
 					<input
 						{...props}
 						class="dk-input"
@@ -52,8 +52,8 @@
 	{:else}
 		<form method="POST" action="?/verify" use:enhance class="dk-form">
 			<input type="hidden" name="phone" value={form.phone} />
-			<Field label="The code we sent" id="code" required hint="Six digits, sent to {form.phone}.">
-				{#snippet children(props)}
+			<Field label="The code we sent" required hint="Six digits, sent to {form.phone}.">
+				{#snippet control(props)}
 					<input
 						{...props}
 						class="dk-input"

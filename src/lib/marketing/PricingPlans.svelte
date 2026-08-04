@@ -1,8 +1,6 @@
 <script lang="ts">
+	import { Button, Link, SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
-	import MkSectionHead from './ui/MkSectionHead.svelte';
-	import MkButton from './ui/MkButton.svelte';
-	import MkLink from './ui/MkLink.svelte';
 	import { taka } from './money';
 
 	const tiers = [
@@ -71,7 +69,7 @@
 
 <section id="pricing" class="py-mk-section">
 	<div class="mk-wrap">
-		<MkSectionHead
+		<SectionHead
 			kicker="Pricing"
 			heading="Pay for the platform. Never per sale."
 			sub="One flat monthly fee and 1.9% of what you process. No per-order cents, no surprises."
@@ -102,7 +100,7 @@
 					>
 				</button>
 			</div>
-		</MkSectionHead>
+		</SectionHead>
 
 		<!-- Equal-height columns: the featured card gains weight from colour, not size. -->
 		<div class="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-3">
@@ -175,8 +173,8 @@
 						</ul>
 
 						<div class="mt-8">
-							<MkButton href="#cta" variant={tier.featured ? 'brand' : 'ghost'} full
-								>{tier.cta}</MkButton
+							<Button href="#cta" variant={tier.featured ? 'solid' : 'ghost'} full
+								>{tier.cta}</Button
 							>
 						</div>
 					</div>
@@ -202,7 +200,7 @@
 					operation.
 				</p>
 			</div>
-			<MkLink href="#cta">Talk to sales</MkLink>
+			<Link href="#cta">Talk to sales</Link>
 		</div>
 	</div>
 </section>

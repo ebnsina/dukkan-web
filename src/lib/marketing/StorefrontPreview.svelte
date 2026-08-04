@@ -1,10 +1,10 @@
 <script lang="ts">
+	import IphoneFrame from '$lib/marketing/art/IphoneFrame.svelte';
+	import MacBookFrame from '$lib/marketing/art/MacBookFrame.svelte';
+	import MacWindow from '$lib/marketing/art/MacWindow.svelte';
+	import ArtSlot from '$lib/marketing/art/ArtSlot.svelte';
 	import { onMount } from 'svelte';
 	import { prefersReduced } from './motion';
-	import ArtSlot from './ui/ArtSlot.svelte';
-	import MacBookFrame from './ui/MacBookFrame.svelte';
-	import MacWindow from './ui/MacWindow.svelte';
-	import IphoneFrame from './ui/IphoneFrame.svelte';
 	import { taka } from './money';
 
 	/* The swatches repaint the window by swapping its CSS custom properties.

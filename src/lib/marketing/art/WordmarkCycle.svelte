@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { prefersReduced } from '../motion';
+	import { prefersReduced } from '$lib/marketing/motion';
 
 	interface Props {
 		/** Rendered behind the band as a watermark, so it never carries meaning. */

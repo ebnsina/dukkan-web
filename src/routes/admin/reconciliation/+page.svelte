@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { CheckmarkCircle02Icon, RefreshIcon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Empty, Frame, Stat } from '$lib/admin/ui';
+	import { Banner, Button, Empty, Frame, Stat } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
 	import type { IssueKind } from '$lib/admin/types';

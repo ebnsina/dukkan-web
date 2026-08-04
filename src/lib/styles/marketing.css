@@ -134,6 +134,22 @@
 
 @layer base {
 	.mk-surface {
+		/* The standard names, rebound. A shared component reads --paper and
+		   --ink and gets the marketing page's, so nothing is forked to sit
+		   here — the same trick .dk-app uses for the admin. */
+		--paper: var(--color-mk-paper);
+		--surface: var(--color-mk-shell);
+		--ink: var(--color-mk-ink);
+		--muted: var(--color-mk-muted);
+		--faint: var(--color-mk-faint);
+		--rule: var(--color-mk-rule-soft);
+		--rule-strong: var(--color-mk-rule);
+		--inverse-paper: var(--color-mk-brand);
+		--inverse-ink: var(--color-mk-on-brand);
+		--accent: var(--color-mk-brand-deep);
+		--accent-ink: var(--color-mk-on-brand);
+		--accent-soft: var(--brand-tint);
+
 		background: var(--color-mk-paper);
 		color: var(--color-mk-ink);
 		font-family: var(--font-mk-body);
