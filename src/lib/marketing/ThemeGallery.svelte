@@ -144,7 +144,7 @@
 									>
 									{#if item.badge}
 										<span
-											class="rounded-md bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
+											class="rounded-mk-chip bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 											>{item.badge}</span
 										>
 									{/if}

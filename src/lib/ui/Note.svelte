@@ -108,6 +108,7 @@
 		cursor: pointer;
 		background: none;
 		border: none;
+		border-radius: var(--r-panel);
 		min-width: 24px;
 		min-height: 24px;
 	}

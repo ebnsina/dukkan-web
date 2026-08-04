@@ -98,7 +98,7 @@
 					<button
 						type="button"
 						disabled={!result.success}
-						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch rounded-xl bg-mk-brand px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
+						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch rounded-mk-control bg-mk-brand px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
 					>
 						Claim it
 						<span

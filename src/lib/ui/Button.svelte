@@ -67,6 +67,7 @@
 		gap: 10px;
 		height: 46px;
 		padding-inline: 22px;
+		border-radius: var(--r-control);
 		border: 1px solid transparent;
 		font-family: var(--font-mono);
 		font-size: 11px;

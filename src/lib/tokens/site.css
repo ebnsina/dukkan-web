@@ -1,0 +1,321 @@
+/* The marketing surface.
+ *
+ * The landing page and signup, in their own `mk-` namespace. A fixed,
+ * always-light brand surface: the theme toggle cannot repaint it half-way,
+ * and nothing here reaches the storefront or the admin.
+ *
+ * Part of src/lib/tokens/ — one file per surface, so a colour, a radius or a
+ * type step is defined once and changed once. Nothing here is redeclared in a
+ * component.
+ */
+
+/* ─ Marketing surface ─
+ *
+ * The app proper is a neutral greyscale that flips with the theme. The
+ * marketing page is a fixed, always-light brand surface, so its palette lives
+ * in its own `mk-` namespace: `bg-mk-brand`, `font-mk-head`. The
+ * theme toggle can't repaint it half-way, and nothing here leaks into the
+ * storefront or admin unless a component asks for it by name.
+ */
+
+@theme {
+	--color-mk-paper: #ffffff;
+	--color-mk-ink: #111120;
+	--color-mk-muted: #5b5b6a;
+	--color-mk-faint: #6d6d7c;
+	/* The sibling for the few dark surfaces, where the paper value goes muddy. */
+	--color-mk-faint-inv: #9a9aa8;
+	/* Indigo carries both roles lime could not: a fill under white text, and
+	 * type on paper at 9.19:1. `lift` is the sibling a dark ground needs, since
+	 * the fill itself disappears into one. */
+	--color-mk-brand: #4b44c9;
+	--color-mk-brand-deep: #3c36a8;
+	--color-mk-brand-type: #3c36a8;
+	--color-mk-brand-lift: #9b95f2;
+	--color-mk-on-brand: #ffffff;
+	--color-mk-dark: #161624;
+	--color-mk-dark-2: #20202f;
+	--color-mk-cream: #f3f3f8;
+	--color-mk-alert: #b8452f;
+	/* Shell greys are solid, not ink at low alpha. `shell` leans a little toward
+	 * the indigo — enough that a frame reads as ours rather than as default
+	 * chrome, not enough to spend the accent. `shell-deep` stays neutral: it
+	 * backs bars and tracks, where a tinted grey would tint what sits on it. */
+	--color-mk-shell: #f3f3fb;
+	--color-mk-shell-deep: #e5e5ed;
+	--color-mk-rule: rgba(17, 17, 32, 0.16);
+	--color-mk-rule-soft: rgba(17, 17, 32, 0.08);
+	--color-mk-rule-inv: rgba(243, 243, 248, 0.14);
+
+	/* One family across headings, body and numerals — Mona Sans is already
+	 * self-hosted above, and its width axis does the display work. */
+	--font-mk-head: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+	--font-mk-body: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+	--font-mk-num: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+	--font-mk-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+	--font-mk-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+
+	/* Tracks the hero column, not the viewport: its longest line is 28 characters
+	 * and must clear the column, since a wrapped line is a clipped one. */
+	--text-mk-h1: clamp(28px, calc(4.5vw - 9px), 56px);
+	--text-mk-h2: clamp(28px, 3.6vw, 48px);
+	--text-mk-h3: clamp(20px, 2vw, 25px);
+
+	/* Radius by the size of the box: a card, the panel inset inside it by the
+	 * 3px rail, a nested panel, a control, a tile, a chip. */
+	--radius-mk-card: 24px;
+	--radius-mk-panel: 21px;
+	--radius-mk-nested: 16px;
+	--radius-mk-control: 12px;
+	--radius-mk-tile: 8px;
+	--radius-mk-chip: 6px;
+
+	--spacing-mk-gutter: clamp(20px, 5vw, 64px);
+	--spacing-mk-section: clamp(64px, 8vw, 116px);
+
+	--ease-mk: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+	--animate-mk-pulse: mk-pulse 2s infinite;
+	--animate-mk-kenburns: mk-kenburns 22s ease-in-out infinite alternate;
+	--animate-mk-rise: mk-rise 420ms cubic-bezier(0.19, 1, 0.22, 1) both;
+	/* No fill mode: the notification stack keeps its resting transform in an
+	 * inline style, and `both` would freeze the end frame over the top of it. */
+	--animate-mk-notify: mk-notify 520ms cubic-bezier(0.19, 1, 0.22, 1);
+	--animate-mk-meter: mk-meter 4s linear infinite;
+
+	@keyframes mk-pulse {
+		70% {
+			box-shadow: 0 0 0 7px rgba(75, 68, 201, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(75, 68, 201, 0);
+		}
+	}
+
+	@keyframes mk-kenburns {
+		from {
+			transform: scale(1);
+		}
+		to {
+			transform: scale(1.09);
+		}
+	}
+
+	/* A new line of the feed rising into place behind a mask. */
+	@keyframes mk-notify {
+		from {
+			transform: translateY(125%);
+			opacity: 0;
+		}
+	}
+	@keyframes mk-rise {
+		from {
+			transform: translateY(110%);
+			opacity: 0;
+		}
+		to {
+			transform: none;
+			opacity: 1;
+		}
+	}
+
+	/* Runs in step with the cycle interval, so the wait is legible. */
+	@keyframes mk-meter {
+		from {
+			transform: scaleX(0);
+		}
+		to {
+			transform: scaleX(1);
+		}
+	}
+}
+
+/* Base type roles for the marketing surface. Everything else is utilities.
+ * These live in @layer base so the `text-mk-h1` utilities still win on size
+ * while the display face, weight and tight leading come for free. */
+
+@layer base {
+	.mk-surface {
+		background: var(--color-mk-paper);
+		color: var(--color-mk-ink);
+		font-family: var(--font-mk-body);
+		font-size: 16px;
+		line-height: 1.6;
+		color-scheme: light;
+	}
+
+	.mk-surface h1,
+	.mk-surface h2,
+	.mk-surface h3 {
+		font-family: var(--font-mk-head);
+		font-weight: 800;
+		font-stretch: 86%;
+		font-variation-settings: 'wdth' 86;
+		letter-spacing: -0.035em;
+		line-height: 1.02;
+	}
+
+	/* Anchor nav: smooth only on this page, and clear of the sticky header. */
+	html:has(.mk-surface) {
+		scroll-behavior: smooth;
+	}
+
+	.mk-surface section[id] {
+		scroll-margin-top: 92px;
+	}
+
+	.mk-surface ::selection {
+		background: var(--color-mk-brand);
+		color: var(--color-mk-ink);
+	}
+
+	.mk-surface :focus-visible {
+		outline: 2px solid var(--color-mk-brand-type);
+		outline-offset: 2px;
+	}
+}
+
+/* Display type outside h1–h3 — brand marks, card titles, pull quotes. Mona
+ * Sans needs its width axis narrowed to read as display rather than UI. */
+@utility mk-display {
+	font-family: var(--font-mk-head);
+	font-weight: 800;
+	font-stretch: 86%;
+	font-variation-settings: 'wdth' 86;
+	letter-spacing: -0.035em;
+}
+
+/* Every price, stat, quantity and order number on the page. */
+@utility mk-num {
+	font-family: var(--font-mk-num);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
+}
+
+@utility mk-mono {
+	font-family: var(--font-mk-mono);
+	font-size: 11px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+@utility mk-kicker {
+	font-family: var(--font-mk-mono);
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+@utility mk-arrow-btn {
+	width: 46px;
+	height: 46px;
+	border: 1px solid var(--color-mk-ink);
+	background: none;
+	cursor: pointer;
+	font-size: 15px;
+	transition:
+		transform 180ms,
+		box-shadow 180ms,
+		background-color 180ms,
+		color 180ms;
+
+	&:hover {
+		background: var(--color-mk-ink);
+		color: #fff;
+	}
+}
+
+/* One place to set the marketing page's measure. Wider than the app's 1240px
+ * container: a product page wants the extra width, an article does not. */
+@utility mk-wrap {
+	width: 100%;
+	max-width: 1440px;
+	margin-inline: auto;
+	padding-inline: var(--spacing-mk-gutter);
+}
+
+@utility mk-chip {
+	border: 1px solid;
+	padding: 9px 15px;
+	cursor: pointer;
+	font-family: var(--font-mk-mono);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	transition:
+		background-color 200ms,
+		color 200ms,
+		border-color 200ms;
+}
+
+@utility mk-grain {
+	opacity: 0.035;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Underline draws in left → right. Paired with an arrow that nudges. */
+@utility mk-underline {
+	position: relative;
+
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -3px;
+		width: 100%;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 300ms;
+	}
+
+	&:hover::after {
+		transform: scaleX(1);
+	}
+}
+
+/* Scroll reveal + hero line masks. Toggled by src/lib/marketing/motion.ts. */
+
+@layer components {
+	[data-mk-reveal] {
+		opacity: 0;
+		transform: translateY(18px);
+		transition:
+			opacity 700ms var(--ease-mk),
+			transform 700ms var(--ease-mk);
+	}
+
+	[data-mk-reveal='in'] {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* The mask box has to reach below the baseline or it shears the descenders
+	 * off g, y and p. The negative margin gives the space back to the layout,
+	 * and the extra travel keeps the incoming line out of that overhang. */
+	[data-mk-line] {
+		padding-bottom: 0.22em;
+		margin-bottom: -0.22em;
+	}
+
+	[data-mk-line] > span {
+		display: block;
+		transform: translateY(130%);
+		transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+	}
+
+	[data-mk-line='in'] > span {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-mk-reveal],
+	[data-mk-line] > span {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

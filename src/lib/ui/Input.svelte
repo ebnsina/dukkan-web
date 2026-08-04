@@ -31,6 +31,7 @@
 		background-color: var(--paper);
 		color: var(--ink);
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		font-size: var(--size-body);
 		transition: border-color var(--dur-hover) var(--ease-out);
 	}

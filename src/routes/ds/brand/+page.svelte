@@ -8,7 +8,7 @@
 	import { ArrowRight01Icon, PlusSignIcon, FileImportIcon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Chip } from '$lib/admin/ui';
-	import '$lib/admin/dashboard.css';
+	import '$lib/tokens/admin.css';
 
 	const stroke = 1.6;
 
@@ -542,7 +542,15 @@
 		}
 	}
 
-	@media (min-width: 1320px) {
+	/* Five columns need real width; below that a row crushes the name it is
+	   meant to show. */
+	@media (min-width: 1100px) {
+		.grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1700px) {
 		.grid {
 			grid-template-columns: repeat(5, minmax(0, 1fr));
 		}

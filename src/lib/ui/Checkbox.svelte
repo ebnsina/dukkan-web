@@ -67,6 +67,7 @@
 		inset: 0;
 		appearance: none;
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-chip);
 		background: var(--paper);
 		cursor: pointer;
 		transition: border-color var(--dur-hover) var(--ease-out);

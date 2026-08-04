@@ -190,7 +190,7 @@
 					onclick={() => (theme = swatch.name)}
 					aria-label="{swatch.label} theme"
 					aria-pressed={theme === swatch.name}
-					class="size-5 cursor-pointer rounded-md border transition-transform duration-200 hover:-translate-y-0.5 {swatch.chip} {theme ===
+					class="size-5 cursor-pointer rounded-mk-chip border transition-transform duration-200 hover:-translate-y-0.5 {swatch.chip} {theme ===
 					swatch.name
 						? 'border-mk-brand'
 						: 'border-mk-ink/20'}"

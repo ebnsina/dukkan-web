@@ -51,6 +51,7 @@
 		background-color: var(--paper);
 		color: var(--ink);
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		font-family: var(--font-display);
 		font-size: var(--size-body);
 		appearance: none;

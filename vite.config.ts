@@ -4,6 +4,13 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	/* One port, always. Vite's default is to hop to the next free port when
+	   5173 is busy, which leaves a stale server serving an old module graph
+	   while you read the new one — that cost an afternoon of chasing a 500
+	   that did not exist. Fail loudly instead. */
+	server: { port: 5173, strictPort: true },
+	preview: { port: 4173, strictPort: true },
+
 	plugins: [
 		tailwindcss(),
 		sveltekit({

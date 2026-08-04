@@ -76,7 +76,10 @@
 			heading="Pay for the platform. Never per sale."
 			sub="One flat monthly fee and 1.9% of what you process. No per-order cents, no surprises."
 		>
-			<div use:reveal class="mt-7 inline-flex overflow-hidden rounded-xl border border-mk-ink">
+			<div
+				use:reveal
+				class="mt-7 inline-flex overflow-hidden rounded-mk-control border border-mk-ink"
+			>
 				<button
 					type="button"
 					onclick={() => setBilling(false)}
@@ -106,7 +109,7 @@
 			{#each tiers as tier, i (tier.name)}
 				<article
 					use:reveal={i * 70}
-					class="relative flex flex-col overflow-hidden rounded-4xl border transition-colors duration-300 {tier.featured
+					class="relative flex flex-col overflow-hidden rounded-mk-card border transition-colors duration-300 {tier.featured
 						? 'border-mk-dark bg-mk-dark text-mk-cream'
 						: 'border-mk-rule-soft bg-mk-paper hover:border-mk-rule'}"
 				>
@@ -124,7 +127,7 @@
 						</p>
 						{#if tier.featured}
 							<span
-								class="rounded-md bg-mk-brand px-2 py-1 font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
+								class="rounded-mk-chip bg-mk-brand px-2 py-1 font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 								>Most popular</span
 							>
 						{/if}

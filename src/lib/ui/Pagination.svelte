@@ -83,6 +83,7 @@
 		padding-inline: 8px;
 		background: none;
 		border: none;
+		border-radius: var(--r-control);
 		color: var(--faint);
 		cursor: pointer;
 		transition: color var(--dur-hover) var(--ease-out);

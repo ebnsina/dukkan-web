@@ -29,7 +29,7 @@
 		<a href="#top" class="flex items-center gap-[11px]">
 			<span
 				aria-hidden="true"
-				class="grid size-[34px] flex-none place-items-center rounded-lg bg-mk-brand text-[19px] leading-none text-mk-on-brand"
+				class="grid size-[34px] flex-none place-items-center rounded-mk-tile bg-mk-brand text-[19px] leading-none text-mk-on-brand"
 				>&#1583;</span
 			>
 			<span>
@@ -62,7 +62,7 @@
 				aria-label="Menu"
 				aria-expanded={open}
 				aria-controls="mk-nav-panel"
-				class="flex size-[42px] cursor-pointer flex-col justify-between rounded-xl border border-mk-rule p-3 md:hidden"
+				class="flex size-[42px] cursor-pointer flex-col justify-between rounded-mk-control border border-mk-rule p-3 md:hidden"
 			>
 				<span
 					class="block h-[1.5px] bg-mk-ink transition-transform duration-300 {open

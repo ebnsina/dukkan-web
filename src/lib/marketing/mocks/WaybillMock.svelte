@@ -8,7 +8,7 @@
 	];
 </script>
 
-<div class="flex flex-col gap-3 rounded-2xl border border-mk-rule-soft bg-mk-shell p-3.5">
+<div class="flex flex-col gap-3 rounded-mk-nested border border-mk-rule-soft bg-mk-shell p-3.5">
 	<div class="flex justify-between">
 		<span class="mk-mono text-mk-muted">Waybill</span>
 		<span class="mk-mono text-mk-muted">Courier partner</span>

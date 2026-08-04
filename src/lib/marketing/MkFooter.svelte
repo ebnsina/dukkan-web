@@ -45,7 +45,7 @@
 				<a href="#top" class="flex items-center gap-[11px]">
 					<span
 						aria-hidden="true"
-						class="grid size-[34px] flex-none place-items-center rounded-lg bg-mk-brand text-[19px] leading-none text-mk-on-brand"
+						class="grid size-[34px] flex-none place-items-center rounded-mk-tile bg-mk-brand text-[19px] leading-none text-mk-on-brand"
 						>&#1583;</span
 					>
 					<span class="block mk-display text-[21px] leading-tight">Dukk&agrave;n</span>
@@ -55,7 +55,7 @@
 					still arrives in cash.
 				</p>
 				<span
-					class="inline-flex items-center gap-2 rounded-xl border border-mk-rule-soft px-3 py-[7px] font-mk-mono text-[10px] tracking-[0.14em] text-mk-brand-type uppercase"
+					class="inline-flex items-center gap-2 rounded-mk-control border border-mk-rule-soft px-3 py-[7px] font-mk-mono text-[10px] tracking-[0.14em] text-mk-brand-type uppercase"
 				>
 					<MkPulse />
 					All systems operational

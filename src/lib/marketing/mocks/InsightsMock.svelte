@@ -9,7 +9,7 @@
 	];
 </script>
 
-<div class="flex flex-col gap-3.5 rounded-2xl border border-mk-rule-soft bg-mk-shell p-3.5">
+<div class="flex flex-col gap-3.5 rounded-mk-nested border border-mk-rule-soft bg-mk-shell p-3.5">
 	<div class="flex h-33 items-end gap-[5px]">
 		{#each bars as height, i (i)}
 			<i

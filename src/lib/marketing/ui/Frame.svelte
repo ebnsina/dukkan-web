@@ -52,7 +52,7 @@
 	Flat, no shadow.
 -->
 <div
-	class="group/frame flex flex-col rounded-4xl p-[3px] {dark
+	class="group/frame flex flex-col rounded-mk-card p-[3px] {dark
 		? 'bg-mk-dark-2'
 		: 'bg-mk-shell'} {className}"
 >
@@ -76,7 +76,7 @@
 					{/if}
 					{#if tag}
 						<span
-							class="rounded-md bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
+							class="rounded-mk-chip bg-mk-brand px-2 py-[3px] font-mk-mono text-[9px] tracking-[0.14em] text-mk-on-brand uppercase"
 							>{tag}</span
 						>
 					{/if}
@@ -90,7 +90,7 @@
 
 	<div
 		style={ratio ? `aspect-ratio:${ratio}` : undefined}
-		class="min-h-0 rounded-[29px] border border-mk-ink/10 bg-mk-paper text-mk-ink {ratio
+		class="min-h-0 rounded-mk-panel border border-mk-ink/10 bg-mk-paper text-mk-ink {ratio
 			? ''
 			: 'flex-1'} {clip ? 'relative overflow-hidden' : ''} {bodyClass}"
 	>

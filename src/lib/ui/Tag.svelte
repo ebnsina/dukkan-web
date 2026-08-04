@@ -23,6 +23,7 @@
 
 	.outline {
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-chip);
 		color: var(--muted);
 	}
 

@@ -102,6 +102,7 @@
 		position: fixed;
 		inset: 0;
 		border: none;
+		border-radius: var(--r-card);
 		background: color-mix(in srgb, var(--ink) 46%, transparent);
 		cursor: default;
 	}

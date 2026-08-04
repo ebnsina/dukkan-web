@@ -1,0 +1,304 @@
+/* The foundation.
+ *
+ * Neutrals, state colours, type roles and layout helpers — what the
+ * storefront and the shared $lib/ui components are built from. The admin and
+ * the marketing site each carry their own palette on top of this.
+ *
+ * Part of src/lib/tokens/ — one file per surface, so a colour, a radius or a
+ * type step is defined once and changed once. Nothing here is redeclared in a
+ * component.
+ */
+
+/* ─ Tokens ─ One greyscale palette, one radius scale, no shadow. */
+
+:root {
+	--paper: #ffffff;
+	--surface: #f7f7f8;
+	--ink: #0b0b0d;
+	--muted: #63636d;
+	--faint: #94949f;
+	--rule: #ededf0;
+	/* Radius by the size of the box, so a control and the card holding it are
+	 * never the same corner. The storefront wears the shop's colours; the shape
+	 * is ours, and it matches the admin and the marketing site. */
+	--r-card: 20px;
+	--r-panel: 16px;
+	--r-control: 12px;
+	--r-tile: 8px;
+	--r-chip: 6px;
+
+	--rule-strong: #dededf;
+	--inverse-paper: #0b0b0d;
+	--inverse-ink: #f4f4f6;
+
+	/* ─ App palette ─ Dukkan's own, never the shop's: a seller who repaints
+	 * their storefront must not repaint the tool. The accent is the brand
+	 * indigo; the admin carries its own copy in $lib/tokens/admin.css.
+	 * Each state is a colour that passes AA on paper and a wash to sit it on. */
+	--accent: #3c36a8;
+	--accent-ink: #ffffff;
+	--accent-soft: #ecebfa;
+
+	--success: #1f7a3d;
+	--success-soft: #e8f4ec;
+	--warning: #8f5a05;
+	--warning-soft: #fbf1de;
+	--danger: #b3261e;
+	--danger-soft: #fceceb;
+	--info: #1f5f9e;
+	--info-soft: #eaf2fa;
+
+	--font-bangla: 'Noto Sans Bengali', 'Kohinoor Bangla', 'Bangla MN', 'SolaimanLipi', sans-serif;
+	--font-arabic: 'SF Arabic', 'Geeza Pro', 'Noto Naskh Arabic', serif;
+	--font-display: 'Mona Sans Variable', var(--font-bangla), ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'Geist Mono Variable', var(--font-bangla), ui-monospace, 'SF Mono', monospace;
+
+	--unit: 4px;
+	--gutter: clamp(20px, 4.4vw, 56px);
+	--measure: 62ch;
+	--container: 1240px;
+	--section-y: clamp(64px, 9vw, 104px);
+
+	--size-display: clamp(40px, 7.2vw, 92px);
+	--size-title: clamp(34px, 5.4vw, 62px);
+	--size-heading: clamp(24px, 3.2vw, 36px);
+	--size-sub: clamp(19px, 2.1vw, 23px);
+	--size-body-lg: 17px;
+	--size-body: 15px;
+	--size-label: 10.5px;
+	--size-button: 11px;
+
+	--dur-hover: 160ms;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	--paper: #0a0a0c;
+	--surface: #111114;
+	--ink: #ececef;
+	--muted: #9797a2;
+	--faint: #6b6b76;
+	--rule: #1c1c21;
+	--rule-strong: #2b2b32;
+	--inverse-paper: #f4f4f6;
+	--inverse-ink: #0b0b0d;
+
+	/* On a near-black page the same hues need lifting to stay legible, and the
+	 * washes become dark tints rather than pale ones. */
+	--accent: #9b95f2;
+	--accent-ink: #10101f;
+	--accent-soft: #1b1a3a;
+
+	--success: #4ec27a;
+	--success-soft: #0f2418;
+	--warning: #e0a63a;
+	--warning-soft: #2a1f08;
+	--danger: #f0736a;
+	--danger-soft: #2c1210;
+	--info: #63aee8;
+	--info-soft: #0d1d2c;
+
+	color-scheme: dark;
+}
+
+@theme inline {
+	--color-paper: var(--paper);
+	--color-surface: var(--surface);
+	--color-ink: var(--ink);
+	--color-muted: var(--muted);
+	--color-faint: var(--faint);
+	--color-rule: var(--rule);
+	--color-rule-strong: var(--rule-strong);
+	--color-inverse-paper: var(--inverse-paper);
+	--color-inverse-ink: var(--inverse-ink);
+
+	--color-accent: var(--accent);
+	--color-accent-ink: var(--accent-ink);
+	--color-accent-soft: var(--accent-soft);
+	--color-success: var(--success);
+	--color-success-soft: var(--success-soft);
+	--color-warning: var(--warning);
+	--color-warning-soft: var(--warning-soft);
+	--color-danger: var(--danger);
+	--color-danger-soft: var(--danger-soft);
+	--color-info: var(--info);
+	--color-info-soft: var(--info-soft);
+
+	--font-sans: var(--font-display);
+	--font-mono: var(--font-mono);
+
+	--radius-card: var(--r-card);
+	--radius-panel: var(--r-panel);
+	--radius-control: var(--r-control);
+	--radius-tile: var(--r-tile);
+	--radius-chip: var(--r-chip);
+	--default-transition-duration: var(--dur-hover);
+}
+
+/* ─ Base ─ */
+
+@layer base {
+	*,
+	::before,
+	::after {
+		border-color: var(--rule);
+		border-radius: 0;
+	}
+
+	html {
+		background-color: var(--paper);
+		color: var(--ink);
+		font-family: var(--font-display);
+		font-size: var(--size-body);
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	body {
+		min-height: 100dvh;
+	}
+
+	:focus-visible {
+		outline: 1px solid var(--ink);
+		outline-offset: 3px;
+	}
+
+	::selection {
+		background-color: var(--ink);
+		color: var(--paper);
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+
+	img,
+	svg,
+	video {
+		display: block;
+		max-width: 100%;
+	}
+}
+
+/* ─ Type roles ─ The width axis does the display work. Body keeps default width. */
+
+@utility t-display {
+	font-family: var(--font-display);
+	font-size: var(--size-display);
+	font-weight: 700;
+	line-height: 0.97;
+	letter-spacing: -0.038em;
+	font-variation-settings: 'wdth' 86;
+	font-stretch: 86%;
+}
+
+@utility t-title {
+	font-family: var(--font-display);
+	font-size: var(--size-title);
+	font-weight: 700;
+	line-height: 1.02;
+	letter-spacing: -0.032em;
+	font-variation-settings: 'wdth' 86;
+	font-stretch: 86%;
+}
+
+@utility t-heading {
+	font-family: var(--font-display);
+	font-size: var(--size-heading);
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.026em;
+	font-variation-settings: 'wdth' 88;
+	font-stretch: 88%;
+}
+
+@utility t-sub {
+	font-family: var(--font-display);
+	font-size: var(--size-sub);
+	font-weight: 700;
+	line-height: 1.14;
+	letter-spacing: -0.022em;
+	font-variation-settings: 'wdth' 92;
+	font-stretch: 92%;
+}
+
+@utility t-lead {
+	font-size: var(--size-body-lg);
+	font-weight: 400;
+	line-height: 1.6;
+	letter-spacing: 0;
+	max-width: var(--measure);
+}
+
+@utility t-body {
+	font-size: var(--size-body);
+	font-weight: 400;
+	line-height: 1.6;
+	letter-spacing: 0;
+	max-width: var(--measure);
+}
+
+@utility t-label {
+	font-family: var(--font-mono);
+	font-size: var(--size-label);
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+@utility t-button {
+	font-family: var(--font-mono);
+	font-size: var(--size-button);
+	font-weight: 400;
+	line-height: 1;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+@utility t-mono {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'zero' 1;
+}
+
+@utility tabular {
+	font-variant-numeric: tabular-nums;
+}
+
+/* ─ Layout ─ */
+
+@utility container-page {
+	width: 100%;
+	max-width: var(--container);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+@utility measure {
+	max-width: var(--measure);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

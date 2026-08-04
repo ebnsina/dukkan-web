@@ -12,7 +12,7 @@
 	];
 </script>
 
-<div class="rounded-2xl border border-mk-rule-soft bg-mk-shell p-3.5">
+<div class="rounded-mk-nested border border-mk-rule-soft bg-mk-shell p-3.5">
 	<div
 		class="grid grid-cols-[1fr_70px_44px_42px] items-center gap-2.5 border-b border-mk-rule-soft py-2.5 font-mk-mono text-[11px] tracking-[0.14em] text-mk-muted uppercase"
 	>

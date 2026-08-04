@@ -1,0 +1,190 @@
+/* The storefront surface.
+ *
+ * A shop's own design, not ours. GET /v1/store/theme returns four tokens
+ * and a layout; the layout sets them as inline custom properties on the
+ * wrapper, and the arrangements below read them.
+ *
+ * Part of src/lib/tokens/ — one file per surface, so a colour, a radius or a
+ * type step is defined once and changed once. Nothing here is redeclared in a
+ * component.
+ */
+
+/* ─ Storefront surface ─
+ *
+ * The shop's own design, not ours and not the visitor's. `GET /v1/store/theme`
+ * gives four tokens and a layout; the layout sets them as inline custom
+ * properties on this wrapper. Mapping the accent onto `inverse-paper` means
+ * every solid control is already the shop's colour, without a component
+ * knowing a theme exists.
+ *
+ * It is pinned light for the same reason the marketing page is: the shop owner
+ * picked these colours against paper, and a visitor's dark-mode preference
+ * would repaint half of them and leave a pale accent unreadable.
+ */
+
+.shop-surface {
+	--paper: #ffffff;
+	--surface: var(--shop-surface, #f7f7f8);
+	--ink: #0b0b0d;
+	--muted: #63636d;
+	--faint: #94949f;
+	--rule: #ededf0;
+	--rule-strong: #dededf;
+	--inverse-paper: var(--shop-accent, #0b0b0d);
+	--inverse-ink: var(--shop-accent-ink, #f4f4f6);
+
+	background-color: var(--paper);
+	color: var(--ink);
+	color-scheme: light;
+}
+
+/* Density is the theme's own word for how much air a shop wants. */
+.shop-surface[data-density='compact'] {
+	--shop-gap-x: 14px;
+	--shop-gap-y: 24px;
+}
+
+.shop-surface[data-density='roomy'] {
+	--shop-gap-x: 26px;
+	--shop-gap-y: 44px;
+}
+
+/* ─ Storefront arrangements ─
+ *
+ * `layout` is the half of a theme that is not paint. A grocer with four
+ * hundred lines and a children's shop with eight are not the same grid in
+ * different colours: one wants everything on screen at once, the other wants
+ * each thing looked at. These rules are global because they reshape
+ * `ProductCard` from its container, and a component's own styles are scoped.
+ */
+
+.shop-grid {
+	display: grid;
+	gap: var(--shop-gap-y, 26px) var(--shop-gap-x, 16px);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Dense: as many as fit, square crops, tight rules — a price list you scan. */
+.shop-surface[data-layout='grid-dense'] .shop-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.shop-surface[data-layout='grid-dense'] .pc-art {
+	aspect-ratio: 1 / 1;
+}
+
+.shop-surface[data-layout='grid-dense'] .pc-title {
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* Roomy: fewer, taller, more air — for anything bought by the look of it. */
+.shop-surface[data-layout='grid-roomy'] .pc-art {
+	aspect-ratio: 4 / 5;
+}
+
+.shop-surface[data-layout='grid-roomy'] .pc-body {
+	padding-top: 16px;
+	gap: 6px;
+}
+
+.shop-surface[data-layout='grid-roomy'] .pc-title {
+	font-size: 17px;
+}
+
+.shop-surface[data-layout='grid-roomy'] .pc-summary {
+	display: block;
+}
+
+/* Editorial: the first item is the page's headline and takes the full width
+   with a landscape crop; the rest fall in behind it. */
+.shop-surface[data-layout='editorial'] .pc-art {
+	aspect-ratio: 4 / 5;
+}
+
+.shop-surface[data-layout='editorial'] .pc-summary {
+	display: block;
+}
+
+.shop-surface[data-layout='editorial'] .is-lead {
+	grid-column: 1 / -1;
+}
+
+.shop-surface[data-layout='editorial'] .is-lead .pc-art {
+	aspect-ratio: 16 / 9;
+}
+
+.shop-surface[data-layout='editorial'] .is-lead .pc-title {
+	font-size: clamp(22px, 3vw, 32px);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+}
+
+.shop-surface[data-layout='editorial'] .is-lead .pc-body {
+	padding-top: 18px;
+	max-width: 52ch;
+}
+
+/* List: one column of rows, photograph small and left — the shape of a
+   catalogue, and the cheapest to send down a mobile connection. */
+.shop-surface[data-layout='list'] .shop-grid {
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0;
+	border-top: 1px solid var(--rule);
+}
+
+.shop-surface[data-layout='list'] .pc {
+	flex-direction: row;
+	align-items: center;
+	gap: 16px;
+	padding-block: 12px;
+	border-bottom: 1px solid var(--rule);
+}
+
+.shop-surface[data-layout='list'] .pc-art {
+	width: 72px;
+	flex-shrink: 0;
+	aspect-ratio: 1 / 1;
+}
+
+.shop-surface[data-layout='list'] .pc-body {
+	padding-top: 0;
+	flex: 1;
+}
+
+.shop-surface[data-layout='list'] .pc-summary {
+	display: block;
+}
+
+.shop-surface[data-layout='list'] .pc-price {
+	margin-top: 4px;
+}
+
+@media (min-width: 700px) {
+	.shop-surface[data-layout='grid-dense'] .shop-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.shop-surface[data-layout='grid-roomy'] .shop-grid,
+	.shop-surface[data-layout='editorial'] .shop-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.shop-surface[data-layout='list'] .pc-art {
+		width: 96px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.shop-surface[data-layout='grid-dense'] .shop-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+
+	.shop-surface[data-layout='grid-roomy'] .shop-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.shop-surface[data-layout='editorial'] .shop-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
