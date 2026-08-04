@@ -70,14 +70,12 @@
 		color: var(--faint);
 	}
 
-	/* An error is the one thing on a form that must not be read as ordinary
-	   text, so it takes the state colour and a rule in the same hue. */
+	/* An error is a sentence telling someone what to do next, not an alarm.
+	   The colour is enough — the field above it is already outlined in the
+	   same hue, and a rule beside the words marks that edge twice. */
 	.error {
-		font-size: 13px;
+		font-size: 12.5px;
 		line-height: 1.5;
-		font-weight: 600;
 		color: var(--danger);
-		padding-left: 10px;
-		border-left: 2px solid var(--danger);
 	}
 </style>

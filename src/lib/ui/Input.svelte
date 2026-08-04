@@ -41,12 +41,15 @@
 	}
 
 	.control:hover {
-		border-color: var(--muted);
+		border-color: var(--rule-hover);
 	}
 
+	/* The border stays the border; focus is a ring outside it, offset so the
+	   two read as separate things rather than one thick edge. */
 	.control:focus {
-		outline: none;
-		border-color: var(--ink);
+		border-color: var(--rule-strong);
+		outline: 1.5px dashed var(--accent);
+		outline-offset: 3px;
 	}
 
 	.control:disabled {
@@ -57,6 +60,5 @@
 
 	.is-invalid {
 		border-color: var(--danger);
-		border-left-width: 2px;
 	}
 </style>

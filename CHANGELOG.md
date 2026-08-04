@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Seven components the library was missing: `Dialog`, `Drawer`, `Accordion`,
+  `Avatar`, `Progress`, `Tooltip` and `Divider`. `Confirm` is now a `Dialog`
+  with the question already framed rather than a second modal implementation.
+- One scroll lock (`ui/scroll-lock.ts`) counting every open overlay, so a
+  Confirm raised from inside a Drawer cannot hand the page back while the
+  Drawer is still covering it.
+- A `link` button: the same component with its box given up, for an action
+  that belongs in a sentence or beside a heavier button.
+- A `HoverCard`: a preview that opens on hover and holds a record rather than
+  a sentence — who a customer is, without leaving the list to find out.
+- Toasts have tones, an action, and a loading state. A submit raises one toast
+  and answers it in place, so the notice being read becomes the result instead
+  of being replaced by a second one underneath.
+- `ui/position.ts`, which measures before it places. A menu near the bottom of
+  the window opens upward, a tooltip near an edge shifts back inside it, and
+  both grow out of the control that owns them. Panels are `fixed`, so a
+  scrolling parent can no longer clip them.
+
 - Self-serve signup at `/signup`: phone OTP, shop name and address, what you
   sell, and a theme chosen from a live preview.
 - A state vocabulary for the admin (`lib/admin/state.ts`) with one word and one
@@ -76,6 +94,86 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Seo` component emitting meta, canonical, OpenGraph and Twitter tags.
 
 ### Changed
+
+- The brand indigo carries the primary affordances instead of black: a solid
+  button, a checked box, a chosen radio, a switch that is on, a selected tab,
+  the current page and a focused field. Ink is now the hover state under it.
+  The app is no longer monochrome — the accent says which thing acts.
+
+- One address for the whole system. `/ds` carries the foundations and then
+  every component built out of them, in that order; `/ui` was a second address
+  for half of it and now redirects there. The controls, forms and feedback
+  sections `/ds` used to hold were a thinner copy of the library and are gone.
+
+- The library shows one specimen of each component rather than three columns of
+  the same markup. The three surfaces rebind the tokens, so the copies differed
+  in nothing; what a surface changes is the palette, and the theme toggle
+  already shows that.
+
+- Nothing is a circle. The avatar takes the same corner as a control, and the
+  presence mark, the spinner's dots and a button's loading dots take the chip
+  radius. A radio stays square and says what it is with a filled centre rather
+  than a tick.
+
+- The checkbox, the radio and the switch animate their marks, and each says
+  its own thing once: the checkbox fills and ticks, the radio keeps an outline
+  with a small centre, and the switch is the knob's position — no tick inside
+  it, which was a checkbox's answer to a switch's question. All three sit still
+  under `prefers-reduced-motion`.
+
+- Toasts are a stack. The newest sits in front with the rest peeking out
+  behind it, and pointing at the corner fans them out to full height, which is
+  the only way to reach the close control on the ones underneath.
+
+- Accessibility is the component's job, not the call site's: light dismiss on
+  every modal, focus into the menu with `aria-activedescendant` and focus
+  returned to the trigger on Escape, a tab panel named by its tab, the switch
+  as `role="switch"`, an accordion whose heading level is a prop, and no
+  dangling `aria-describedby` on a closed tooltip. The focus ring is one rule
+  for the whole app, in the brand, offset clear of the control.
+
+- Motion follows one set of curves and durations, and `tokens.css` owns them.
+  `base.css` had been redeclaring `--ease-out` with a second, weaker curve;
+  the curves are now the strong variants, `ease-in` appears nowhere, and every
+  button, key and row answers a press before it does anything about it.
+
+- A radio is round again. Square-everywhere is about boxes the page draws, not
+  about a control whose shape is how people know only one can be chosen.
+
+- A switch says its state with the knob alone, and stays readable when it is
+  disabled — at half strength, an off switch disappeared into the card.
+
+- A divider inside a box is dashed. A solid rule is structure: the edge of the
+  box, or two cells that touch.
+
+- A button's size is a height, so one beside a field lines up with it. `md` is
+  46px because that is what an Input and a Select are.
+
+- A field's error is a plain sentence in the state colour — no rule beside the
+  words, since the field above it already carries that edge.
+
+- The live dot has a heartbeat: two beats and a rest, with a ring going out on
+  the first. An even blink reads as something demanding attention; a pulse
+  reads as something running.
+
+- An invalid field takes an even border. The 2px left edge read as a rendering
+  fault rather than as an error; the message under it already carries the rule.
+
+- Every button variant hovers within its own idea — the brand fill deepens to
+  `--accent-hover`, the outlined one tints, the neutral one gains a ground, the
+  dangerous one commits. None of them turns into another variant on the way.
+
+- The dropdown, the toast and the pager stopped looking like a different
+  system: they take the radius scale, the menu's active row and the current
+  page are brand-filled, and a toast carries an accent mark. Two new tokens
+  carry it — `--accent-hover`, and `--accent-on-inverse` for an accent that has
+  to sit on `--inverse-paper` and therefore runs opposite the theme.
+
+- A Banner leads with an icon for its tone, so the kind of news is legible
+  before the colour is.
+
+- A focused field keeps its own border and takes a 2px accent ring offset from
+  it, rather than recolouring the edge.
 
 - The admin takes its own palette rather than the shop's: a seller who repaints
   their storefront must not repaint the tool. Each state carries a hue that

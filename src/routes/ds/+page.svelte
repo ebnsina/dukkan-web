@@ -6,17 +6,25 @@
 	import Palette from '$lib/ds/sections/Palette.svelte';
 	import TypeScale from '$lib/ds/sections/TypeScale.svelte';
 	import Structure from '$lib/ds/sections/Structure.svelte';
-	import Controls from '$lib/ds/sections/Controls.svelte';
-	import FormsSection from '$lib/ds/sections/FormsSection.svelte';
-	import FeedbackSection from '$lib/ds/sections/FeedbackSection.svelte';
+	import Motion from '$lib/ds/sections/Motion.svelte';
+	import Library from '$lib/ds/sections/Library.svelte';
 
+	/* One place for the whole system. The foundations come first because the
+	   components are built out of them; /ui redirects here rather than being a
+	   second address for half of it. */
 	const sections = [
 		{ id: 'palette', label: '01 Palette' },
 		{ id: 'type', label: '02 Type' },
 		{ id: 'structure', label: '03 Structure' },
-		{ id: 'controls', label: '04 Controls' },
-		{ id: 'forms', label: '05 Forms' },
-		{ id: 'feedback', label: '06 Feedback' }
+		{ id: 'motion', label: '04 Motion' },
+		{ id: 'buttons', label: '05 Buttons' },
+		{ id: 'forms', label: '06 Forms' },
+		{ id: 'feedback', label: '07 Feedback' },
+		{ id: 'overlays', label: '08 Overlays' },
+		{ id: 'navigation', label: '09 Navigation' },
+		{ id: 'containers', label: '10 Containers' },
+		{ id: 'data', label: '11 Data' },
+		{ id: 'people', label: '12 People' }
 	];
 
 	let active = $state('palette');
@@ -38,7 +46,7 @@
 
 <Seo
 	title="Design system"
-	description="The shared foundation: greyscale neutrals, a semantic state palette, a fluid type scale and a radius scale."
+	description="The whole system in one place: the palette, the type scale, space and corners, motion, and every component built on them."
 	noindex
 />
 
@@ -57,10 +65,11 @@
 	<PageHeader
 		eyebrow="Reference"
 		title="The shared foundation."
-		standfirst="Greyscale neutrals a shop repaints with its own theme, a semantic palette that only speaks when something has a state, and a radius scale keyed to the size of the box. The admin and the marketing site build their own language on top; what follows is what they share."
+		standfirst="One indigo spent only on what a person can act on, surfaces and text a shop repaints with its own theme, a type scale that leans on a single width axis, corners keyed to the size of the box, and motion that gets out of the way — then every component built out of all of it. Foundations first, because the components are made of them."
 	>
 		{#snippet actions()}
 			<Button href="#palette" arrow>Start at the palette</Button>
+			<Button href="#buttons" variant="ghost">Jump to the components</Button>
 		{/snippet}
 	</PageHeader>
 
@@ -84,9 +93,8 @@
 	<Palette />
 	<TypeScale />
 	<Structure />
-	<Controls />
-	<FormsSection />
-	<FeedbackSection />
+	<Motion />
+	<Library />
 
 	<CtaBand
 		heading="That is the system. Now go and look at the site."

@@ -86,10 +86,24 @@
 		border-radius: var(--r-control);
 		color: var(--faint);
 		cursor: pointer;
-		transition: color var(--dur-hover) var(--ease-out);
+		transition:
+			color var(--dur-hover) var(--ease-out),
+			background-color var(--dur-hover) var(--ease-out),
+			transform var(--dur-press) var(--ease-out);
+	}
+
+	button:active:not(:disabled) {
+		transform: scale(0.94);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		button:active:not(:disabled) {
+			transform: none;
+		}
 	}
 
 	button:hover:not(:disabled) {
+		background: var(--surface);
 		color: var(--ink);
 	}
 
@@ -102,10 +116,13 @@
 		font-size: 12px;
 	}
 
-	.is-current {
-		color: var(--ink);
+	/* The page you are on is a filled key, not an underlined number — it has to
+	   read at a glance in a row of twelve. */
+	.is-current,
+	.is-current:hover:not(:disabled) {
+		background: var(--accent);
+		color: var(--accent-ink);
 		font-weight: 600;
-		border-bottom: 1px solid var(--ink);
 	}
 
 	.gap {

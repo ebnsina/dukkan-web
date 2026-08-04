@@ -184,8 +184,8 @@
 	.tag {
 		padding: 3px 8px;
 		border-radius: var(--r-chip);
-		background: var(--inverse-paper);
-		color: var(--inverse-ink);
+		background: var(--accent);
+		color: var(--accent-ink);
 		font-family: var(--font-mono);
 		font-size: 10px;
 		letter-spacing: 0.14em;

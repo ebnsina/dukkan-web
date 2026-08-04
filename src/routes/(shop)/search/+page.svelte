@@ -57,6 +57,7 @@
 		background: var(--paper);
 		color: var(--ink);
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		font-family: var(--font-display);
 		font-size: 15px;
 	}
@@ -72,6 +73,7 @@
 		background: var(--inverse-paper);
 		color: var(--inverse-ink);
 		border: none;
+		border-radius: var(--r-control);
 		cursor: pointer;
 	}
 

@@ -10,8 +10,12 @@
 </script>
 
 <label class="toggle">
-	<input type="checkbox" bind:checked {disabled} />
-	<span class="track"></span>
+	<!-- A checkbox is on or off too, but a switch takes effect the moment it
+	     moves rather than when a form is submitted, and the role says so. -->
+	<input type="checkbox" role="switch" bind:checked {disabled} />
+	<span class="track">
+		<span class="knob"></span>
+	</span>
 	<span class="text">
 		<span class="label">{label}</span>
 		{#if description}<span class="hint">{description}</span>{/if}
@@ -26,8 +30,10 @@
 		cursor: pointer;
 	}
 
+	/* Disabled has to stay readable: at half strength an off switch on a pale
+	   track disappeared into the card behind it. */
 	.toggle:has(input:disabled) {
-		opacity: 0.5;
+		opacity: 0.65;
 		cursor: not-allowed;
 	}
 
@@ -38,13 +44,15 @@
 		height: 0;
 	}
 
+	/* Squared like every other control — the shape that says on or off is the
+	   knob's position, not a pill. */
 	.track {
 		position: relative;
 		flex: none;
-		width: 40px;
-		height: 23px;
+		width: 42px;
+		height: 24px;
 		margin-top: 1px;
-		border-radius: var(--r-round);
+		border-radius: var(--r-tile);
 		background: var(--surface);
 		box-shadow: inset 0 0 0 1px var(--rule-strong);
 		transition:
@@ -52,31 +60,37 @@
 			box-shadow var(--dur-hover) var(--ease-out);
 	}
 
-	.track::after {
-		content: '';
+	/* The knob is the whole story — where it sits is the state. A tick inside
+	   it says the same thing twice and turns a switch into a checkbox. */
+	.knob {
 		position: absolute;
 		top: 3px;
 		left: 3px;
-		width: 17px;
-		height: 17px;
-		border-radius: var(--r-round);
+		width: 18px;
+		height: 18px;
+		border-radius: var(--r-chip);
 		background: var(--paper);
-		transition: transform var(--dur-hover) var(--ease-out);
+		/* Off, the knob is paper on a near-paper track, so it carries its own
+		   hairline. On the brand fill it needs none. */
+		box-shadow: 0 0 0 1px var(--rule-strong);
+		transition:
+			transform var(--dur-enter) var(--ease-out),
+			box-shadow var(--dur-hover) var(--ease-out);
 	}
 
 	input:checked + .track {
-		background: var(--inverse-paper);
+		background: var(--accent);
 		box-shadow: inset 0 0 0 1px transparent;
 	}
 
-	input:checked + .track::after {
-		transform: translateX(17px);
-		background: var(--inverse-ink);
+	input:checked + .track .knob {
+		transform: translateX(18px);
+		box-shadow: none;
 	}
 
 	input:focus-visible + .track {
-		outline: 2px solid var(--accent);
-		outline-offset: 2px;
+		outline: 1.5px dashed var(--accent);
+		outline-offset: 3px;
 	}
 
 	.text {
@@ -94,5 +108,11 @@
 	.hint {
 		font-size: 12.5px;
 		color: var(--faint);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.knob {
+			transition: none;
+		}
 	}
 </style>

@@ -99,6 +99,7 @@
 		width: 34px;
 		height: 34px;
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		background: none;
 		color: var(--muted);
 		cursor: pointer;

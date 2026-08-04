@@ -11,7 +11,7 @@
 	import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
 	import { cn } from '$lib/utils/cn';
 
-	type Variant = 'solid' | 'quiet' | 'ghost' | 'danger';
+	type Variant = 'solid' | 'quiet' | 'ghost' | 'danger' | 'link';
 	type Size = 'sm' | 'md' | 'lg';
 
 	interface Props extends Omit<HTMLButtonAttributes & HTMLAnchorAttributes, 'size'> {
@@ -97,19 +97,42 @@
 		transition:
 			background-color var(--dur-hover) var(--ease-out),
 			color var(--dur-hover) var(--ease-out),
-			border-color var(--dur-hover) var(--ease-out);
+			border-color var(--dur-hover) var(--ease-out),
+			transform var(--dur-press) var(--ease-out);
 	}
 
+	/* The press is the interface saying it heard you, before anything it does
+	   about it has a chance to happen. */
+	.btn:active:not(:disabled):not([aria-disabled='true']) {
+		transform: scale(0.97);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.btn {
+			transition-property: background-color, color, border-color;
+		}
+
+		.btn:active {
+			transform: none;
+		}
+	}
+
+	/* Heights, not padding: a button beside a field has to match its height
+	   exactly, and padding plus a line-height lands a pixel or two off. `md`
+	   is 46px because that is what Input and Select are. */
 	.btn-sm {
-		padding: 10px 14px;
+		height: 36px;
+		padding-inline: 14px;
 		font-size: 11px;
 	}
 	.btn-md {
-		padding: 14px 20px;
+		height: 46px;
+		padding-inline: 20px;
 		font-size: 11.5px;
 	}
 	.btn-lg {
-		padding: 16px 24px;
+		height: 52px;
+		padding-inline: 24px;
 		font-size: 12px;
 	}
 
@@ -123,18 +146,19 @@
 		pointer-events: none;
 	}
 
-	/* Solid reads as the brand on every surface, because `--inverse-paper` is
-	   ours on ours and the shop's own accent on theirs. */
-	.btn-solid {
-		background-color: var(--inverse-paper);
-		border-color: var(--inverse-paper);
-		color: var(--inverse-ink);
-	}
+	/* Every variant hovers within its own idea: the brand fill deepens, the
+	   outlined one tints, the bare one gains a ground, the dangerous one
+	   commits. None of them turns into another variant. */
 
-	.btn-solid:hover {
+	.btn-solid {
 		background-color: var(--accent);
 		border-color: var(--accent);
 		color: var(--accent-ink);
+	}
+
+	.btn-solid:hover {
+		background-color: var(--accent-hover);
+		border-color: var(--accent-hover);
 	}
 
 	/* Quiet sits on paper and carries its own edge, since a fill would be the
@@ -146,10 +170,14 @@
 	}
 
 	.btn-quiet:hover {
-		background-color: var(--surface);
-		border-color: var(--ink);
+		background-color: var(--accent-soft);
+		border-color: var(--accent);
+		color: var(--accent);
 	}
 
+	/* Ghost is the neutral secondary: same outline as quiet, but it gains a
+	   ground rather than the brand, so a pair of them beside a solid button
+	   does not read as two competing offers. */
 	.btn-ghost {
 		background-color: transparent;
 		border-color: var(--rule-strong);
@@ -157,9 +185,27 @@
 	}
 
 	.btn-ghost:hover {
-		background-color: var(--ink);
-		border-color: var(--ink);
-		color: var(--paper);
+		background-color: var(--surface);
+		border-color: var(--muted);
+	}
+
+	/* Link is a button that has given up its box: no padding, no ground, and an
+	   underline that only appears under the cursor. For an action that belongs
+	   in a sentence or beside a heavier button without competing with it. */
+	.btn-link {
+		padding: 0;
+		/* No box means no target, so it keeps the 24px minimum on its own. */
+		height: auto;
+		min-height: 24px;
+		background-color: transparent;
+		border-color: transparent;
+		color: var(--accent);
+		text-underline-offset: 4px;
+	}
+
+	.btn-link:hover {
+		color: var(--accent-hover);
+		text-decoration: underline;
 	}
 
 	.btn-danger {
@@ -195,7 +241,7 @@
 	.dots i {
 		width: 3px;
 		height: 3px;
-		border-radius: var(--r-round);
+		border-radius: var(--r-chip);
 		background: currentColor;
 		animation: pulse 1s infinite ease-in-out;
 	}

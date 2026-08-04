@@ -34,6 +34,9 @@
 	--n-100: #f2f2f7;
 	--n-200: #eaeaf0;
 	--n-300: #dbdbe3;
+	/* One step past a resting border — enough to answer the cursor, nowhere
+	   near the ink that a focused field uses. */
+	--n-400: #c6c6d1;
 	--n-500: #6d6d7c;
 	--n-600: #5b5b6a;
 	--n-950: #12121a;
@@ -42,6 +45,7 @@
 	--nd-900: #131318;
 	--nd-850: #1a1a21;
 	--nd-800: #22222a;
+	--nd-750: #313139;
 	--nd-300: #8f8f9c;
 	--nd-200: #a8a8b4;
 	--nd-50: #ededf0;
@@ -72,12 +76,29 @@
 	--r-control: 12px;
 	--r-tile: 8px;
 	--r-chip: 6px;
+	/* The smallest step, for marks shorter than a chip — a skeleton line, a
+	   thin bar. Anything larger on a 12px-tall shape is half its height, which
+	   is a pill, and a pill is a different shape rather than a softer corner. */
+	--r-mark: 4px;
 	--r-round: 999px;
 
-	/* ── Motion ─────────────────────────────────────────────────────────── */
-	--dur-hover: 140ms;
-	--dur-enter: 220ms;
-	--ease-out: cubic-bezier(0.2, 0, 0.2, 1);
+	/* ── Motion ─────────────────────────────────────────────────────────
+	   The built-in CSS curves are too weak to read as deliberate, so these
+	   are the stronger variants. Nothing in the app uses `ease-in`: it holds
+	   still at the exact moment a person is watching hardest, which is what
+	   makes an interface feel slow even when it is not.
+
+	   Durations are the ceiling, not the target — press is nearly instant,
+	   and anything under the hand stays below 300ms. */
+	--dur-press: 120ms;
+	--dur-hover: 150ms;
+	--dur-enter: 200ms;
+	--dur-overlay: 280ms;
+
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+	--ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+	/* A panel sliding in off an edge, borrowed from iOS. */
+	--ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 	--ease-mk: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 

@@ -74,38 +74,51 @@
 	}
 
 	input:hover {
-		border-color: var(--muted);
+		border-color: var(--rule-hover);
 	}
 
 	input:checked,
 	input:indeterminate {
-		background: var(--inverse-paper);
-		border-color: var(--inverse-paper);
+		background: var(--accent);
+		border-color: var(--accent);
 	}
 
+	/* The mark is drawn on, not switched on: it scales up from the centre of
+	   the box as the fill lands, which is what makes the tick read as the
+	   answer to the click rather than as a second thing appearing. */
 	.glyph {
 		position: relative;
 		display: grid;
 		place-items: center;
-		color: var(--inverse-ink);
+		color: var(--accent-ink);
 		opacity: 0;
+		transform: scale(0.4);
 		pointer-events: none;
+		transition:
+			opacity var(--dur-hover) var(--ease-out),
+			transform var(--dur-hover) var(--ease-out);
 	}
 
-	input:checked ~ .tick {
+	input:checked ~ .tick,
+	input:indeterminate ~ .dash {
 		opacity: 1;
+		transform: scale(1);
 	}
 
 	input:indeterminate ~ .tick {
 		opacity: 0;
-	}
-
-	input:indeterminate ~ .dash {
-		opacity: 1;
+		transform: scale(0.4);
 	}
 
 	.dash {
 		position: absolute;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.glyph {
+			transition: none;
+			transform: none;
+		}
 	}
 
 	label {

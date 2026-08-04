@@ -40,6 +40,9 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		/* The container carries the corner and clips; the image follows it, so
+		   a photo never draws a second, smaller radius inside one. */
+		border-radius: inherit;
 		background: var(--surface);
 	}
 

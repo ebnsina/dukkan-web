@@ -28,6 +28,7 @@
 		z-index: 900;
 		background: var(--inverse-paper);
 		color: var(--inverse-ink);
+		border-radius: var(--r-control);
 		padding: 14px 20px;
 	}
 

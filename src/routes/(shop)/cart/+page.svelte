@@ -128,6 +128,7 @@
 		aspect-ratio: 4 / 5;
 		overflow: hidden;
 		border: 1px solid var(--rule);
+		border-radius: var(--r-tile);
 	}
 
 	.title {
@@ -154,6 +155,7 @@
 		background: var(--paper);
 		color: var(--ink);
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-control);
 		font-size: 14px;
 		font-variant-numeric: tabular-nums;
 	}

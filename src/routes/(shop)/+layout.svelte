@@ -163,6 +163,7 @@
 		display: grid;
 		place-items: center;
 		padding-inline: 4px;
+		border-radius: var(--r-round);
 		background: var(--inverse-paper);
 		color: var(--inverse-ink);
 		font-size: 10px;

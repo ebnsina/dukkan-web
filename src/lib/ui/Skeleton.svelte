@@ -14,6 +14,7 @@
 	.skeleton {
 		display: block;
 		height: 12px;
+		border-radius: var(--r-mark);
 		background: var(--rule);
 		animation: breathe 1400ms ease-in-out infinite;
 	}

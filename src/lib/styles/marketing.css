@@ -149,6 +149,7 @@
 		--accent: var(--color-mk-brand-deep);
 		--accent-ink: var(--color-mk-on-brand);
 		--accent-soft: var(--brand-tint);
+		--accent-hover: var(--color-mk-brand);
 
 		background: var(--color-mk-paper);
 		color: var(--color-mk-ink);
@@ -252,6 +253,7 @@
 
 @utility mk-chip {
 	border: 1px solid;
+	border-radius: var(--radius-mk-chip);
 	padding: 9px 15px;
 	cursor: pointer;
 	font-family: var(--font-mk-mono);

@@ -238,12 +238,15 @@
 		cursor: pointer;
 	}
 
+	/* A radio, so it is round — the shape is how a person knows only one of
+	   these can be picked. */
 	.method input {
 		width: 15px;
 		height: 15px;
 		flex-shrink: 0;
 		appearance: none;
 		border: 1px solid var(--rule-strong);
+		border-radius: var(--r-round);
 		background: var(--paper);
 	}
 
@@ -278,6 +281,7 @@
 
 	.side {
 		background: var(--surface);
+		border-radius: var(--r-card);
 		padding: 24px;
 	}
 

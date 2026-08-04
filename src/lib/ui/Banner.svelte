@@ -1,5 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/svelte';
+	import {
+		Alert02Icon,
+		CheckmarkCircle02Icon,
+		InformationCircleIcon
+	} from '@hugeicons/core-free-icons';
 	import type { Tone } from '$lib/admin/state';
 
 	interface Props {
@@ -20,6 +26,16 @@
 		dismissible = false,
 		ondismiss
 	}: Props = $props();
+
+	// Shape as well as colour, so the kind of news is legible without hue.
+	const glyphs: Record<Tone, IconSvgElement> = {
+		neutral: InformationCircleIcon,
+		accent: InformationCircleIcon,
+		info: InformationCircleIcon,
+		success: CheckmarkCircle02Icon,
+		warning: Alert02Icon,
+		danger: Alert02Icon
+	};
 </script>
 
 <!-- A failure interrupts; anything else is announced politely when the reader
@@ -30,7 +46,10 @@
 	role={tone === 'danger' ? 'alert' : 'status'}
 	aria-live={tone === 'danger' ? 'assertive' : 'polite'}
 >
-	<span>
+	<span class="banner-glyph" aria-hidden="true">
+		<HugeiconsIcon icon={glyphs[tone]} size={17} strokeWidth={1.8} />
+	</span>
+	<span class="banner-body">
 		{#if title}<span class="banner-title">{title}</span>{/if}
 		{#if children}{@render children()}{/if}
 		{#if actions}<span class="banner-acts">{@render actions()}</span>{/if}
@@ -46,7 +65,7 @@
 	.banner {
 		display: flex;
 		align-items: flex-start;
-		gap: 12px;
+		gap: 11px;
 		margin: 0;
 		padding: 14px 16px;
 		border-radius: var(--r-panel);
@@ -75,6 +94,20 @@
 	.banner[data-tone='info'] {
 		background: var(--info-soft);
 		color: var(--info);
+	}
+
+	/* Sits on the first line's optical centre rather than its top edge. */
+	.banner-glyph {
+		display: grid;
+		place-items: center;
+		flex: none;
+		margin-top: 2px;
+		color: inherit;
+	}
+
+	.banner-body {
+		flex: 1;
+		min-width: 0;
 	}
 
 	.banner-title {

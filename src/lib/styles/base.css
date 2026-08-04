@@ -78,6 +78,8 @@
 	--faint: var(--n-500);
 	--rule: var(--n-200);
 	--rule-strong: var(--n-300);
+	/* A border answering the cursor. One step, not a jump to ink. */
+	--rule-hover: var(--n-400);
 	--inverse-paper: var(--n-950);
 	--inverse-ink: var(--n-0);
 
@@ -88,6 +90,12 @@
 	--accent: var(--brand-deep);
 	--accent-ink: var(--brand-on);
 	--accent-soft: var(--brand-tint);
+	/* What a brand fill moves to under the cursor — its own sibling, so a
+	   hover is the same colour thinking again rather than a second hue. */
+	--accent-hover: var(--brand);
+	/* The accent for anything sitting on `--inverse-paper` — a toast, a dark
+	   band. It runs opposite the theme, because its ground does. */
+	--accent-on-inverse: var(--brand-lift);
 
 	--font-bangla: 'Noto Sans Bengali', 'Kohinoor Bangla', 'Bangla MN', 'SolaimanLipi', sans-serif;
 	--font-arabic: 'SF Arabic', 'Geeza Pro', 'Noto Naskh Arabic', serif;
@@ -109,8 +117,8 @@
 	--size-label: 10.5px;
 	--size-button: 11px;
 
-	--dur-hover: 160ms;
-	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	/* Motion lives in tokens.css, and redeclaring it here was overriding it
+	   with a second, weaker curve. */
 
 	color-scheme: light;
 }
@@ -123,6 +131,7 @@
 	--faint: var(--nd-300);
 	--rule: var(--nd-850);
 	--rule-strong: var(--nd-800);
+	--rule-hover: var(--nd-750);
 	--inverse-paper: var(--nd-50);
 	--inverse-ink: var(--nd-950);
 
@@ -131,6 +140,8 @@
 	--accent: var(--brand-lift);
 	--accent-ink: var(--brand-on-lift);
 	--accent-soft: var(--brand-tint-dark);
+	--accent-hover: var(--brand-lift-deep);
+	--accent-on-inverse: var(--brand-deep);
 
 	color-scheme: dark;
 }
@@ -192,8 +203,18 @@
 		min-height: 100dvh;
 	}
 
+	/* One focus ring for everything that takes focus: a dashed brand hairline,
+	   offset clear of the control's own border.
+	 *
+	 * Dashed rather than solid because a solid ring reads as a second border
+	 * and gets confused with the control's own edge — a broken line can only
+	 * be the keyboard. An outline follows the element's border-radius, so it
+	 * comes out rounded on everything that carries one of our corners.
+	 *
+	 * A component overrides this only when the ring has to sit somewhere
+	 * other than its own box. */
 	:focus-visible {
-		outline: 1px solid var(--ink);
+		outline: 1.5px dashed var(--accent);
 		outline-offset: 3px;
 	}
 

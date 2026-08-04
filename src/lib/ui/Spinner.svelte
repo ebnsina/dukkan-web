@@ -16,9 +16,10 @@
 	}
 
 	i {
-		width: 4px;
-		height: 4px;
-		background: currentColor;
+		width: 5px;
+		height: 5px;
+		border-radius: var(--r-chip);
+		background: var(--accent);
 		animation: pulse 900ms ease-in-out infinite;
 	}
 
@@ -28,6 +29,13 @@
 
 	i:nth-child(3) {
 		animation-delay: 300ms;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		i {
+			animation: none;
+			opacity: 0.6;
+		}
 	}
 
 	@keyframes pulse {

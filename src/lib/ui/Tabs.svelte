@@ -57,7 +57,15 @@
 		{/each}
 	</div>
 
-	<div id="{uid}-panel" role="tabpanel" tabindex="0" class="panel">
+	<!-- The panel takes its name from the tab that opened it, or it is an
+	     unnamed region in the reader's landmark list. -->
+	<div
+		id="{uid}-panel"
+		role="tabpanel"
+		tabindex="0"
+		aria-labelledby="{uid}-tab-{value}"
+		class="panel"
+	>
 		{@render panel(value)}
 	</div>
 </div>
@@ -94,8 +102,8 @@
 		position: absolute;
 		inset-inline: 0;
 		bottom: -1px;
-		height: 1px;
-		background: var(--ink);
+		height: 2px;
+		background: var(--accent);
 	}
 
 	.tab:disabled {
