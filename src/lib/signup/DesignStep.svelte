@@ -35,7 +35,7 @@
 				<button
 					type="button"
 					onclick={() => onpick(option)}
-					class="w-full cursor-pointer border text-left transition-colors duration-200 {chosen
+					class="w-full cursor-pointer overflow-hidden rounded-mk-nested border text-left transition-colors duration-200 {chosen
 						? 'border-mk-ink'
 						: 'border-mk-ink/15 hover:border-mk-ink'}"
 				>
@@ -54,12 +54,15 @@
 							<button
 								type="button"
 								onclick={() => onpreset(choice.code)}
-								class="flex cursor-pointer items-center gap-2 border px-3 py-1.5 font-mk-mono text-[10px] tracking-[0.12em] uppercase {preset?.code ===
+								class="flex cursor-pointer items-center gap-2 rounded-mk-chip border px-3 py-1.5 font-mk-mono text-[10px] tracking-[0.12em] uppercase {preset?.code ===
 								choice.code
 									? 'border-mk-ink text-mk-ink'
 									: 'border-mk-ink/15 text-mk-muted hover:border-mk-ink'}"
 							>
-								<span aria-hidden="true" class="h-3 w-3" style="background: {choice.tokens.accent}"
+								<span
+									aria-hidden="true"
+									class="h-3 w-3 rounded-mk-round"
+									style="background: {choice.tokens.accent}"
 								></span>
 								{choice.name}
 							</button>

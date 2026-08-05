@@ -235,6 +235,24 @@ export interface ThemeSummary {
 	presets: ThemePreset[];
 }
 
+/* ─ Plans ─ what a shop pays, straight from the plans the API bills against. */
+
+export interface PlanFeature {
+	key: string;
+	enabled: boolean;
+	/** Null is unlimited, which is not the same as absent — absent is enabled: false. */
+	limit: number | null;
+}
+
+export interface Plan {
+	code: string;
+	name: string;
+	price_minor: number;
+	currency: string;
+	interval: 'monthly' | 'yearly';
+	features: PlanFeature[];
+}
+
 /* ─ Signup ─ the tenant-less surface where a shop is created. */
 
 export interface Industry {

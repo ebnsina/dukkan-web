@@ -22,7 +22,7 @@
 	<div class="flex flex-wrap gap-2">
 		{#each kpis as kpi (kpi.label)}
 			<span
-				class="flex items-center gap-1.5 border border-mk-rule-soft px-2.5 py-[7px] font-mk-mono text-[10px] tracking-[0.1em] text-mk-muted uppercase"
+				class="flex items-center gap-1.5 rounded-mk-chip border border-mk-rule-soft px-2.5 py-[7px] font-mk-mono text-[10px] tracking-[0.1em] text-mk-muted uppercase"
 			>
 				{kpi.label}
 				<b class="mk-num text-[12px] text-mk-ink">{kpi.value}</b>

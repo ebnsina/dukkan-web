@@ -8,7 +8,17 @@ export default defineConfig({
 	   5173 is busy, which leaves a stale server serving an old module graph
 	   while you read the new one — that cost an afternoon of chasing a 500
 	   that did not exist. Fail loudly instead. */
-	server: { port: 5173, strictPort: true },
+	/* `host: true` binds every interface rather than ::1 alone: browsers resolve
+	   `*.localhost` to 127.0.0.1, and a server listening only on IPv6 loopback
+	   refuses that. `allowedHosts` then lets the shop subdomains through — Vite
+	   rejects hosts it was not told about, which is right on a public network
+	   and exactly what stops `rahim.dukkan.localhost:5173` working here. */
+	server: {
+		port: 5173,
+		strictPort: true,
+		host: true,
+		allowedHosts: ['.dukkan.localhost', 'localhost']
+	},
 	preview: { port: 4173, strictPort: true },
 
 	plugins: [

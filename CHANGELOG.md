@@ -28,6 +28,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- A shop is identified by the address you are on, not by the environment. The
+  API has always resolved tenants from the Host header, but the web sent every
+  call to one build-time `PUBLIC_API_URL` — which pointed at a single shop. So
+  the storefront was whichever shop the file named, and seeing another meant
+  editing the file and restarting. One shop at a time, on a product built for
+  many.
+
+  `PUBLIC_API_URL` is fixed now and says only where the API is.
+  `PUBLIC_SHOP_DOMAIN` says what shops are named under, and the shop itself
+  comes from the request: `rahim.dukkan.localhost:5173` in development,
+  `rahim.dukkan.store` in production, one rule for both. It is the same rule
+  the API applies in `tenant.KeyFromHost`, written once in `server/shop.ts`
+  rather than twice in two languages that would have to agree forever.
+
+  Vite had to be told to allow those hosts and to bind more than IPv6 loopback
+  — browsers resolve `*.localhost` to 127.0.0.1, and it was listening on `::1`
+  alone, which is its own quiet refusal.
+
+- A shop's own address shows the shop. `rahim.dukkan.store/` rendered Dukkàn's
+  marketing page — the wrong site, on a domain a merchant hands to customers.
+  The landing page belongs to nobody, so on a shop's host it redirects to the
+  storefront.
+
+- Signup's link to the new shop is reachable. The API returns
+  `https://slug.rootdomain`, which is right in production and has no port in
+  development, so it could only fail. The link is built from the request's own
+  scheme and port instead, and is correct in both without the API needing to
+  know where the front end is served.
+
+- The landing page quotes the prices the API bills. It invented three tiers —
+  Souk, Atelier and Empire at ৳0, ৳2,900 and ৳9,900 — against the Starter,
+  Growth and Scale the plans table actually charges at ৳990, ৳2,990 and
+  ৳7,990. Every feature listed beside them was invented too: storefronts, BNPL,
+  multi-warehouse, RTL locales, abandoned cart recovery, none of which the
+  product has. It reads `GET /v1/plans` now, and the limits on each card are
+  the limits `internal/entitlement` enforces.
+
+  Two other figures in that section went the same way. "1.9% of what you
+  process" was not a rate the product holds anywhere — `commission_percent`
+  belongs to a marketplace's own sellers, not to us — so the line says what is
+  true instead. The annual toggle, and its −20%, showed a price no yearly plan
+  exists to charge; the toggle appears only when the table holds a yearly plan,
+  so it returns by itself the day one is seeded rather than being deleted.
+
+  Turning a limit into a sentence is marketing's job and lives in
+  `plan-copy.ts`, so the wording can change without touching what is billed.
+  A key the API grows later appears nowhere until it is named there —
+  deliberate, since an unnamed feature reaching the page would read as jargon.
+
 - An order's totals are one component. The admin and the storefront each wrote
   out the same ladder — subtotal, delivery, a conditional discount, the total —
   and money is the last thing that should exist in two copies: the drift that
@@ -97,9 +146,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ground. 12px, matching the rail's own padding. Still flush to the rail on the
   left, which is the one edge it is meant to meet.
 
-- The signup stepper's numbers carry the smallest radius on the scale rather
-  than a sharp corner. On a 20px box anything larger is a pill, and a pill is a
-  different shape rather than a softer corner.
+- Signup has corners. The whole flow was square while the rest of the product
+  ran on the radius scale — the trade tiles, the design cards, the preset
+  chips, all three fields and the send button, and the stepper's numbers. Each
+  now takes the step its size asks for: `control` for what is pressed or typed
+  in, `nested` for the design card (which also had to clip, or the preview
+  would have sat square inside a rounded frame), `chip` for the preset, `round`
+  for the colour on it, `mark` for a number in a 20px box.
+
+  The mocks on the landing page went with them where they draw a control that
+  is rounded in the product: an insights chip and an upload target were square
+  in the picture and not in the thing pictured. `--radius-mk-mark` and
+  `--radius-mk-round` had to be bound into the marketing theme first — the
+  values were in `tokens.css` and had simply never been exposed to Tailwind.
 
 - A storefront wears its own accent again. `Button` binds `--accent`, which is
   the app's indigo, and `.shop-surface` rebound only `--inverse-paper` — so

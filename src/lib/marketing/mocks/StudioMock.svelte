@@ -32,7 +32,7 @@
 			</span>
 		{/each}
 		<span
-			class="mt-1 border border-dashed border-mk-rule-soft px-2.5 py-2 text-center font-mk-mono text-[10px] tracking-[0.1em] text-mk-faint uppercase"
+			class="mt-1 rounded-mk-tile border border-dashed border-mk-rule-soft px-2.5 py-2 text-center font-mk-mono text-[10px] tracking-[0.1em] text-mk-faint uppercase"
 			>+ Add section</span
 		>
 	</div>

@@ -68,6 +68,7 @@
 	--radius-mk-tile: var(--r-tile);
 	--radius-mk-chip: var(--r-chip);
 	--radius-mk-mark: var(--r-mark);
+	--radius-mk-round: var(--r-round);
 
 	--spacing-mk-gutter: clamp(20px, 5vw, 64px);
 	/* The page is a long one, and every band arriving straight after the last

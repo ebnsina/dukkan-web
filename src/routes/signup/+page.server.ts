@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import * as v from 'valibot';
+import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { fieldErrors, toUserMessage } from '$lib/api/errors';
@@ -86,7 +87,7 @@ export const actions: Actions = {
 		return outcome('start', { sent: true });
 	},
 
-	complete: async ({ request, fetch }) => {
+	complete: async ({ request, fetch, url }) => {
 		const form = await request.formData();
 		const values = Object.fromEntries(
 			[
@@ -98,10 +99,7 @@ export const actions: Actions = {
 				'owner_name',
 				'phone',
 				'code'
-			].map((key) => [
-				key,
-				String(form.get(key) ?? '')
-			])
+			].map((key) => [key, String(form.get(key) ?? '')])
 		);
 
 		const parsed = v.safeParse(CompleteSchema, values);
@@ -113,9 +111,19 @@ export const actions: Actions = {
 				method: 'POST',
 				body: parsed.output
 			});
+			/* The API names the shop's address; where that address is reachable
+			   depends on where the visitor already is. It hands back
+			   `https://slug.rootdomain` with no port, which is right in
+			   production and unreachable in development — so the link is built
+			   from this request's own scheme and port instead, and is correct in
+			   both without the API having to know either. */
+			const storefront = `${url.protocol}//${reply.data.slug}.${PUBLIC_SHOP_DOMAIN}${
+				url.port ? `:${url.port}` : ''
+			}`;
+
 			// The code is spent either way, so the number stays verified for the
 			// next attempt if anything downstream fails.
-			return outcome('complete', { sent: true, shop: reply.data });
+			return outcome('complete', { sent: true, shop: { ...reply.data, storefront } });
 		} catch (cause) {
 			return fail(422, {
 				...outcome('complete', {

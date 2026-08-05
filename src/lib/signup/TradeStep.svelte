@@ -25,7 +25,7 @@
 			<button
 				type="button"
 				onclick={() => onpick(trade.code)}
-				class="flex cursor-pointer flex-col items-start gap-3 border p-4 text-left transition-colors duration-200 {chosen ===
+				class="flex cursor-pointer flex-col items-start gap-3 rounded-mk-control border p-4 text-left transition-colors duration-200 {chosen ===
 				trade.code
 					? 'border-mk-ink bg-mk-shell'
 					: 'border-mk-ink/15 hover:border-mk-ink'}"

@@ -11,9 +11,11 @@
 	 * time the form below posted it, and creating the shop failed on a phone the
 	 * merchant had plainly typed. This form is a step in a flow, not a thing to
 	 * be emptied once sent. */
-	const keepTheNumber: SubmitFunction = () => async ({ result }) => {
-		await applyAction(result);
-	};
+	const keepTheNumber: SubmitFunction =
+		() =>
+		async ({ result }) => {
+			await applyAction(result);
+		};
 
 	interface Props {
 		/** Carried into the completing form, which is the one that creates the shop. */
@@ -73,12 +75,12 @@
 				autocomplete="tel"
 				placeholder="01712345678"
 				aria-invalid={Boolean(fields.phone)}
-				class="min-w-0 flex-1 border border-mk-ink/25 bg-transparent px-4 py-[15px] font-mk-mono text-[15px] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
+				class="min-w-0 flex-1 rounded-mk-control border border-mk-ink/25 bg-transparent px-4 py-[15px] font-mk-mono text-[15px] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
 			/>
 			<button
 				type="submit"
 				disabled={!ready}
-				class="cursor-pointer border border-mk-ink/25 px-6 py-[15px] font-mk-mono text-[12px] tracking-[0.12em] text-mk-ink uppercase hover:border-mk-ink hover:bg-mk-ink hover:text-mk-paper disabled:cursor-not-allowed disabled:border-mk-ink/10 disabled:text-mk-faint disabled:hover:bg-transparent"
+				class="cursor-pointer rounded-mk-control border border-mk-ink/25 px-6 py-[15px] font-mk-mono text-[12px] tracking-[0.12em] text-mk-ink uppercase hover:border-mk-ink hover:bg-mk-ink hover:text-mk-paper disabled:cursor-not-allowed disabled:border-mk-ink/10 disabled:text-mk-faint disabled:hover:bg-transparent"
 			>
 				{sent ? 'Send again' : 'Send the code'}
 			</button>
@@ -114,7 +116,7 @@
 				bind:value={ownerName}
 				autocomplete="name"
 				placeholder="Rahim Uddin"
-				class="mt-2 w-full border border-mk-ink/25 bg-transparent px-4 py-[15px] text-[15px] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
+				class="mt-2 w-full rounded-mk-control border border-mk-ink/25 bg-transparent px-4 py-[15px] text-[15px] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
 			/>
 
 			<label
@@ -129,7 +131,7 @@
 				autocomplete="one-time-code"
 				placeholder="000000"
 				aria-invalid={Boolean(fields.code)}
-				class="mt-2 w-full border border-mk-ink/25 bg-transparent px-4 py-[15px] font-mk-mono text-[20px] tracking-[0.3em] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
+				class="mt-2 w-full rounded-mk-control border border-mk-ink/25 bg-transparent px-4 py-[15px] font-mk-mono text-[20px] tracking-[0.3em] text-mk-ink placeholder:text-mk-faint focus:border-mk-ink focus:outline-none"
 			/>
 			{#if fields.code}
 				<p class="mt-2 font-mk-mono text-[11px] tracking-[0.12em] text-mk-ink uppercase">

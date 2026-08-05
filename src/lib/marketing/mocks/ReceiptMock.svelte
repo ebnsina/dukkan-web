@@ -10,7 +10,7 @@
 	];
 </script>
 
-<div class="border border-mk-dark-2 bg-mk-dark p-[18px] text-mk-cream">
+<div class="rounded-mk-nested border border-mk-dark-2 bg-mk-dark p-[18px] text-mk-cream">
 	<div class="flex justify-between">
 		<span class="mk-mono text-mk-faint">Receipt</span>
 		<span class="mk-mono text-mk-faint">#91442</span>

@@ -14,6 +14,8 @@
 	import Faq from '$lib/marketing/Faq.svelte';
 	import SignupBand from '$lib/marketing/SignupBand.svelte';
 	import MkFooter from '$lib/marketing/MkFooter.svelte';
+
+	let { data } = $props();
 </script>
 
 <Seo
@@ -49,7 +51,7 @@
 		<ThemeGallery />
 		<FeeCalculator />
 		<Testimonials />
-		<PricingPlans />
+		<PricingPlans plans={data.plans} />
 		<Integrations />
 		<Faq />
 		<SignupBand />
