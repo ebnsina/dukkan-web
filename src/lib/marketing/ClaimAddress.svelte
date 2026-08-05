@@ -95,10 +95,11 @@
 						>
 					</div>
 
-					<button
-						type="button"
-						disabled={!result.success}
-						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch rounded-mk-control bg-mk-brand px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:bg-mk-brand-deep disabled:cursor-not-allowed disabled:bg-mk-shell-deep disabled:text-mk-faint"
+					<!-- Signup asks for the address again and checks it against the
+					     server; this only carries the visitor there. -->
+					<a
+						href="/signup"
+						class="group/claim flex cursor-pointer items-center justify-center gap-2.5 self-stretch rounded-mk-control bg-mk-brand px-7 py-4 font-mk-mono text-[12px] font-medium tracking-[0.12em] text-mk-on-brand uppercase transition-colors duration-200 hover:bg-mk-brand-deep"
 					>
 						Claim it
 						<span
@@ -106,7 +107,7 @@
 						>
 							<HugeiconsIcon icon={ArrowRight02Icon} size={16} strokeWidth={2} />
 						</span>
-					</button>
+					</a>
 				</div>
 			</Frame>
 

@@ -21,7 +21,7 @@
 				['Stories', '#stories'],
 				['Fee calculator', '#calc'],
 				['Migration', '#faq'],
-				['Partner program', '#cta']
+				['Partner program', '/signup']
 			]
 		},
 		{

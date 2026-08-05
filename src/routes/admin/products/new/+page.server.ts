@@ -2,11 +2,12 @@ import { fail, redirect } from '@sveltejs/kit';
 import * as v from 'valibot';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
-import { readAccess } from '$lib/server/session';
-import { fieldErrors, isApiError, toUserMessage } from '$lib/api/errors';
+import { accessAfterParent, readAccess } from '$lib/server/session';
+
 import { toMinor } from '$lib/utils/money';
 import type { Category } from '$lib/api/types';
 import type { AdminProduct } from '$lib/admin/types';
+import { failedCall } from '$lib/server/form';
 
 const VariantSchema = v.object({
 	sku: v.pipe(v.string(), v.trim()),
@@ -33,9 +34,9 @@ const ProductSchema = v.object({
 	description: v.pipe(v.string(), v.trim())
 });
 
-export const load: PageServerLoad = async ({ fetch, cookies }) => {
+export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 	const reply = await get<{ categories: Category[] }>(fetch, '/v1/admin/categories', {
-		token: readAccess(cookies)
+		token: await accessAfterParent(parent, cookies)
 	});
 	return { categories: reply.categories ?? [] };
 };
@@ -108,12 +109,7 @@ export const actions: Actions = {
 			});
 			created = reply.data;
 		} catch (cause) {
-			return fail(isApiError(cause) ? (cause.status ?? 500) : 500, {
-				values,
-				rows,
-				fields: fieldErrors(cause),
-				message: toUserMessage(cause)
-			});
+			return failedCall(cause, { values, rows });
 		}
 
 		redirect(303, `/admin/products?created=${encodeURIComponent(created.title)}`);

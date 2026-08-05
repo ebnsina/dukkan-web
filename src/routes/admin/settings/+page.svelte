@@ -2,7 +2,9 @@
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Field, Frame, Toggle } from '$lib/ui';
+	import { Button, Field, Frame, Toggle } from '$lib/ui';
+	import SectionResult from '$lib/admin/SectionResult.svelte';
+	import ThemePicker from '$lib/admin/ThemePicker.svelte';
 
 	let { data, form } = $props();
 
@@ -18,9 +20,16 @@
 <div class="dk-title-row">
 	<div>
 		<h1 class="dk-h1">Settings</h1>
-		<p class="dk-date">How customers pay you, and how parcels get to them.</p>
+		<p class="dk-date">What your shop looks like, how customers pay, and how parcels get out.</p>
 	</div>
 </div>
+
+<ThemePicker
+	themes={data.themes}
+	applied={data.applied}
+	shopName={data.shop?.name ?? ''}
+	result={form}
+/>
 
 <div class="dk-grid-3 pair">
 	<Frame
@@ -34,11 +43,7 @@
 			can pay online as well as with cash.
 		</p>
 
-		{#if form?.section === 'payments' && form?.message}
-			<div class="msg"><Banner title="Not saved" tone="danger">{form.message}</Banner></div>
-		{:else if form?.section === 'payments' && form?.done}
-			<div class="msg"><Banner title="Saved" tone="success">{form.done}</Banner></div>
-		{/if}
+		<SectionResult result={form} section="payments" />
 
 		<form method="POST" action="?/payments" use:enhance class="dk-form">
 			<Field label="Store ID" required error={form?.fields?.store_id}>
@@ -78,11 +83,7 @@
 			parcel status comes back on its own.
 		</p>
 
-		{#if form?.section === 'courier' && form?.message}
-			<div class="msg"><Banner title="Not saved" tone="danger">{form.message}</Banner></div>
-		{:else if form?.section === 'courier' && form?.done}
-			<div class="msg"><Banner title="Saved" tone="success">{form.done}</Banner></div>
-		{/if}
+		<SectionResult result={form} section="courier" />
 
 		<form method="POST" action="?/courier" use:enhance class="dk-form">
 			<Field label="API key" required error={form?.fields?.api_key}>
@@ -128,10 +129,6 @@
 	/* Two panels, not three: each holds a form rather than a figure. */
 	.pair {
 		align-items: start;
-	}
-
-	.msg {
-		margin-bottom: 16px;
 	}
 
 	.footnote {

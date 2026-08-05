@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { OrderDetail } from '$lib/api/types';
+	import OrderTotals from './OrderTotals.svelte';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatDateTime, formatNumber } from '$lib/utils/format';
 
@@ -52,26 +53,10 @@
 		</div>
 	{/each}
 
-	<dl class="totals">
-		<div>
-			<dt>Subtotal</dt>
-			<dd class="t-mono">{formatMinor(order.subtotal_minor, order.currency)}</dd>
-		</div>
-		<div>
-			<dt>Delivery</dt>
-			<dd class="t-mono">{formatMinor(order.shipping_minor, order.currency)}</dd>
-		</div>
-		{#if order.discount_minor > 0}
-			<div>
-				<dt>Discount</dt>
-				<dd class="t-mono">−{formatMinor(order.discount_minor, order.currency)}</dd>
-			</div>
-		{/if}
-		<div class="grand">
-			<dt>Total</dt>
-			<dd class="t-mono">{formatMinor(order.total_minor, order.currency)}</dd>
-		</div>
-	</dl>
+	<!-- The ladder sits right on this page; the component itself is neutral. -->
+	<div class="money">
+		<OrderTotals {order} />
+	</div>
 
 	<div class="address">
 		<h2 class="t-label">Delivering to</h2>
@@ -168,36 +153,10 @@
 		white-space: nowrap;
 	}
 
-	.totals {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
+	.money {
 		max-width: 340px;
 		margin-left: auto;
 		width: 100%;
-	}
-
-	.totals > div {
-		display: flex;
-		justify-content: space-between;
-		gap: 20px;
-		font-size: 14px;
-		color: var(--muted);
-	}
-
-	.totals dd {
-		font-variant-numeric: tabular-nums;
-		color: var(--ink);
-	}
-
-	.grand {
-		padding-top: 12px;
-		border-top: 1px solid var(--rule-strong);
-		font-weight: 600;
-	}
-
-	.grand dd {
-		font-size: 20px;
 	}
 
 	h2 {

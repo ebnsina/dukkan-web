@@ -54,7 +54,7 @@
 				use:reveal={180}
 				class="mt-[clamp(28px,2.8vw,40px)] grid w-full gap-3 sm:w-fit sm:auto-cols-fr sm:grid-flow-col"
 			>
-				<Button href="#cta" size="lg">Start free</Button>
+				<Button href="/signup" size="lg">Start free</Button>
 				<Button href="/shop" size="lg" variant="ghost">See live stores</Button>
 			</div>
 

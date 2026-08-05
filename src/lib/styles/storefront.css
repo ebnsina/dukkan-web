@@ -31,6 +31,17 @@
 	--inverse-paper: var(--shop-accent, var(--n-950));
 	--inverse-ink: var(--shop-accent-ink, var(--n-0));
 
+	/* The accent is the shop's too, not ours. A component asks for `--accent`
+	   and gets the shop's colour without knowing a theme exists — the same
+	   trick as `inverse-paper`, but for the library, which binds this name.
+	   A theme sends one colour, so the hover is mixed from it rather than
+	   asked for: a shop owner picks a colour, not a pair. */
+	--accent: var(--shop-accent, var(--n-950));
+	--accent-ink: var(--shop-accent-ink, var(--n-0));
+	--accent-hover: color-mix(in srgb, var(--shop-accent, var(--n-950)) 86%, black);
+	--accent-soft: color-mix(in srgb, var(--shop-accent, var(--n-950)) 10%, var(--n-0));
+	--accent-on-inverse: var(--shop-accent-ink, var(--n-0));
+
 	background-color: var(--paper);
 	color: var(--ink);
 	color-scheme: light;

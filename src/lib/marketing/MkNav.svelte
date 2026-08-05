@@ -42,12 +42,12 @@
 
 		<div class="col-start-3 flex items-center gap-5 justify-self-end">
 			<a
-				href="/signin"
+				href="/admin/signin"
 				class="mk-underline hidden font-mk-mono text-[11px] tracking-[0.14em] uppercase sm:inline-flex"
 				>Sign in</a
 			>
 			<span class="hidden md:inline-flex">
-				<Button href="#cta" variant="solid" arrow>Get started</Button>
+				<Button href="/signup" variant="solid" arrow>Get started</Button>
 			</span>
 
 			<button
@@ -93,13 +93,13 @@
 				>
 			{/each}
 			<a
-				href="/signin"
+				href="/admin/signin"
 				onclick={() => (open = false)}
 				class="block border-b border-mk-rule-soft py-3.5 font-mk-mono text-[12px] tracking-[0.14em] uppercase"
 				>Sign in</a
 			>
 			<div class="mt-5">
-				<Button href="#cta" variant="solid" full arrow>Get started</Button>
+				<Button href="/signup" variant="solid" full arrow>Get started</Button>
 			</div>
 		</div>
 	</nav>

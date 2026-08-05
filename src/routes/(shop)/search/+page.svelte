@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
 	import ProductCard from '$lib/shop/ProductCard.svelte';
-	import { Empty } from '$lib/ui';
+	import { Button, Empty, Input } from '$lib/ui';
+	import { Search01Icon } from '@hugeicons/core-free-icons';
 	import { formatNumber } from '$lib/utils/format';
 
 	let { data } = $props();
@@ -14,8 +15,11 @@
 
 	<form method="GET" class="bar">
 		<label class="sr-only" for="q">What are you looking for?</label>
-		<input id="q" type="search" name="q" value={data.q} placeholder="What are you looking for?" />
-		<button class="go t-button" type="submit">Search</button>
+		<!-- Input is width:100%, so the field grows rather than the control. -->
+		<div class="field">
+			<Input id="q" type="search" name="q" value={data.q} placeholder="What are you looking for?" />
+		</div>
+		<Button type="submit" icon={Search01Icon}>Search</Button>
 	</form>
 
 	{#if data.page}
@@ -49,32 +53,9 @@
 		gap: 10px;
 	}
 
-	input {
+	.field {
 		flex: 1;
 		min-width: 220px;
-		height: 46px;
-		padding-inline: 14px;
-		background: var(--paper);
-		color: var(--ink);
-		border: 1px solid var(--rule-strong);
-		border-radius: var(--r-control);
-		font-family: var(--font-display);
-		font-size: 15px;
-	}
-
-	input:focus {
-		outline: none;
-		border-color: var(--ink);
-	}
-
-	.go {
-		height: 46px;
-		padding-inline: 22px;
-		background: var(--inverse-paper);
-		color: var(--inverse-ink);
-		border: none;
-		border-radius: var(--r-control);
-		cursor: pointer;
 	}
 
 	.count {

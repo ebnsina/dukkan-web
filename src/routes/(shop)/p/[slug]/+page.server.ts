@@ -1,9 +1,10 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { readAccess, readCart, writeCart } from '$lib/server/session';
-import { isApiError, toUserMessage } from '$lib/api/errors';
+import { isApiError } from '$lib/api/errors';
 import type { Cart, ProductDetail } from '$lib/api/types';
+import { failedCall } from '$lib/server/form';
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
 	try {
@@ -29,9 +30,7 @@ export const actions: Actions = {
 			});
 			writeCart(cookies, reply.cartToken);
 		} catch (cause) {
-			return fail(isApiError(cause) ? (cause.status ?? 500) : 500, {
-				message: toUserMessage(cause)
-			});
+			return failedCall(cause);
 		}
 		redirect(303, '/cart');
 	}

@@ -175,7 +175,7 @@
 						</ul>
 
 						<div class="mt-8">
-							<Button href="#cta" variant={tier.featured ? 'solid' : 'ghost'} full
+							<Button href="/signup" variant={tier.featured ? 'solid' : 'ghost'} full
 								>{tier.cta}</Button
 							>
 						</div>

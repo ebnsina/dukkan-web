@@ -1,8 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { call } from '$lib/server/api';
-import { clearSession, readAccess, readRefresh, writeSession } from '$lib/server/session';
-import type { StoreContext, Tokens } from '$lib/api/types';
+import { clearSession, renewAccess } from '$lib/server/session';
+import type { StoreContext } from '$lib/api/types';
 import { isApiError } from '$lib/api/errors';
 
 interface Identity {
@@ -15,23 +15,10 @@ const STAFF = ['owner', 'admin', 'staff'];
 export const load: LayoutServerLoad = async ({ fetch, cookies, url }) => {
 	if (url.pathname === '/admin/signin') return { identity: null, shop: null };
 
-	let access = readAccess(cookies);
-	const refresh = readRefresh(cookies);
-
-	// A short-lived access token is refreshed silently before giving up.
-	if (!access && refresh) {
-		try {
-			const renewed = await call<Tokens>(fetch, '/v1/store/auth/refresh', {
-				method: 'POST',
-				body: { refresh_token: refresh }
-			});
-			writeSession(cookies, renewed.data);
-			access = renewed.data.access_token;
-		} catch {
-			clearSession(cookies);
-		}
-	}
-
+	/* The layout renews, and every page under it waits for this before reading
+	   the cookie — see `accessAfterParent`. Doing it here rather than per page
+	   is what keeps two loads from rotating the refresh token at once. */
+	const access = await renewAccess(fetch, cookies);
 	if (!access) redirect(303, `/admin/signin?next=${encodeURIComponent(url.pathname)}`);
 
 	let identity: Identity;

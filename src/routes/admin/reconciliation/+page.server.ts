@@ -1,15 +1,16 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
-import { readAccess } from '$lib/server/session';
-import { isApiError, toUserMessage } from '$lib/api/errors';
+import { accessAfterParent, readAccess } from '$lib/server/session';
+import { toUserMessage } from '$lib/api/errors';
 import type { ReconciliationIssue } from '$lib/admin/types';
+import { failedCall } from '$lib/server/form';
 
-export const load: PageServerLoad = async ({ fetch, cookies }) => {
+export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 	const reply = await get<{ issues: ReconciliationIssue[] }>(
 		fetch,
 		'/v1/admin/reconciliation/issues',
-		{ token: readAccess(cookies), query: { limit: 200 } }
+		{ token: await accessAfterParent(parent, cookies), query: { limit: 200 } }
 	);
 	return { issues: reply.issues ?? [] };
 };
@@ -31,10 +32,7 @@ export const actions: Actions = {
 				token: readAccess(cookies)
 			});
 		} catch (cause) {
-			return fail(isApiError(cause) ? (cause.status ?? 500) : 500, {
-				id,
-				message: toUserMessage(cause)
-			});
+			return failedCall(cause, { id });
 		}
 		return { done: true };
 	},

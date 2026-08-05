@@ -9,12 +9,142 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- A shop can change its design. Settings has a Design section: every theme
+  with its presets, each previewed as a miniature of that shop's own
+  storefront, saved through `PUT /v1/admin/theme`. The three endpoints have
+  been there since themes shipped with nothing calling them, so the colour a
+  shop wore was whatever provisioning picked and could not be changed from the
+  product at all.
+
+  `ThemePreview` moves from `$lib/signup` to `$lib/shop`, now that signup is
+  not the only place a shop is shown a design.
+
 - Emil Kowalski's design-engineering skills, checked in under `.agents/skills`
   with `skills-lock.json` pinning each one to its source and hash. Tooling
   rather than product: they are the standard the motion work is held to, and
   the reason `--ease-out` was caught being redeclared with a weaker curve.
   `.claude/skills` symlinks into the same files. Refresh with
   `npx skills add emilkowalski/skill`.
+
+### Changed
+
+- An order's totals are one component. The admin and the storefront each wrote
+  out the same ladder — subtotal, delivery, a conditional discount, the total —
+  and money is the last thing that should exist in two copies: the drift that
+  matters is the one where a discount line appears on one and not the other.
+  They had already drifted on the figure's size, 18px against 20px.
+
+- The component library page is nine components rather than one file. 1043
+  lines held nine independent sections that shared nothing but scaffolding —
+  so the scaffolding is `ds/specimen.css`, written once and scoped under
+  `.library`, and each section owns its specimens, its state and whatever
+  styling is peculiar to it. The overlays moved in beside the buttons that
+  open them. Largest piece is now 219 lines.
+
+- Signup sends the design it asked about. The step collected a theme and a
+  preset and then posted neither, so the answer went nowhere; the API now takes
+  the pair. See the API changelog for what it does with one it does not
+  recognise.
+
+- Signup is four steps rather than one 494-line file. Each step owns its own
+  fields and its own idea of when it is satisfied; the page holds only what
+  the steps agree on. The address check is `AddressCheck`, which is where the
+  debounce and the stale-reply guard live, and the wizard's Next and Back
+  stopped being written out in full three times each.
+
+- Settings is a page again rather than a place things are kept. The design
+  picker went in at 180 lines and took the file to 349, which is how a route
+  becomes the thing nobody wants to open. It is `ThemePicker` (the choice and
+  the form) over `ThemeCard` (one design, deciding nothing), and the banner
+  every section had written for itself is `SectionResult`. The page is 143
+  lines and holds no logic of its own.
+
+- `failedCall` turns a failed API call into a failed form, in one place.
+  Eleven actions across eight files carried
+  `fail(isApiError(cause) ? (cause.status ?? 500) : 500, …)` verbatim; the one
+  that gets that wrong is the one that reports a 422 as a 500, and it should
+  not be retyped per action.
+
+### Fixed
+
+- **Self-serve signup could not complete.** Sending the code is a successful
+  post, and SvelteKit's `enhance` resets the form element on success — which
+  took the bound number down with it. The form that creates the shop then
+  posted an empty phone and was refused by its own validator, with the number
+  still legible on screen. Nobody could open a shop. That form keeps its own
+  fields now: it is a step in a flow, not a thing to be emptied once sent.
+
+  It passed every check and only showed itself when somebody clicked the flow
+  through, which is the third time that has been true in this repository.
+
+- Fifteen minutes after signing in, every admin page said "Something broke on
+  our side". The access cookie lasts fifteen minutes and the layout renews it,
+  but a page load runs *beside* its layout rather than after it — so the page
+  read the cookie before it had been replaced, called the API with no token,
+  and turned the 401 into a 500. A reload fixed it, which is why it read as
+  flaky rather than broken.
+
+  Page loads wait for the layout now and take the token from
+  `accessAfterParent`. Renewing stays in the layout alone, deliberately: the
+  API rotates the refresh token on every use and treats a reused one as theft,
+  so two loads renewing at once would not be a harmless race — it would end the
+  session. Proved that the hard way while testing this, by replaying one
+  refresh token and watching the API correctly kill the session.
+
+- The admin sheet has room on its right. It sat 6px from the window, which is
+  less than its own corner radius, so the rounding ran out before the edge did
+  and the sheet read as jammed against the window rather than laid on the grey
+  ground. 12px, matching the rail's own padding. Still flush to the rail on the
+  left, which is the one edge it is meant to meet.
+
+- The signup stepper's numbers carry the smallest radius on the scale rather
+  than a sharp corner. On a 20px box anything larger is a pill, and a pill is a
+  different shape rather than a softer corner.
+
+- A storefront wears its own accent again. `Button` binds `--accent`, which is
+  the app's indigo, and `.shop-surface` rebound only `--inverse-paper` — so
+  every library control on a shop's own pages carried Dukkàn's colour instead
+  of the shop's. Hand-rolled controls were right and the library was wrong,
+  which is the worst way round: the two disagreed on the same page. The
+  surface binds the accent names now, and the hover is mixed from the one
+  colour a theme sends, because a shop owner picks a colour and not a pair.
+
+- Storefront search uses `Input` and `Button` rather than its own copies of
+  them. The copies had drifted to 22px of inline padding against the
+  library's 20px, which is exactly the drift the library exists to stop.
+
+- The admin figures sit in a row again. `.dk-stats` was dropped from
+  `admin.css` alongside `.dk-panel--stat` when `Stat` replaced the panel, but
+  it is the container rather than the card and both the dashboard and Money
+  owed still use it — so each figure fell to full width and the dashboard was
+  four screens of scrolling before the first order.
+
+- The landing page reaches signup. Every action on it — "Get started" in both
+  navs, "Start free" in the hero and the closing band, all three plan buttons,
+  "Claim it" — pointed at `#cta`, an anchor to a section on the same page, so
+  the one thing the page exists to do could not be done from it. They go to
+  `/signup`, which has been wired to `POST /v1/signup/start` all along.
+
+- "Sign in" goes to `/admin/signin`, not `/signin`. The latter is the
+  storefront's, and it resolves its shop from the `Host` header — on the
+  marketing domain there is no shop to resolve, so it could only have failed.
+
+### Removed
+
+- `/ds/brand`. It held four candidate brand colours judged against the admin,
+  and the judging is over — indigo won, and the page had become a third design
+  system address that nothing linked to, when `/ds` is meant to be the whole
+  system in one place and `/ui` was folded into it for that exact reason. The
+  `--d-brand*` aliases it read stay: the admin surface uses them throughout.
+
+- The closing band's email capture. It validated an address, said "check your
+  inbox", and sent nothing anywhere; signup identifies a shop owner by phone,
+  because the code arrives by SMS. It is a link to `/signup` now.
+
+- "Claim it" no longer checks a name against a hardcoded list of taken
+  handles and then does nothing when pressed. `/signup` asks for the address
+  again and puts it to `POST /v1/signup/check-address`, which is the only
+  answer worth showing.
 
 ### Changed
 

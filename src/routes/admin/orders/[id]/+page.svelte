@@ -4,6 +4,7 @@
 	import { ArrowLeft01Icon, Cancel01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Banner, Button, Confirm, Frame, Status } from '$lib/ui';
+	import OrderTotals from '$lib/shop/OrderTotals.svelte';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatDateTime, formatNumber } from '$lib/utils/format';
 
@@ -91,26 +92,7 @@
 
 	<aside class="dk-stack">
 		<Frame eyebrow="Money" title="What it comes to" variant="pad">
-			<dl class="totals">
-				<div>
-					<dt>Subtotal</dt>
-					<dd>{formatMinor(order.subtotal_minor, order.currency)}</dd>
-				</div>
-				<div>
-					<dt>Delivery</dt>
-					<dd>{formatMinor(order.shipping_minor, order.currency)}</dd>
-				</div>
-				{#if order.discount_minor > 0}
-					<div>
-						<dt>Discount</dt>
-						<dd>−{formatMinor(order.discount_minor, order.currency)}</dd>
-					</div>
-				{/if}
-				<div class="grand">
-					<dt>Total</dt>
-					<dd>{formatMinor(order.total_minor, order.currency)}</dd>
-				</div>
-			</dl>
+			<OrderTotals {order} />
 			<p class="pay">
 				<span class="dk-hint">
 					{order.payment_method === 'cod' ? 'Cash on delivery' : 'Paid online'}
@@ -252,36 +234,6 @@
 		margin-left: auto;
 		font-size: 12px;
 		color: var(--d-faint);
-	}
-
-	.totals {
-		display: flex;
-		flex-direction: column;
-		gap: 9px;
-		margin: 0;
-	}
-
-	.totals > div {
-		display: flex;
-		justify-content: space-between;
-		gap: 20px;
-		color: var(--d-muted);
-	}
-
-	.totals dd {
-		margin: 0;
-		font-variant-numeric: tabular-nums;
-		color: var(--d-ink);
-	}
-
-	.grand {
-		padding-top: 10px;
-		border-top: 1px solid var(--d-card);
-		font-weight: 650;
-	}
-
-	.grand dd {
-		font-size: 18px;
 	}
 
 	.pay {

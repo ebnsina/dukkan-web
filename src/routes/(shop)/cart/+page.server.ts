@@ -1,9 +1,9 @@
-import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { readAccess, readCart, writeCart } from '$lib/server/session';
-import { isApiError, toUserMessage } from '$lib/api/errors';
+
 import type { Cart, ProductDetail, ProductImage } from '$lib/api/types';
+import { failedCall } from '$lib/server/form';
 
 /* A cart line carries no photograph, so each distinct product is looked up for
    one. Storefront reads are unlimited and a basket is a handful of lines, but
@@ -57,9 +57,7 @@ export const actions: Actions = {
 			});
 			writeCart(cookies, reply.cartToken);
 		} catch (cause) {
-			return fail(isApiError(cause) ? (cause.status ?? 500) : 500, {
-				message: toUserMessage(cause)
-			});
+			return failedCall(cause);
 		}
 		return { ok: true };
 	}

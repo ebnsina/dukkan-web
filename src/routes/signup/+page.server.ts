@@ -18,6 +18,11 @@ const CompleteSchema = v.object({
 	shop_name: v.pipe(v.string(), v.trim(), v.nonEmpty("Enter your shop's name.")),
 	slug: v.pipe(v.string(), v.trim()),
 	industry: v.pipe(v.string(), v.trim(), v.nonEmpty('Choose what you sell.')),
+	/* The chosen design. Not required here: the server checks the pair against
+	   the catalogue and falls back to the trade's default, so a shop is never
+	   refused over a design. */
+	theme_code: v.pipe(v.string(), v.trim()),
+	preset_code: v.pipe(v.string(), v.trim()),
 	owner_name: v.pipe(v.string(), v.trim()),
 	phone: PhoneSchema,
 	code: v.pipe(
@@ -84,7 +89,16 @@ export const actions: Actions = {
 	complete: async ({ request, fetch }) => {
 		const form = await request.formData();
 		const values = Object.fromEntries(
-			['shop_name', 'slug', 'industry', 'owner_name', 'phone', 'code'].map((key) => [
+			[
+				'shop_name',
+				'slug',
+				'industry',
+				'theme_code',
+				'preset_code',
+				'owner_name',
+				'phone',
+				'code'
+			].map((key) => [
 				key,
 				String(form.get(key) ?? '')
 			])

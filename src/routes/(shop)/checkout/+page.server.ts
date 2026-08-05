@@ -3,8 +3,9 @@ import * as v from 'valibot';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { clearCart, readAccess, readCart, writeCart } from '$lib/server/session';
-import { fieldErrors, isApiError, toUserMessage } from '$lib/api/errors';
+import { isApiError } from '$lib/api/errors';
 import type { Cart, District, PaymentMethod, PlacedOrder } from '$lib/api/types';
+import { failedCall } from '$lib/server/form';
 
 const CheckoutSchema = v.object({
 	recipient: v.pipe(
@@ -91,12 +92,7 @@ export const actions: Actions = {
 			order = reply.data;
 		} catch (cause) {
 			// A 409 means someone else took the last one while this basket was open.
-			return fail(isApiError(cause) ? (cause.status ?? 500) : 500, {
-				values,
-				fields: fieldErrors(cause),
-				message: toUserMessage(cause),
-				soldOut: isApiError(cause) && cause.status === 409
-			});
+			return failedCall(cause, { values, soldOut: isApiError(cause) && cause.status === 409 });
 		}
 
 		clearCart(cookies);
