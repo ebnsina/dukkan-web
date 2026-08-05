@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Emil Kowalski's design-engineering skills, checked in under `.agents/skills`
+  with `skills-lock.json` pinning each one to its source and hash. Tooling
+  rather than product: they are the standard the motion work is held to, and
+  the reason `--ease-out` was caught being redeclared with a weaker curve.
+  `.claude/skills` symlinks into the same files. Refresh with
+  `npx skills add emilkowalski/skill`.
+
 ### Changed
 
 - The landing page headline reaches 76px, from 56px, without giving up the two
