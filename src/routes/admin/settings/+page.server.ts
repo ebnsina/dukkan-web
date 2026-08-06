@@ -1,27 +1,85 @@
+import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { accessAfterParent, readAccess } from '$lib/server/session';
 
 import type { AppliedTheme, PaymentMethod, ThemeSummary } from '$lib/api/types';
+import type { StaffMember } from '$lib/admin/types';
 import { failedCall } from '$lib/server/form';
 
 export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 	const token = await accessAfterParent(parent, cookies);
 
-	const [payments, themes, applied] = await Promise.all([
+	const [payments, themes, applied, staff] = await Promise.all([
 		get<{ payment_methods: PaymentMethod[] | null }>(fetch, '/v1/store/payment-methods'),
 		get<{ themes: ThemeSummary[] }>(fetch, '/v1/admin/themes', { token }),
-		get<AppliedTheme>(fetch, '/v1/admin/theme', { token })
+		get<AppliedTheme>(fetch, '/v1/admin/theme', { token }),
+		get<{ staff: StaffMember[] }>(fetch, '/v1/admin/staff', { token })
 	]);
 
 	return {
 		live: payments.payment_methods ?? [],
+		staff: staff.staff ?? [],
 		themes: themes.themes ?? [],
 		applied
 	};
 };
 
 export const actions: Actions = {
+	/* Who can sign in. The API holds these to owner and admin, so a staff
+	   account reaching this action is refused there rather than here. */
+	staffAdd: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		const phone = String(form.get('phone') ?? '').trim();
+		const role = String(form.get('role') ?? '');
+
+		if (!/^(\+?88)?01[3-9]\d{8}$/.test(phone)) {
+			return fail(422, {
+				section: 'staff',
+				fields: { phone: 'Enter a Bangladeshi mobile number, like 01712345678.' },
+				message: 'Some details need fixing.'
+			});
+		}
+
+		try {
+			await call(fetch, '/v1/admin/staff', {
+				method: 'POST',
+				body: { phone, name: String(form.get('name') ?? '').trim(), role },
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'staff' });
+		}
+		return { section: 'staff', done: 'They can sign in now.' };
+	},
+
+	staffRole: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		try {
+			await call(fetch, `/v1/admin/staff/${String(form.get('id') ?? '')}/role`, {
+				method: 'PUT',
+				body: { role: String(form.get('role') ?? '') },
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'staff' });
+		}
+		return { section: 'staff', done: 'Their role is changed.' };
+	},
+
+	staffRemove: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		try {
+			await call(fetch, `/v1/admin/staff/${String(form.get('id') ?? '')}`, {
+				method: 'DELETE',
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'staff' });
+		}
+		return { section: 'staff', done: 'They can no longer sign in.' };
+	},
+
 	payments: async ({ request, fetch, cookies }) => {
 		const form = await request.formData();
 		try {

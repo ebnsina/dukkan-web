@@ -65,3 +65,13 @@ export interface Coupon {
 	is_active: boolean;
 	created_at: string;
 }
+
+export interface StaffMember {
+	user_id: string;
+	phone: string;
+	name: string;
+	role: 'owner' | 'admin' | 'staff';
+	status: string;
+	last_login_at: string | null;
+	created_at: string;
+}

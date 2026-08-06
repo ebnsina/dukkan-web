@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Staff, in Settings. Who can sign in, what each of them may do, and a sheet
+  to add another. The roles have been enforced since the beginning and there
+  was no way to hand one out, so a shop with two people shared one login.
+
+  The owner is shown with a chip rather than a dropdown and has no Remove: the
+  API refuses both, and a control that will be refused is a worse answer than
+  no control. Changing a role is the dropdown itself — a select that needs a
+  Save button beside it is a second decision about a decision already made.
+
 - Discounts, both ends of them. A shop makes a code under Discounts in the
   admin, and a shopper types it at checkout and watches the total drop before
   paying. The API has taken `coupon_code` since coupons shipped; neither side

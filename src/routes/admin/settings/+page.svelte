@@ -5,6 +5,7 @@
 	import { Button, Field, Frame, Toggle } from '$lib/ui';
 	import SectionResult from '$lib/admin/SectionResult.svelte';
 	import ThemePicker from '$lib/admin/ThemePicker.svelte';
+	import StaffList from '$lib/admin/StaffList.svelte';
 
 	let { data, form } = $props();
 
@@ -13,6 +14,10 @@
 	let courierEnabled = $state(false);
 
 	const sslLive = $derived(data.live.some((m) => m.provider === 'sslcommerz'));
+
+	/* The actions fail with different shapes, so the field errors are narrowed
+	   once here rather than asserted at each field. */
+	let fields = $derived((form as { fields?: Record<string, string> } | null)?.fields ?? {});
 </script>
 
 <Seo title="Settings" description="Payments and delivery." noindex />
@@ -46,12 +51,12 @@
 		<SectionResult result={form} section="payments" />
 
 		<form method="POST" action="?/payments" use:enhance class="dk-form">
-			<Field label="Store ID" required error={form?.fields?.store_id}>
+			<Field label="Store ID" required error={fields.store_id}>
 				{#snippet control(props)}
 					<input {...props} class="dk-input" name="store_id" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field label="Store password" required error={form?.fields?.store_password}>
+			<Field label="Store password" required error={fields.store_password}>
 				{#snippet control(props)}
 					<input
 						{...props}
@@ -86,12 +91,12 @@
 		<SectionResult result={form} section="courier" />
 
 		<form method="POST" action="?/courier" use:enhance class="dk-form">
-			<Field label="API key" required error={form?.fields?.api_key}>
+			<Field label="API key" required error={fields.api_key}>
 				{#snippet control(props)}
 					<input {...props} class="dk-input" name="api_key" autocomplete="off" required />
 				{/snippet}
 			</Field>
-			<Field label="Secret key" required error={form?.fields?.secret_key}>
+			<Field label="Secret key" required error={fields.secret_key}>
 				{#snippet control(props)}
 					<input
 						{...props}
@@ -106,7 +111,7 @@
 			<Field
 				label="Webhook token"
 				hint="Steadfast sends parcel updates with this. Make up a long random one."
-				error={form?.fields?.webhook_token}
+				error={fields.webhook_token}
 			>
 				{#snippet control(props)}
 					<input {...props} class="dk-input" name="webhook_token" autocomplete="off" />
@@ -121,6 +126,10 @@
 	</Frame>
 </div>
 
+<div class="people">
+	<StaffList staff={data.staff} {fields} />
+</div>
+
 <p class="dk-hint footnote">
 	For safety these are never shown again once saved. Type them in again to change them.
 </p>
@@ -129,6 +138,10 @@
 	/* Two panels, not three: each holds a form rather than a figure. */
 	.pair {
 		align-items: start;
+	}
+
+	.people {
+		margin-top: 14px;
 	}
 
 	.footnote {
