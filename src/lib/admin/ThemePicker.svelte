@@ -4,8 +4,7 @@
 	 * This owns the choice and the form; `ThemeCard` owns how one design looks. */
 	import { enhance } from '$app/forms';
 	import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
-	import { Button, Frame } from '$lib/ui';
-	import SectionResult from './SectionResult.svelte';
+	import { Button, Frame, toasts } from '$lib/ui';
 	import ThemeCard from './ThemeCard.svelte';
 	import type { AppliedTheme, ThemePreset, ThemeSummary } from '$lib/api/types';
 
@@ -13,10 +12,9 @@
 		themes: ThemeSummary[];
 		applied: AppliedTheme;
 		shopName: string;
-		result: { section?: string; message?: string; done?: string } | null;
 	}
 
-	let { themes, applied, shopName, result }: Props = $props();
+	let { themes, applied, shopName }: Props = $props();
 
 	/* Only a deliberate pick is held here; everything else falls through to what
 	   the shop wears. Copying the applied theme into state instead would go
@@ -34,23 +32,20 @@
 			preset:
 				theme.code === applied.theme_code
 					? applied.preset_code
-					: (theme.presets.find((p) => p.is_default)?.code ??
-						theme.presets[0]?.code ??
-						'')
+					: (theme.presets.find((p) => p.is_default)?.code ?? theme.presets[0]?.code ?? '')
 		};
 	}
 
 	// What a card shows: the chosen preset on the chosen theme, its own default
 	// everywhere else.
 	function shownPreset(theme: ThemeSummary): ThemePreset | undefined {
-		const chosen = theme.code === themeCode ? theme.presets.find((p) => p.code === presetCode) : undefined;
+		const chosen =
+			theme.code === themeCode ? theme.presets.find((p) => p.code === presetCode) : undefined;
 		return chosen ?? theme.presets.find((p) => p.is_default) ?? theme.presets[0];
 	}
 
 	let chosen = $derived(themes.find((t) => t.code === themeCode));
-	let unchanged = $derived(
-		themeCode === applied.theme_code && presetCode === applied.preset_code
-	);
+	let unchanged = $derived(themeCode === applied.theme_code && presetCode === applied.preset_code);
 </script>
 
 <Frame
@@ -64,9 +59,25 @@
 		can try another design and go back.
 	</p>
 
-	<SectionResult {result} section="theme" failed="Not changed" saved="Changed" />
-
-	<form method="POST" action="?/theme" use:enhance>
+	<!-- The designs stay on the page rather than behind a sheet: this is a
+	     gallery you compare across, and five previews in a 760px panel would be
+	     a worse view of them than the one it replaced. The result still speaks
+	     as a toast, like every other form here. -->
+	<form
+		method="POST"
+		action="?/theme"
+		use:enhance={() =>
+			async ({ result, update }) => {
+				await update({ reset: false });
+				if (result.type === 'success') {
+					const done = (result.data as { done?: string } | undefined)?.done;
+					toasts.success(done ?? 'Your shop wears the new design now.');
+				} else if (result.type === 'failure') {
+					const message = (result.data as { message?: string } | undefined)?.message;
+					if (message) toasts.error(message);
+				}
+			}}
+	>
 		<fieldset class="designs">
 			<legend class="sr-only">Choose a design</legend>
 

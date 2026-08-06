@@ -3,23 +3,28 @@ import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { accessAfterParent, readAccess } from '$lib/server/session';
 
-import type { AppliedTheme, PaymentMethod, ThemeSummary } from '$lib/api/types';
+import type { AppliedTheme, PaymentMethod, SettingsOverview, ThemeSummary } from '$lib/api/types';
 import type { StaffMember } from '$lib/admin/types';
 import { failedCall } from '$lib/server/form';
 
 export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 	const token = await accessAfterParent(parent, cookies);
 
-	const [payments, themes, applied, staff] = await Promise.all([
+	const [payments, themes, applied, staff, overview] = await Promise.all([
 		get<{ payment_methods: PaymentMethod[] | null }>(fetch, '/v1/store/payment-methods'),
 		get<{ themes: ThemeSummary[] }>(fetch, '/v1/admin/themes', { token }),
 		get<AppliedTheme>(fetch, '/v1/admin/theme', { token }),
-		get<{ staff: StaffMember[] }>(fetch, '/v1/admin/staff', { token })
+		get<{ staff: StaffMember[] }>(fetch, '/v1/admin/staff', { token }),
+		get<SettingsOverview>(fetch, '/v1/admin/settings', { token })
 	]);
 
 	return {
 		live: payments.payment_methods ?? [],
 		staff: staff.staff ?? [],
+		/* Whether a credential is behind each provider. The values themselves are
+		   sealed and never returned, so this is all a card can honestly say. */
+		payments: overview.payment ?? [],
+		couriers: overview.courier ?? [],
 		themes: themes.themes ?? [],
 		applied
 	};

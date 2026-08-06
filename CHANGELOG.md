@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Every form in the admin is on a sheet and every result is a toast, which was
+  the rule from the moment it was set — Discounts and Staff followed it and
+  Payments, Delivery and Design were left on the old pattern, so one page ran
+  two conventions.
+
+  Payments and Delivery are cards now: whether a credential is set, and an Edit
+  that opens the sheet. They are entered once and left for months, so a
+  permanent form for them was a page of empty boxes greeting a shop owner who
+  came to change something else. What each card says comes from
+  `GET /v1/admin/settings`, because the values themselves are sealed and never
+  read back — whether something is behind it is all a card can honestly claim.
+
+  Design stays on the page. It is a gallery to compare across, and five
+  storefront previews in a 760px panel would be a worse view of them than the
+  one it replaced. Its result is a toast like the rest.
+
+  `SectionResult` is gone with them: it existed to work out which section a
+  banner belonged to, and there are no banners left.
+
 - Staff, in Settings. Who can sign in, what each of them may do, and a sheet
   to add another. The roles have been enforced since the beginning and there
   was no way to hand one out, so a shop with two people shared one login.
