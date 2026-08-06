@@ -5,6 +5,10 @@ export interface StoreContext {
 	currency: string;
 	timezone: string;
 	locale: string;
+	/* Whether this shop has sellers to speak of. The interface hides every
+	   seller concept when it does not — the data underneath is the same shape
+	   either way. */
+	shop_mode: 'single' | 'marketplace';
 }
 
 export interface Category {
@@ -117,14 +121,23 @@ export interface OrderLine {
 	unit_price_minor: number;
 	quantity: number;
 	line_total_minor: number;
+	commission_minor: number;
 }
 
 export interface OrderPackage {
 	id: string;
 	subtotal_minor: number;
 	shipping_minor: number;
+	/* What the shop kept out of this seller's sale, and what the seller is owed
+	   once it is delivered and settled. Both are zero in a single shop, where
+	   the money is already the owner's. */
+	commission_minor: number;
+	payable_minor: number;
 	status: string;
 	lines: OrderLine[];
+	/* Who sold it. Present on a marketplace, empty on a shop with one seller —
+	   which is the same thing as saying there is nobody to name. */
+	vendor_name?: string;
 }
 
 export interface OrderSummary {
@@ -360,6 +373,9 @@ export interface ShopSettings {
 	name: string;
 	slug: string;
 	shop_mode: string;
+	/* Thousandths of a percent, so 12.5% is 12500 — a rate held as a decimal
+	   here is a rate that eventually multiplies an amount into a float. */
+	commission_milli: number;
 	country: string;
 	currency: string;
 	timezone: string;

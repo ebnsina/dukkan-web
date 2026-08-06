@@ -40,6 +40,12 @@
 
 	let confirming = $state(false);
 	let refunding = $state(false);
+
+	/* A shop with one seller keeps everything, so there is nothing to split and
+	   nothing worth a panel. Marketplace or not is the only thing this asks —
+	   the order underneath is the same shape either way. */
+	const marketplace = $derived(data.shop?.shop_mode === 'marketplace');
+	const commission = $derived(order.packages.reduce((sum, pack) => sum + pack.commission_minor, 0));
 </script>
 
 <Seo title="Order {order.number}" description="Order detail." noindex />
@@ -83,7 +89,12 @@
 			{#each order.packages as pack (pack.id)}
 				<div class="pack">
 					<div class="pack-head">
-						<Status status={pack.status} />
+						<span class="who-sold">
+							{#if marketplace && pack.vendor_name}
+								<span class="dk-strong">{pack.vendor_name}</span>
+							{/if}
+							<Status status={pack.status} />
+						</span>
 						{#if ['pending', 'confirmed', 'packed'].includes(pack.status)}
 							<form
 								method="POST"
@@ -185,6 +196,25 @@
 			</p>
 		</Frame>
 
+		{#if marketplace}
+			<Frame eyebrow="Sellers" title="Who is owed what" variant="pad">
+				{#each order.packages as pack (pack.id)}
+					<div class="owed">
+						<span class="dk-strong">{pack.vendor_name || 'Seller'}</span>
+						<span class="dk-quiet">
+							{formatMinor(pack.subtotal_minor, order.currency)} less
+							{formatMinor(pack.commission_minor, order.currency)} commission
+						</span>
+						<span class="amount">{formatMinor(pack.payable_minor, order.currency)}</span>
+					</div>
+				{/each}
+				<p class="dk-hint">
+					You keep {formatMinor(commission, order.currency)} of this order. Sellers are paid once their
+					parcel is delivered and the money has arrived — recording that is not built yet.
+				</p>
+			</Frame>
+		{/if}
+
 		<Frame eyebrow="Customer" title="Where it goes" variant="pad">
 			<p class="addr">
 				<span class="dk-strong">{order.recipient}</span><br />
@@ -283,12 +313,37 @@
 		margin-top: 20px;
 	}
 
+	/* Name and net on one line, the arithmetic between them quieter, so the
+	   number a seller cares about is the one the eye lands on. */
+	.owed {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 2px 16px;
+		padding-block: 10px;
+	}
+
+	.owed + .owed {
+		border-top: 1px solid var(--d-card);
+	}
+
+	.owed .amount {
+		grid-row: 1 / span 2;
+		grid-column: 2;
+		align-self: center;
+	}
+
 	.pack-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 16px;
 		padding-bottom: 14px;
+	}
+
+	.who-sold {
+		display: flex;
+		align-items: center;
+		gap: 10px;
 	}
 
 	.line {

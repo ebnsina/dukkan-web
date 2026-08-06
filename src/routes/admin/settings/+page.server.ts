@@ -36,6 +36,9 @@ export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 		themes: themes.themes ?? [],
 		applied,
 		notifications,
+		/* The shop-wide commission default, and the shop mode that decides
+		   whether it is worth showing at all. */
+		shopSettings: overview.shop,
 		domain: domain ?? { domain: '', verified: false, claimed_at: null, verified_at: null },
 		domainIncluded: usage?.usage.find((u) => u.feature === 'custom_domain')?.enabled ?? false
 	};
@@ -94,6 +97,34 @@ export const actions: Actions = {
 			return failedCall(cause, { section: 'staff' });
 		}
 		return { section: 'staff', done: 'They can no longer sign in.' };
+	},
+
+	/* What the marketplace keeps out of each seller's sale. Typed as a
+	   percentage because that is how it is agreed with a seller, and sent as
+	   thousandths because that is how it stays integer the whole way down. */
+	commission: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		const typed = String(form.get('percent') ?? '').trim();
+		const percent = Number(typed);
+
+		if (typed === '' || !Number.isFinite(percent) || percent < 0 || percent > 100) {
+			return fail(422, {
+				section: 'commission',
+				fields: { percent: 'Enter a rate between 0 and 100.' },
+				message: 'Some details need fixing.'
+			});
+		}
+
+		try {
+			await call(fetch, '/v1/admin/commission', {
+				method: 'PUT',
+				body: { commission_milli: Math.round(percent * 1000) },
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'commission' });
+		}
+		return { section: 'commission', done: 'Saved. New orders use this rate.' };
 	},
 
 	payments: async ({ request, fetch, cookies }) => {

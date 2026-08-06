@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Seo from '$lib/seo/Seo.svelte';
+	import { enhance } from '$app/forms';
+	import { announce } from '$lib/admin/announce';
 	import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
 	import { Button, Field, Frame, Toggle } from '$lib/ui';
 	import { theme } from '$lib/theme/theme.svelte';
@@ -188,6 +190,44 @@
 		</div>
 	</CredentialsCard>
 </div>
+
+<!-- A shop with one seller keeps everything it sells, so there is nobody to
+     charge and no rate to set. The card is simply absent rather than shown
+     empty or disabled. -->
+{#if data.shopSettings.shop_mode === 'marketplace'}
+	<div class="people">
+		<Frame eyebrow="Sellers" title="What you keep" variant="pad">
+			<form method="POST" action="?/commission" use:enhance={announce('Saved.')}>
+				<p class="dk-note">
+					Taken off every sale before a seller is paid. A seller you have agreed a different rate
+					with keeps theirs — this is what applies to everyone else.
+				</p>
+				<Field
+					label="Your share, as a percentage"
+					hint="Leave it at 0 while you are getting started."
+					error={only('commission').percent}
+				>
+					{#snippet control(props)}
+						<input
+							{...props}
+							class="dk-input"
+							name="percent"
+							inputmode="decimal"
+							value={data.shopSettings.commission_milli / 1000}
+						/>
+					{/snippet}
+				</Field>
+				<p class="dk-hint">
+					Changing this does not touch orders already placed — each one keeps the rate it was placed
+					under.
+				</p>
+				<div class="dk-acts">
+					<Button type="submit" icon={CheckmarkCircle02Icon}>Save</Button>
+				</div>
+			</form>
+		</Frame>
+	</div>
+{/if}
 
 <div class="people">
 	<DomainCard
