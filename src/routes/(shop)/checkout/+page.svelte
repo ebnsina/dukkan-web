@@ -3,8 +3,17 @@
 	import Seo from '$lib/seo/Seo.svelte';
 	import { Banner, Button, Field, Input, Select, Textarea } from '$lib/ui';
 	import { formatMinor } from '$lib/utils/money';
+	import type { CouponQuote } from '$lib/api/types';
 
 	let { data, form } = $props();
+
+	/* Held here rather than read from `form` each time: placing the order is a
+	   second post, and its result would otherwise wipe the applied code. */
+	let applied = $state<CouponQuote | null>(null);
+	let couponError = $state('');
+	let code = $state('');
+	/* The coupon action counts uses per customer, and the customer is the phone. */
+	let phone = $state('');
 
 	const value = (key: string) => (form?.values?.[key] as string) ?? '';
 	const districtOptions = $derived(
@@ -36,6 +45,7 @@
 	<div class="cols">
 		<form
 			method="POST"
+			action="?/place"
 			class="form"
 			use:enhance={() => {
 				submitting = true;
@@ -58,7 +68,7 @@
 							<Input
 								{...props}
 								name="phone"
-								value={value('phone')}
+								bind:value={phone}
 								inputmode="tel"
 								numeric
 								placeholder="01712345678"
@@ -159,6 +169,9 @@
 				{/snippet}
 			</Field>
 
+			<!-- The code the shopper applied, carried into the order that uses it. -->
+			<input type="hidden" name="coupon_code" value={applied?.code ?? ''} />
+
 			<Button type="submit" arrow loading={submitting}>Place the order</Button>
 		</form>
 
@@ -181,6 +194,43 @@
 				<span>Subtotal</span>
 				<span class="t-mono">{formatMinor(data.cart.subtotal_minor, data.cart.currency)}</span>
 			</div>
+
+			{#if applied}
+				<div class="line off">
+					<span>{applied.code}</span>
+					<span class="t-mono">−{formatMinor(applied.discount_minor, data.cart.currency)}</span>
+				</div>
+			{/if}
+
+			<!-- Its own form: applying a code prices the basket, it does not place
+			     the order. The accepted code rides along in a hidden field below. -->
+			<form
+				method="POST"
+				action="?/coupon"
+				class="code"
+				use:enhance={() =>
+					async ({ result }) => {
+						if (result.type === 'success') {
+							applied = (result.data as { coupon: CouponQuote }).coupon;
+							couponError = '';
+						} else if (result.type === 'failure') {
+							applied = null;
+							couponError = (result.data as { couponError?: string })?.couponError ?? '';
+						}
+					}}
+			>
+				<input type="hidden" name="phone" value={phone} />
+				<Input
+					name="coupon_code"
+					bind:value={code}
+					placeholder="Discount code"
+					aria-label="Discount code"
+				/>
+				<Button type="submit" variant="quiet">Apply</Button>
+			</form>
+			{#if couponError}
+				<p class="code-error t-label" aria-live="polite">{couponError}</p>
+			{/if}
 			<p class="delivery t-label">
 				Delivery is worked out from your district and added to the total.
 			</p>
@@ -189,6 +239,21 @@
 </div>
 
 <style>
+	.code {
+		display: flex;
+		gap: 8px;
+		margin-top: 14px;
+	}
+
+	.off {
+		color: var(--accent);
+	}
+
+	.code-error {
+		margin-top: 6px;
+		color: var(--muted);
+	}
+
 	.wrap {
 		padding-top: clamp(32px, 5vw, 56px);
 		display: flex;

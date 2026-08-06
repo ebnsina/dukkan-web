@@ -48,3 +48,20 @@ export interface Shipment {
 	delivered_at: string | null;
 	settled_at: string | null;
 }
+
+export interface Coupon {
+	id: string;
+	code: string;
+	kind: 'percent' | 'fixed';
+	percent_bp: number | null;
+	amount_minor: number | null;
+	max_discount_minor: number | null;
+	min_order_minor: number;
+	starts_at: string | null;
+	ends_at: string | null;
+	max_redemptions: number | null;
+	max_per_customer: number | null;
+	redeemed_count: number;
+	is_active: boolean;
+	created_at: string;
+}

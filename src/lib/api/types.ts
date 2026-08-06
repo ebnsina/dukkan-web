@@ -368,3 +368,13 @@ export interface SettingsOverview {
 	courier: ConfiguredProvider[];
 	shop: ShopSettings;
 }
+
+/* ─ Coupons ─ what a code takes off, priced before the order is placed. */
+
+export interface CouponQuote {
+	code: string;
+	discount_minor: number;
+	subtotal_minor: number;
+	total_minor: number;
+	currency: string;
+}

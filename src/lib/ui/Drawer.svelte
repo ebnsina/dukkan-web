@@ -12,6 +12,9 @@
 		title: string;
 		description?: string;
 		side?: 'start' | 'end';
+		/** `wide` is for a sheet holding a form: a form at 420px is a column of
+		    cramped fields, and a shop owner filling one wants room. */
+		size?: 'md' | 'wide';
 		/** Sits on the floor of the panel, out of the scrolling body. */
 		footer?: Snippet;
 		class?: string;
@@ -23,6 +26,7 @@
 		title,
 		description,
 		side = 'end',
+		size = 'md',
 		footer,
 		class: className,
 		children
@@ -58,7 +62,7 @@
 
 <dialog
 	bind:this={node}
-	class={cn('drawer', `is-${side}`, className)}
+	class={cn('drawer', `is-${side}`, `is-${size}`, className)}
 	aria-labelledby="{id}-title"
 	aria-describedby={description ? `${id}-desc` : undefined}
 	{onpointerdown}
@@ -98,6 +102,13 @@
 		color: var(--ink);
 		font-size: 14px;
 		line-height: 1.55;
+	}
+
+	/* A sheet holding a form. Sixty per cent of the window on anything wide
+	   enough for that to be roomy, and never narrower than the standard drawer
+	   on anything that is not. */
+	.drawer.is-wide {
+		width: min(max(420px, 60vw), 100vw);
 	}
 
 	/* A panel coming off an edge gets the drawer curve rather than the UI one:

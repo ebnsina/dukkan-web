@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import {
+		CouponPercentIcon,
 		DashboardSquare01Icon,
 		Invoice01Icon,
 		Moon02Icon,
@@ -24,7 +25,8 @@
 	const main = [
 		{ href: '/admin', icon: DashboardSquare01Icon, label: 'Dashboard' },
 		{ href: '/admin/orders', icon: Invoice01Icon, label: 'Orders' },
-		{ href: '/admin/products', icon: PackageIcon, label: 'Products' }
+		{ href: '/admin/products', icon: PackageIcon, label: 'Products' },
+		{ href: '/admin/coupons', icon: CouponPercentIcon, label: 'Discounts' }
 	];
 
 	const others = [

@@ -3,8 +3,8 @@ import * as v from 'valibot';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
 import { clearCart, readAccess, readCart, writeCart } from '$lib/server/session';
-import { isApiError } from '$lib/api/errors';
-import type { Cart, District, PaymentMethod, PlacedOrder } from '$lib/api/types';
+import { isApiError, toUserMessage } from '$lib/api/errors';
+import type { Cart, CouponQuote, District, PaymentMethod, PlacedOrder } from '$lib/api/types';
 import { failedCall } from '$lib/server/form';
 
 const CheckoutSchema = v.object({
@@ -20,6 +20,7 @@ const CheckoutSchema = v.object({
 		v.regex(/^(\+?88)?01[3-9]\d{8}$/, 'Enter a Bangladeshi mobile number, like 01712345678.')
 	),
 	email: v.pipe(v.string(), v.trim()),
+	coupon_code: v.pipe(v.string(), v.trim()),
 	district_code: v.pipe(v.string(), v.nonEmpty('Choose a district.')),
 	thana: v.pipe(v.string(), v.trim(), v.nonEmpty('Enter the thana or upazila.')),
 	area: v.pipe(v.string(), v.trim()),
@@ -51,7 +52,32 @@ export const load: PageServerLoad = async ({ fetch, cookies }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ request, fetch, cookies }) => {
+	/* Pricing a code before the order is placed, so a shopper sees the saving
+	   rather than taking it on trust. Checkout prices it again when it writes
+	   the order: a code can run out between applying it and paying. */
+	coupon: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		const code = String(form.get('coupon_code') ?? '').trim();
+		const phone = String(form.get('phone') ?? '').trim();
+
+		if (!code) return fail(422, { couponError: 'Enter a code.' });
+
+		try {
+			const reply = await call<CouponQuote>(fetch, '/v1/store/cart/coupon', {
+				method: 'POST',
+				body: { code, phone },
+				cartToken: readCart(cookies),
+				token: readAccess(cookies)
+			});
+			return { coupon: reply.data };
+		} catch (cause) {
+			return fail(422, { couponError: toUserMessage(cause) });
+		}
+	},
+
+	/* Named, not default: a page cannot have both, and applying a code needs
+	   its own action. */
+	place: async ({ request, fetch, cookies }) => {
 		const form = await request.formData();
 		const values = Object.fromEntries(
 			[
@@ -64,6 +90,7 @@ export const actions: Actions = {
 				'street',
 				'postcode',
 				'payment_method',
+				'coupon_code',
 				'note'
 			].map((key) => [key, String(form.get(key) ?? '')])
 		);

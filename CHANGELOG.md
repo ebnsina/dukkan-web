@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Discounts, both ends of them. A shop makes a code under Discounts in the
+  admin, and a shopper types it at checkout and watches the total drop before
+  paying. The API has taken `coupon_code` since coupons shipped; neither side
+  had a field for it, which made the feature real for nobody.
+
+  Forms go on a sheet from here on: the list stays readable behind it, and a
+  form is something you finish and put down rather than a permanent half of the
+  page. `Drawer` grew a `size` for it, so the next form asks for the variant
+  instead of copying a width. Results arrive as a toast, so the news lands
+  while a shop owner is looking at their list rather than at the form that
+  changed it — field-level errors stay in the form, where the wrong field is.
+
 - A shop can change its design. Settings has a Design section: every theme
   with its presets, each previewed as a miniature of that shop's own
   storefront, saved through `PUT /v1/admin/theme`. The three endpoints have
