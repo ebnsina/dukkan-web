@@ -277,3 +277,28 @@ export interface PayoutRecord {
 	paid_on: string;
 	created_at: string;
 }
+
+/* Somebody asking the shop a question. `open` is waiting on the shop and
+   `answered` is waiting on the customer — the statuses are named for who is
+   holding the ball, which is the only thing a queue needs to say. */
+export interface TicketMessage {
+	id: string;
+	author: 'customer' | 'staff';
+	body: string;
+	created_at: string;
+}
+
+export interface Ticket {
+	id: string;
+	number: string;
+	name: string;
+	phone: string;
+	email: string | null;
+	order_id: string | null;
+	order_number: string | null;
+	subject: string;
+	status: 'open' | 'answered' | 'closed';
+	last_reply_at: string;
+	created_at: string;
+	messages?: TicketMessage[];
+}

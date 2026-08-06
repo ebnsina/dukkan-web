@@ -77,7 +77,7 @@
 		{
 			label: 'Customers care',
 			items: [
-				{ href: '', icon: CustomerSupportIcon, label: 'Support', soon: true },
+				{ href: '/admin/support', icon: CustomerSupportIcon, label: 'Support' },
 				{ href: '', icon: Mail01Icon, label: 'Contacts', soon: true }
 			]
 		},

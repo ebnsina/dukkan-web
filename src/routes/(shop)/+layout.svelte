@@ -87,6 +87,7 @@
 
 			<div class="foot-col foot-links">
 				<a class="t-label" href="/track">Track an order</a>
+				<a class="t-label" href="/help">Ask us</a>
 				{#each data.pages as page (page.id)}
 					<a class="foot-line" href="/pages/{page.slug}">{page.title}</a>
 				{/each}
