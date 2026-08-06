@@ -230,3 +230,27 @@ export interface StaffMember {
 	last_login_at: string | null;
 	created_at: string;
 }
+
+/* A shop selling on somebody else's marketplace, as its owner reviews it.
+   Only a marketplace ever has these; a single shop's one seller is created at
+   provisioning and never surfaces. */
+export interface AdminSeller {
+	id: string;
+	slug: string;
+	name: string;
+	tagline: string | null;
+	description: string | null;
+	phone: string;
+	email: string | null;
+	address: string | null;
+	district: string | null;
+	status: 'pending' | 'approved' | 'rejected' | 'suspended' | 'closed';
+	rejection_reason?: string | null;
+	approved_at: string | null;
+	created_at: string;
+	/* Their own agreed rate, in thousandths of a percent, and a flat fee taken
+	   once per order. Null means they have no rate of their own and the shop
+	   default answers — which is not the same as an agreed rate of zero. */
+	commission_milli: number | null;
+	commission_fixed_minor: number | null;
+}

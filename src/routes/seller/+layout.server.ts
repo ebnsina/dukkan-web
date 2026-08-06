@@ -30,8 +30,20 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, url }) => {
 		throw cause;
 	}
 
+	/* The seller role is granted at approval, so somebody still being reviewed
+	   does not have it — and telling them "that account does not sell here"
+	   would be both wrong and discouraging, when the truth is that they applied
+	   and nobody has looked yet. The extra call only happens on the way to a
+	   refusal, so the ordinary path still costs nothing. */
 	if (!identity.roles.includes('vendor')) {
-		redirect(303, '/seller/signin?denied=1');
+		const mine = await call<{ vendors: { status: string }[] }>(
+			fetch,
+			'/v1/store/vendor-signup/mine',
+			{ token: access }
+		).catch(() => null);
+
+		const applied = mine?.data.vendors?.some((v) => v.status === 'pending');
+		redirect(303, applied ? '/seller/signin?pending=1' : '/seller/signin?denied=1');
 	}
 
 	/* Which shop this person sells for. The API resolves it from the token and

@@ -50,12 +50,18 @@
 		soon?: boolean;
 	}
 
-	const groups: { label: string; items: NavItem[] }[] = [
+	/* A shop with one seller has nobody to review and no rate to agree, so the
+	   entry is absent rather than empty — the same rule every other seller
+	   concept follows. */
+	const marketplace = $derived(data.shop?.shop_mode === 'marketplace');
+
+	const groups = $derived<{ label: string; items: NavItem[] }[]>([
 		{
 			label: 'Sales',
 			items: [
 				{ href: '/admin/orders', icon: Invoice01Icon, label: 'Orders' },
-				{ href: '/admin/customers', icon: UserGroupIcon, label: 'Customers' }
+				{ href: '/admin/customers', icon: UserGroupIcon, label: 'Customers' },
+				...(marketplace ? [{ href: '/admin/sellers', icon: Store01Icon, label: 'Sellers' }] : [])
 			]
 		},
 		{
@@ -88,7 +94,7 @@
 				{ href: '/admin/settings', icon: Settings01Icon, label: 'Settings' }
 			]
 		}
-	];
+	]);
 
 	const active = (href: string) =>
 		href === '/admin' ? page.url.pathname === '/admin' : page.url.pathname.startsWith(href);
