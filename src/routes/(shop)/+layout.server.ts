@@ -3,7 +3,14 @@ import type { LayoutServerLoad } from './$types';
 import { get, call } from '$lib/server/api';
 import { shopFromHost } from '$lib/server/shop';
 import { readAccess, readCart, writeCart } from '$lib/server/session';
-import type { AppliedTheme, Cart, Category, StoreContext } from '$lib/api/types';
+import type {
+	AppliedTheme,
+	Cart,
+	Category,
+	StoreContext,
+	StorefrontPage,
+	StorefrontSettings
+} from '$lib/api/types';
 
 const FALLBACK: AppliedTheme = {
 	theme_code: 'counter',
@@ -21,12 +28,18 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, url }) => {
 	   explains what this is. */
 	if (!shopFromHost(url.host)) redirect(307, '/');
 
-	const [shop, categories, theme] = await Promise.all([
+	const [shop, categories, theme, front] = await Promise.all([
 		get<StoreContext>(fetch, '/v1/store/context'),
 		get<{ categories: Category[] }>(fetch, '/v1/store/categories'),
 		// A shop with no design still has to open, so this one failure is worn
 		// rather than raised.
-		get<AppliedTheme>(fetch, '/v1/store/theme').catch(() => FALLBACK)
+		get<AppliedTheme>(fetch, '/v1/store/theme').catch(() => FALLBACK),
+		/* What the shop says about itself, and its written pages. A shop that
+		   has never filled this in gets empty values rather than an error — it
+		   is a new shop, not a broken one. */
+		get<{ settings: StorefrontSettings; pages: StorefrontPage[] }>(fetch, '/v1/store/front').catch(
+			() => null
+		)
 	]);
 
 	const reply = await call<Cart>(fetch, '/v1/store/cart', {
@@ -38,6 +51,8 @@ export const load: LayoutServerLoad = async ({ fetch, cookies, url }) => {
 	return {
 		shop,
 		theme,
+		front: front?.settings ?? null,
+		pages: front?.pages ?? [],
 		categories: categories.categories ?? [],
 		itemCount: reply.data.item_count,
 		signedIn: Boolean(readAccess(cookies))

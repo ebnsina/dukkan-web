@@ -397,3 +397,32 @@ export interface CouponQuote {
 	total_minor: number;
 	currency: string;
 }
+
+/* ─ Storefront ─ what a shop says about itself, as opposed to how it looks.
+   A theme decides the look; this is the content on it. */
+export interface StorefrontSettings {
+	notice: string;
+	notice_enabled: boolean;
+	headline: string;
+	tagline: string;
+	hero_media_id: string | null;
+	hero_image?: ProductImage;
+	hero_link_label: string;
+	hero_link_href: string;
+	about: string;
+	contact_phone: string;
+	contact_email: string;
+	contact_address: string;
+	facebook_url: string;
+	whatsapp_number: string;
+}
+
+export interface StorefrontPage {
+	id: string;
+	slug: string;
+	title: string;
+	body: string;
+	is_published: boolean;
+	position: number;
+	updated_at: string;
+}

@@ -1,0 +1,266 @@
+/* The ledger — the v2 landing page, at /v2.
+ *
+ * A shop owner's accounts book: ruled blue-grey paper, a red margin rule down
+ * the left, entries on the left and figures on the right. The product's one
+ * real claim is that the money at the end of the day matches the orders at the
+ * start, so the page is built as the thing that claim is settled in.
+ *
+ * Its own `lg-` namespace, the way marketing.css owns `mk-`. Nothing here
+ * reaches v1, the storefront or the admin.
+ *
+ * Values come from tokens.css where the product already has an opinion — the
+ * brand indigo is the same indigo. The paper, the ruling and the two stamp
+ * colours are this page's own, because no other surface has ruled paper.
+ */
+
+@theme {
+	/* Ledger paper is blue-grey, not cream: the accounts book sold in every
+	   stationery shop here is printed on a cold stock, and cream would make the
+	   page read as an antique rather than as this month's book. */
+	--color-lg-paper: #edf1f3;
+	--color-lg-panel: #f9fbfb;
+	--color-lg-ink: #0f1620;
+	--color-lg-muted: #55636e;
+	--color-lg-faint: #8494a0;
+	/* Reversed, for the closing entry set on ink. */
+	--color-lg-paper-inv: #e7edf0;
+	--color-lg-muted-inv: #93a3ad;
+
+	--color-lg-rule: #c7d4d9;
+	--color-lg-rule-soft: #dde5e8;
+	--color-lg-rule-inv: rgba(231, 237, 240, 0.16);
+
+	/* The red rule printed down the margin of a real book. It marks the page's
+	   structure and, in the one place it means something, a shortfall. */
+	--color-lg-margin: #b23a2e;
+	--color-lg-margin-soft: #f0dbd8;
+	/* The credit column. Green only where money arrived. */
+	--color-lg-credit: #1e6b4c;
+	--color-lg-credit-soft: #d9ebe2;
+
+	--color-lg-brand: var(--brand);
+	--color-lg-brand-deep: var(--brand-deep);
+	--color-lg-on-brand: var(--brand-on);
+
+	/* Three faces, each doing the job it does in the book itself.
+	 *
+	 * Archivo, widened, is the printed heading on a form — the part of a ledger
+	 * that was set in type before anyone bought it. Newsreader is the reading
+	 * face, because a page of accounts is read as prose and a serif carries
+	 * seventeen pixels of it better than a grotesque. DM Mono is what was
+	 * written in: every figure, every label, every address. Nothing borrows
+	 * another's role, which is what stops three faces reading as three pages.
+	 */
+	--font-lg-head: 'Archivo', 'Mona Sans Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-lg-body: 'Newsreader', ui-serif, Georgia, serif;
+	--font-lg-num: 'DM Mono', 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
+
+	/* Sized so the longest line in each role clears its column — a heading that
+	   wraps mid-phrase loses the entry it heads. */
+	--text-lg-display: clamp(33px, 6.2vw, 74px);
+	--text-lg-head: clamp(25px, 3.4vw, 42px);
+
+	--spacing-lg-gutter: clamp(20px, 4vw, 56px);
+	--spacing-lg-entry: clamp(72px, 8vw, 116px);
+
+	/* Motion, and only three kinds of it.
+	 *
+	 * A figure rolls up into its place the way a total does when it is written.
+	 * A status thumps on, because that is what a stamp does. A rule draws left
+	 * to right, because that is the direction a page is ruled in. Nothing here
+	 * floats, fades ambiently or parallaxes — none of that happens in a book.
+	 */
+	--animate-lg-roll: lg-roll 460ms cubic-bezier(0.19, 1, 0.22, 1);
+	--animate-lg-stamp: lg-stamp-on 420ms cubic-bezier(0.2, 1.5, 0.4, 1) both;
+	--animate-lg-rule: lg-rule-draw 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+	@keyframes lg-roll {
+		from {
+			transform: translateY(70%);
+			opacity: 0;
+		}
+	}
+
+	/* Landing slightly askew and settling is what separates a stamp from a
+	   badge that faded in. */
+	@keyframes lg-stamp-on {
+		from {
+			transform: scale(1.4) rotate(-5deg);
+			opacity: 0;
+		}
+		to {
+			transform: none;
+			opacity: 1;
+		}
+	}
+
+	@keyframes lg-rule-draw {
+		from {
+			transform: scaleX(0);
+		}
+		to {
+			transform: scaleX(1);
+		}
+	}
+}
+
+@layer base {
+	.lg-surface {
+		/* Shared components read the standard names; rebinding them here means
+		   nothing is forked to sit on ruled paper. */
+		--paper: var(--color-lg-panel);
+		--surface: var(--color-lg-paper);
+		--ink: var(--color-lg-ink);
+		--muted: var(--color-lg-muted);
+		--faint: var(--color-lg-faint);
+		--rule: var(--color-lg-rule-soft);
+		--rule-strong: var(--color-lg-rule);
+		--accent: var(--color-lg-brand);
+		--accent-ink: var(--color-lg-on-brand);
+		--accent-hover: var(--color-lg-brand-deep);
+
+		background: var(--color-lg-paper);
+		color: var(--color-lg-ink);
+		font-family: var(--font-lg-body);
+		font-size: 18px;
+		line-height: 1.58;
+		/* Newsreader's optical size axis: set for reading, not for display. */
+		font-variation-settings: 'opsz' 16;
+		color-scheme: light;
+	}
+
+	/* Widened rather than bolded. A form's printed headings are wide and only
+	   moderately heavy; weight alone would make them shout instead of file. */
+	.lg-surface h1,
+	.lg-surface h2,
+	.lg-surface h3 {
+		font-family: var(--font-lg-head);
+		font-weight: 600;
+		font-stretch: 112%;
+		font-variation-settings: 'wdth' 112;
+		letter-spacing: -0.022em;
+		line-height: 1.04;
+	}
+
+	.lg-surface :focus-visible {
+		outline: 2px solid var(--color-lg-brand);
+		outline-offset: 3px;
+	}
+
+	.lg-surface ::selection {
+		background: var(--color-lg-brand);
+		color: var(--color-lg-on-brand);
+	}
+}
+
+/* The page's measure. Narrower than v1's 1440: a ledger page is a column of
+   entries, and a wide one stops looking like a page. */
+@utility lg-wrap {
+	width: 100%;
+	max-width: 1240px;
+	margin-inline: auto;
+	padding-inline: var(--spacing-lg-gutter);
+}
+
+/* Every figure on the page. Tabular, so a column of them is a column. */
+@utility lg-num {
+	font-family: var(--font-lg-num);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.01em;
+}
+
+/* Column headings and the folio marks — the furniture of the book, set apart
+   from the prose written around it. */
+@utility lg-label {
+	font-family: var(--font-lg-num);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+/* A status set on a line of the book: paid, short, returned. Not a badge —
+   ledgers stamp, and a stamp sits slightly off the grid it lands on. */
+@utility lg-stamp {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border: 1px solid currentColor;
+	border-radius: 3px;
+	padding: 3px 8px;
+	font-family: var(--font-lg-num);
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+/* The ruled line an entry is written on. A ledger's rules are printed before
+   anything is written, so they run the full width whether or not the row
+   reaches the end. */
+@utility lg-ruled {
+	border-bottom: 1px solid var(--color-lg-rule-soft);
+}
+
+/* Paper, not a background colour. The tooth is barely there at 3.5% — enough
+   that the flat fill stops reading as a screen, not enough to notice. */
+@utility lg-grain {
+	opacity: 0.035;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The feint ruling printed across a page of accounts, for the panels that are
+   meant to read as a sheet rather than as a card. */
+@utility lg-feint {
+	background-image: repeating-linear-gradient(
+		to bottom,
+		transparent 0,
+		transparent 31px,
+		var(--color-lg-rule-soft) 31px,
+		var(--color-lg-rule-soft) 32px
+	);
+}
+
+/* A row being read. The ledger's own gesture: a finger down the column. */
+@utility lg-row {
+	transition:
+		background-color 180ms var(--ease-out, ease),
+		box-shadow 180ms var(--ease-out, ease);
+
+	&:hover {
+		background: color-mix(in oklab, var(--color-lg-brand) 4%, transparent);
+		box-shadow: inset 2px 0 0 var(--color-lg-brand);
+	}
+}
+
+/* Two sheets, not one card: the panel sits on a second sheet offset behind it.
+   The whole page is paper, so depth here is another page rather than a
+   shadow. */
+@utility lg-sheet {
+	position: relative;
+	background: var(--color-lg-panel);
+	border: 1px solid var(--color-lg-rule);
+	border-radius: 4px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 8px -7px -7px 8px;
+		z-index: -1;
+		border: 1px solid var(--color-lg-rule);
+		border-radius: 4px;
+		background: color-mix(in oklab, var(--color-lg-paper) 70%, white);
+	}
+}
+
+/* Every animation on this surface is a flourish on something already legible,
+   so switching them off costs the page nothing. */
+@media (prefers-reduced-motion: reduce) {
+	.lg-surface *,
+	.lg-surface *::before,
+	.lg-surface *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

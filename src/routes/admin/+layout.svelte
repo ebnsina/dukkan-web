@@ -94,6 +94,7 @@
 		{
 			label: 'Settings',
 			items: [
+				{ href: '/admin/storefront', icon: Store01Icon, label: 'Your shop front' },
 				{ href: '/admin/shipping', icon: DeliveryTruck01Icon, label: 'Delivery charges' },
 				{ href: '/admin/settings', icon: Settings01Icon, label: 'Settings' }
 			]

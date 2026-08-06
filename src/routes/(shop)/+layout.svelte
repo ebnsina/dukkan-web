@@ -22,6 +22,12 @@
 	data-density={data.theme.tokens.density}
 	data-layout={data.theme.layout}
 >
+	<!-- The one line a shop most wants to change: free delivery this week,
+	     closed for Eid, a new arrival. Above the bar because it is news. -->
+	{#if data.front?.notice_enabled && data.front.notice}
+		<div class="notice"><p class="container-page">{data.front.notice}</p></div>
+	{/if}
+
 	<header class="bar">
 		<div class="inner container-page">
 			<a class="shop-name" href="/shop">{data.shop.name}</a>
@@ -60,8 +66,43 @@
 
 	<footer class="foot">
 		<div class="foot-inner container-page">
-			<span class="t-label">{data.shop.name}</span>
-			<a class="t-label" href="/track">Track an order</a>
+			<div class="foot-col">
+				<span class="foot-name">{data.shop.name}</span>
+				{#if data.front?.contact_address}
+					<span class="foot-line">{data.front.contact_address}</span>
+				{/if}
+				<!-- A shop with no way to reach it reads as a shop nobody is
+				     behind, which in this market loses the sale. -->
+				{#if data.front?.contact_phone}
+					<a class="foot-line" href="tel:{data.front.contact_phone}">
+						{data.front.contact_phone}
+					</a>
+				{/if}
+				{#if data.front?.contact_email}
+					<a class="foot-line" href="mailto:{data.front.contact_email}">
+						{data.front.contact_email}
+					</a>
+				{/if}
+			</div>
+
+			<div class="foot-col foot-links">
+				<a class="t-label" href="/track">Track an order</a>
+				{#each data.pages as page (page.id)}
+					<a class="foot-line" href="/pages/{page.slug}">{page.title}</a>
+				{/each}
+				{#if data.front?.whatsapp_number}
+					<a
+						class="t-label"
+						href="https://wa.me/{data.front.whatsapp_number.replace(/[^0-9]/g, '')}"
+						rel="noreferrer"
+					>
+						WhatsApp
+					</a>
+				{/if}
+				{#if data.front?.facebook_url}
+					<a class="t-label" href={data.front.facebook_url} rel="noreferrer">Facebook</a>
+				{/if}
+			</div>
 		</div>
 	</footer>
 </div>
@@ -69,6 +110,14 @@
 <style>
 	.shop-surface {
 		min-height: 100dvh;
+	}
+
+	.notice {
+		background: var(--shop-accent);
+		color: var(--shop-accent-ink);
+		font-size: 13px;
+		text-align: center;
+		padding-block: 8px;
 	}
 
 	.bar {
@@ -178,9 +227,39 @@
 	.foot-inner {
 		display: flex;
 		justify-content: space-between;
-		gap: 16px;
+		flex-wrap: wrap;
+		gap: 28px;
 		padding-block: 32px;
 		color: var(--faint);
+	}
+
+	.foot-col {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	/* The links wrap rather than squeezing: a shop with four written pages plus
+	   two social links has more here than fits one line on a phone. */
+	.foot-links {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 8px 20px;
+		align-items: flex-start;
+	}
+
+	/* A reading face, not `t-label`. Everything here that a shop wrote — its
+	   name, its address, the titles of its own pages — is as likely to be
+	   Bangla as English, and mono uppercase with 0.16em of letter-spacing
+	   pulls Bangla conjuncts apart. Our own words keep the label style. */
+	.foot-line,
+	.foot-name {
+		font-size: 13px;
+		line-height: 1.6;
+	}
+
+	.foot-name {
+		color: var(--ink);
 	}
 
 	.foot-inner a {
