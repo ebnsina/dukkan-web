@@ -254,3 +254,26 @@ export interface AdminSeller {
 	commission_milli: number | null;
 	commission_fixed_minor: number | null;
 }
+
+/* What a seller is owed, read from the ledger rather than summed over orders:
+   the difference between the two is every payout already made. */
+export interface VendorOwing {
+	vendor_id: string;
+	name: string;
+	phone: string;
+	owed_minor: number;
+}
+
+/* A record that a person sent money — Dukkàn never holds or moves any, so
+   there is no pending state and nothing to reconcile. */
+export interface PayoutRecord {
+	id: string;
+	vendor_id: string;
+	vendor_name: string;
+	amount_minor: number;
+	method: 'bkash' | 'nagad' | 'bank' | 'cash' | 'other';
+	reference: string | null;
+	note: string | null;
+	paid_on: string;
+	created_at: string;
+}

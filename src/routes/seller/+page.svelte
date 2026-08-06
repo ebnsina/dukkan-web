@@ -6,7 +6,15 @@
 	import { Banner, Button, Frame, Stat, Status } from '$lib/ui';
 	import PageTop from '$lib/admin/PageTop.svelte';
 	import { formatMinor } from '$lib/utils/money';
-	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
+	import { formatDate, formatNumber, formatRelativeTime } from '$lib/utils/format';
+
+	const METHOD: Record<string, string> = {
+		bkash: 'bKash',
+		nagad: 'Nagad',
+		bank: 'Bank transfer',
+		cash: 'Cash',
+		other: 'Some other way'
+	};
 
 	let { data } = $props();
 
@@ -44,14 +52,38 @@
 	/>
 </section>
 
-<!-- Said outright rather than left for a seller to work out from a figure that
-     never changes. Nothing here has ever been paid, because paying a seller is
-     not built. -->
+<!-- The balance is the shop's own ledger: everything delivered and remitted,
+     less everything they have already sent you. The shop pays by bKash, Nagad
+     or bank — Dukkàn never moves the money — so this says what is outstanding
+     rather than pretending a transfer is on its way. -->
 <div class="msg">
-	<Banner title="You have not been paid through Dukkàn" tone="info">
-		These are what your orders came to, not a balance. Settle up with the shop directly for now.
-	</Banner>
+	{#if data.balanceMinor > 0}
+		<Banner title="{formatMinor(data.balanceMinor, owed.currency)} is owed to you" tone="info">
+			The shop sends this themselves. Anything they have already sent is listed below.
+		</Banner>
+	{:else if data.payouts.length > 0}
+		<Banner title="You are settled up" tone="success">
+			Everything delivered so far has been paid.
+		</Banner>
+	{/if}
 </div>
+
+{#if data.payouts.length > 0}
+	<Frame eyebrow="Payments" title="What the shop has sent you" variant="pad">
+		{#each data.payouts.slice(0, 6) as payment (payment.id)}
+			<div class="row">
+				<span class="what">
+					<span class="dk-strong">{formatMinor(payment.amount_minor, owed.currency)}</span>
+					<span class="dk-quiet">
+						{METHOD[payment.method] ?? payment.method}{#if payment.reference}
+							· {payment.reference}{/if}
+					</span>
+				</span>
+				<span class="when dk-quiet">{formatDate(payment.paid_on)}</span>
+			</div>
+		{/each}
+	</Frame>
+{/if}
 
 <Frame eyebrow="Orders" title="Waiting on you" variant="pad">
 	{#if waiting.length === 0}

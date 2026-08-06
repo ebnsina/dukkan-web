@@ -14,6 +14,7 @@
 		Invoice01Icon,
 		Layers01Icon,
 		Mail01Icon,
+		MoneySend01Icon,
 		PackageIcon,
 		Search01Icon,
 		Settings01Icon,
@@ -84,6 +85,9 @@
 			label: 'Money',
 			items: [
 				{ href: '/admin/reconciliation', icon: Wallet01Icon, label: 'Money owed' },
+				...(marketplace
+					? [{ href: '/admin/payouts', icon: MoneySend01Icon, label: 'Paying sellers' }]
+					: []),
 				{ href: '/admin/plan', icon: CreditCardIcon, label: 'Your plan' }
 			]
 		},
