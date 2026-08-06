@@ -4,4 +4,4 @@
 	let { data, form } = $props();
 </script>
 
-<ProductList {data} {form} base="/admin" />
+<ProductList {data} {form} base="/seller" />

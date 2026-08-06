@@ -37,10 +37,15 @@
 	   repeated on seventeen pages — where one would eventually be spelt
 	   differently or forgotten. A page that IS the home does not link to
 	   itself. */
+	/* Three surfaces wear this component now, and the fallback used to be the
+	   shop owner's. A seller's trail therefore began with a link into the shop
+	   admin, which is the one place they are certain to be refused. */
 	const home = $derived<Crumb>(
 		page.url.pathname.startsWith('/platform')
 			? { label: 'Operator', href: '/platform' }
-			: { label: 'Overview', href: '/admin' }
+			: page.url.pathname.startsWith('/seller')
+				? { label: 'Overview', href: '/seller' }
+				: { label: 'Overview', href: '/admin' }
 	);
 
 	const full = $derived(

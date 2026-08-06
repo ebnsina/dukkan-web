@@ -3,14 +3,16 @@
 	   rail, one sheet — because a seller on a marketplace is running a shop too,
 	   and teaching them a second set of habits buys nothing.
 
-	   It is a much shorter rail, and that is the honest state of it: a seller can
-	   see and send their own orders. Managing their own catalogue has an API and
-	   no screen yet, so it is not named here as though it were a click away. */
+	   The catalogue screens are literally the owner's, told which prefix to
+	   speak to: the API mirrors every catalogue route across /v1/admin and
+	   /v1/vendor, so a second copy would only be a second place to fix things. */
 	import { page } from '$app/state';
 	import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/svelte';
 	import {
+		Alert02Icon,
 		DashboardSquare01Icon,
 		Invoice01Icon,
+		PackageIcon,
 		Store01Icon,
 		ArrowUpRight01Icon
 	} from '@hugeicons/core-free-icons';
@@ -26,7 +28,11 @@
 		label: string;
 	}
 
-	const items: NavItem[] = [{ href: '/seller/orders', icon: Invoice01Icon, label: 'Orders' }];
+	const items: NavItem[] = [
+		{ href: '/seller/orders', icon: Invoice01Icon, label: 'Orders' },
+		{ href: '/seller/products', icon: PackageIcon, label: 'Products' },
+		{ href: '/seller/low-stock', icon: Alert02Icon, label: 'Running out' }
+	];
 
 	const active = (href: string) => page.url.pathname.startsWith(href);
 
