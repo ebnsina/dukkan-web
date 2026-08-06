@@ -104,11 +104,13 @@
 		line-height: 1.55;
 	}
 
-	/* A sheet holding a form. Sixty per cent of the window on anything wide
-	   enough for that to be roomy, and never narrower than the standard drawer
-	   on anything that is not. */
+	/* A sheet holding a form. A measure rather than a percentage: a form does
+	   not care how large the monitor is, only how long a line stays readable.
+	   760px takes two fields side by side and stops there — at 60% of the
+	   window the same form was 900px on this screen and 1500px on a larger
+	   one, with a six-character code field stretched across all of it. */
 	.drawer.is-wide {
-		width: min(max(420px, 60vw), 100vw);
+		width: min(760px, 92vw);
 	}
 
 	/* A panel coming off an edge gets the drawer curve rather than the UI one:
