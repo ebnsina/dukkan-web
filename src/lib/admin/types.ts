@@ -302,3 +302,29 @@ export interface Ticket {
 	created_at: string;
 	messages?: TicketMessage[];
 }
+
+/* Reading a catalogue export before any of it is created. Previewing is a
+   separate step because somebody handing over four hundred products deserves
+   to see what we made of their file before it is theirs. */
+export interface ImportNote {
+	row: number;
+	product: string;
+	message: string;
+}
+
+export interface ImportPreview {
+	source: 'shopify' | 'woocommerce' | 'generic';
+	product_count: number;
+	variant_count: number;
+	skipped_rows: number;
+	notes: ImportNote[] | null;
+	sample: { title: string; variants: number; price_minor: number; status: string }[];
+	category_names: string[] | null;
+}
+
+export interface ImportOutcome {
+	created: number;
+	skipped: number;
+	categories_created: number;
+	notes: ImportNote[];
+}

@@ -18,6 +18,7 @@
 		PackageIcon,
 		Search01Icon,
 		Settings01Icon,
+		Upload01Icon,
 		Store01Icon,
 		UserGroupIcon,
 		Wallet01Icon
@@ -71,7 +72,8 @@
 				{ href: '/admin/products', icon: PackageIcon, label: 'Products' },
 				{ href: '/admin/categories', icon: Layers01Icon, label: 'Categories' },
 				{ href: '/admin/low-stock', icon: Alert02Icon, label: 'Running out' },
-				{ href: '/admin/coupons', icon: CouponPercentIcon, label: 'Discounts' }
+				{ href: '/admin/coupons', icon: CouponPercentIcon, label: 'Discounts' },
+				{ href: '/admin/import', icon: Upload01Icon, label: 'Bring products over' }
 			]
 		},
 		{
