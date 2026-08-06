@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 	import { Frame, SectionHead } from '$lib/ui';
 	import { reveal } from './motion';
 	import ThemeMock from './mocks/ThemeMock.svelte';
@@ -175,7 +176,11 @@
 			</ul>
 
 			<div use:reveal={80}>
-				<Frame eyebrow="Preview" title="{theme.name.toLowerCase()}.dukkan.store" tag={theme.badge}>
+				<Frame
+					eyebrow="Preview"
+					title="{theme.name.toLowerCase()}.{PUBLIC_SHOP_DOMAIN}"
+					tag={theme.badge}
+				>
 					<ThemeMock
 						name={theme.name}
 						rtl={theme.rtl}

@@ -1,13 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { CheckmarkCircle02Icon, RefreshIcon } from '@hugeicons/core-free-icons';
-	import { Banner, Button, Empty, Frame, Stat } from '$lib/ui';
+	import { CheckmarkCircle02Icon, RefreshIcon, Upload01Icon } from '@hugeicons/core-free-icons';
+	import { Banner, Empty, Field, Frame, Stat } from '$lib/ui';
+	import DataTable from '$lib/admin/DataTable.svelte';
+	import PageTop from '$lib/admin/PageTop.svelte';
+	import PageActions from '$lib/admin/PageActions.svelte';
+	import RowActions from '$lib/admin/RowActions.svelte';
+	import FormSheet from '$lib/admin/FormSheet.svelte';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatNumber, formatRelativeTime } from '$lib/utils/format';
-	import type { IssueKind } from '$lib/admin/types';
+	import type { IssueKind, ReconciliationIssue } from '$lib/admin/types';
 
 	let { data, form } = $props();
+
+	/* The issue being closed, rather than a bare flag: one sheet serves every
+	   row now that the row itself only carries a menu item. */
+	let resolving = $state<ReconciliationIssue | null>(null);
+
+	let importing = $state(false);
 
 	/* Plain words for a shop owner; the API's `detail` carries the specifics. */
 	const HEADING: Record<IssueKind, string> = {
@@ -31,23 +42,37 @@
 		}, 0)
 	);
 
-	let openId = $state('');
+	const heading = (issue: ReconciliationIssue) => HEADING[issue.kind] ?? issue.kind;
 </script>
 
 <Seo title="Money owed" description="What the courier collected but has not handed over." noindex />
 
-<div class="dk-title-row">
-	<div>
-		<h1 class="dk-h1">Money owed</h1>
-		<p class="dk-date">
-			Everything the courier collected but has not handed over, and everything that does not add up.
-		</p>
-	</div>
-	<form method="POST" action="?/sweep" use:enhance class="dk-acts">
-		<Button type="submit" variant="quiet" icon={RefreshIcon}>Check for late payments</Button>
-	</form>
-</div>
+<PageTop trail={[{ label: 'Money owed' }]}>
+	{#snippet actions()}
+		<!-- The form is here so the page owns it; the menu only names it. -->
+		<form method="POST" action="?/sweep" id="sweep" use:enhance></form>
+		<PageActions
+			label="money owed"
+			items={[
+				{
+					label: 'Check for late payments',
+					description: 'Looks for parcels delivered a while ago that nobody has paid you for.',
+					icon: RefreshIcon,
+					formId: 'sweep'
+				},
+				{
+					label: 'Import their report',
+					description: "Read the courier's payout file and match every line to a parcel.",
+					icon: Upload01Icon,
+					onselect: () => (importing = true)
+				}
+			]}
+		/>
+	{/snippet}
+</PageTop>
 
+<!-- Sweeping is the one action still on the page rather than in a sheet, so its
+     failure has nowhere else to be said. -->
 {#if form?.message}
 	<div class="lead-banner">
 		<Banner title="That did not work" tone="danger">{form.message}</Banner>
@@ -58,6 +83,26 @@
 			{form.flagged === 0
 				? 'Nothing new. Every delivered parcel has been paid for.'
 				: `${formatNumber(form.flagged)} more parcels are overdue and have been added below.`}
+		</Banner>
+	</div>
+{:else if form?.imported}
+	{@const gap = form.imported.declared_minor - form.imported.matched_minor}
+	<div class="lead-banner">
+		<Banner
+			title="Report read: {formatNumber(form.imported.matched_count)} of {formatNumber(
+				form.imported.line_count
+			)} lines matched"
+			tone={gap === 0 && form.imported.issue_count === 0 ? 'success' : 'warning'}
+		>
+			They say they sent {formatMinor(form.imported.declared_minor)}; our records account for
+			{formatMinor(form.imported.matched_minor)}.
+			{#if gap !== 0}
+				That is {formatMinor(Math.abs(gap))}
+				{gap > 0 ? 'more than we expected' : 'short'}.
+			{/if}
+			{#if form.imported.issue_count > 0}
+				{formatNumber(form.imported.issue_count)} lines need a person and are listed below.
+			{/if}
 		</Banner>
 	</div>
 {/if}
@@ -78,6 +123,50 @@
 	<Stat label="Not accounted for" value={formatMinor(unaccounted)} sub="across every open issue" />
 </section>
 
+{#snippet issueHead()}
+	<th scope="col">What happened</th>
+	<th scope="col" data-numeric>Should be</th>
+	<th scope="col" data-numeric>Came in</th>
+	<th scope="col" data-numeric>Difference</th>
+	<th scope="col"><span class="sr-only">Actions</span></th>
+{/snippet}
+
+{#snippet issueRow(issue: ReconciliationIssue)}
+	<tr>
+		<td>
+			<span class="dk-strong">{heading(issue)}</span>
+			<span class="detail">{issue.detail}</span>
+			<span class="dk-hint">{formatRelativeTime(issue.created_at)}</span>
+		</td>
+		<td data-numeric>
+			{issue.expected_minor === null ? '—' : formatMinor(issue.expected_minor)}
+		</td>
+		<td data-numeric>{issue.actual_minor === null ? '—' : formatMinor(issue.actual_minor)}</td>
+		<td data-numeric>
+			{#if issue.expected_minor !== null && issue.actual_minor !== null}
+				<span class="gap">
+					{issue.actual_minor > issue.expected_minor ? 'over by' : 'short by'}
+					{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor))}
+				</span>
+			{:else}
+				—
+			{/if}
+		</td>
+		<td class="right">
+			<RowActions
+				label={heading(issue)}
+				items={[
+					{
+						label: 'Mark as dealt with',
+						icon: CheckmarkCircle02Icon,
+						onselect: () => (resolving = issue)
+					}
+				]}
+			/>
+		</td>
+	</tr>
+{/snippet}
+
 {#if data.issues.length === 0}
 	<Frame eyebrow="Reconciliation" variant="flush">
 		<Empty
@@ -86,175 +175,105 @@
 		/>
 	</Frame>
 {:else}
-	{#snippet issueRow(issue: (typeof data.issues)[number])}
-		<li class="issue">
-			<div class="issue-main">
-				<h3 class="dk-h2">{HEADING[issue.kind] ?? issue.kind}</h3>
-				<p class="detail">{issue.detail}</p>
-				<p class="dk-hint">{formatRelativeTime(issue.created_at)}</p>
-			</div>
-
-			<dl class="amounts">
-				{#if issue.expected_minor !== null}
-					<div>
-						<dt class="dk-eyebrow">Should be</dt>
-						<dd>{formatMinor(issue.expected_minor)}</dd>
-					</div>
-				{/if}
-				{#if issue.actual_minor !== null}
-					<div>
-						<dt class="dk-eyebrow">Came in</dt>
-						<dd>{formatMinor(issue.actual_minor)}</dd>
-					</div>
-				{/if}
-				{#if issue.expected_minor !== null && issue.actual_minor !== null}
-					<div class="gap">
-						<dt class="dk-eyebrow">
-							{issue.actual_minor > issue.expected_minor ? 'Over by' : 'Short by'}
-						</dt>
-						<dd>{formatMinor(Math.abs(issue.expected_minor - issue.actual_minor))}</dd>
-					</div>
-				{/if}
-			</dl>
-
-			<div>
-				{#if openId === issue.id}
-					<form
-						method="POST"
-						action="?/resolve"
-						use:enhance={() =>
-							async ({ update }) => {
-								openId = '';
-								await update();
-							}}
-						class="resolve"
-					>
-						<input type="hidden" name="id" value={issue.id} />
-						<label class="sr-only" for="res-{issue.id}">What did you do about it?</label>
-						<input
-							id="res-{issue.id}"
-							class="dk-input"
-							name="resolution"
-							placeholder="What did you do about it?"
-							required
-						/>
-						<Button type="submit" size="sm" icon={CheckmarkCircle02Icon}>Save</Button>
-						<Button variant="quiet" size="sm" onclick={() => (openId = '')}>Cancel</Button>
-					</form>
-				{:else}
-					<Button
-						variant="quiet"
-						size="sm"
-						icon={CheckmarkCircle02Icon}
-						aria-label="Mark as dealt with: {HEADING[issue.kind] ?? issue.kind}"
-						onclick={() => (openId = issue.id)}
-					>
-						Mark as dealt with
-					</Button>
-				{/if}
-			</div>
-		</li>
-	{/snippet}
-
 	<div class="dk-stack">
 		{#if critical.length > 0}
-			<Frame
-				eyebrow="Serious"
-				title="Deal with these first"
-				action="{formatNumber(critical.length)} open"
-			>
-				<ul class="issues">
-					{#each critical as issue (issue.id)}{@render issueRow(issue)}{/each}
-				</ul>
-			</Frame>
+			<DataTable title="Serious" rows={critical} noun="issue" head={issueHead} row={issueRow} />
 		{/if}
 
 		{#if rest.length > 0}
-			<Frame
-				eyebrow="Everything else"
-				title="Worth a look"
-				action="{formatNumber(rest.length)} open"
-			>
-				<ul class="issues">
-					{#each rest as issue (issue.id)}{@render issueRow(issue)}{/each}
-				</ul>
-			</Frame>
+			<DataTable title="Worth a look" rows={rest} noun="issue" head={issueHead} row={issueRow} />
 		{/if}
 	</div>
 {/if}
+
+<FormSheet
+	bind:open={importing}
+	title="Import the courier's report"
+	description="When Steadfast pays out, upload the CSV they send. Every line is matched against a parcel; anything that does not match becomes an issue here rather than disappearing."
+	action="?/import_"
+	enctype="multipart/form-data"
+	saved="The report has been read."
+>
+	<Field label="Their report" required hint="The CSV file, as it arrived.">
+		{#snippet control(props)}
+			<input
+				{...props}
+				class="dk-input"
+				type="file"
+				name="report"
+				accept=".csv,text/csv"
+				required
+			/>
+		{/snippet}
+	</Field>
+	<Field label="Payment reference" required hint="From their payment slip.">
+		{#snippet control(props)}
+			<input {...props} class="dk-input" name="reference" required />
+		{/snippet}
+	</Field>
+	<Field label="Amount they sent, in taka" hint="What actually reached your bank.">
+		{#snippet control(props)}
+			<input {...props} class="dk-input" name="declared_total" inputmode="decimal" />
+		{/snippet}
+	</Field>
+	<Field label="Date they paid">
+		{#snippet control(props)}
+			<input {...props} class="dk-input" type="date" name="settled_on" />
+		{/snippet}
+	</Field>
+</FormSheet>
+
+<FormSheet
+	bind:open={
+		() => resolving !== null,
+		(want) => {
+			if (!want) resolving = null;
+		}
+	}
+	title="Mark as dealt with"
+	description={resolving ? heading(resolving) : undefined}
+	action="?/resolve"
+	saved="That one is closed."
+>
+	<input type="hidden" name="id" value={resolving?.id ?? ''} />
+	<p class="dk-note">{resolving?.detail ?? ''}</p>
+	<Field label="What did you do about it?" required>
+		{#snippet control(props)}
+			<input
+				{...props}
+				class="dk-input"
+				name="resolution"
+				placeholder="They sent the rest on Sunday."
+				required
+			/>
+		{/snippet}
+	</Field>
+</FormSheet>
 
 <style>
 	.lead-banner {
 		margin-bottom: 14px;
 	}
 
-	.issues {
-		display: flex;
-		flex-direction: column;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.issue {
-		display: grid;
-		gap: 18px;
-		padding: 16px 12px;
-		border-radius: var(--r-control);
-	}
-
-	.issue + .issue {
-		border-top: 1px solid var(--d-card);
-	}
-
 	.detail {
-		margin: 8px 0 0;
-		font-size: 13px;
+		display: block;
+		margin-top: 4px;
+		font-size: 12.5px;
 		line-height: 1.6;
 		color: var(--d-muted);
 		max-width: 56ch;
 	}
 
-	.issue-main .dk-hint {
+	.dk-hint {
 		display: block;
-		margin-top: 8px;
+		margin-top: 4px;
 	}
 
-	.amounts {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 24px;
-		margin: 0;
-	}
-
-	.amounts dd {
-		margin: 6px 0 0;
-		font-size: 17px;
-		font-weight: 600;
-		font-variant-numeric: tabular-nums;
-		color: var(--d-ink);
-	}
-
-	.gap dd {
+	.gap {
 		color: var(--danger);
 	}
 
-	.resolve {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-	}
-
-	.resolve .dk-input {
-		flex: 1;
-		min-width: 200px;
-	}
-
-	@media (min-width: 1000px) {
-		.issue {
-			grid-template-columns: minmax(0, 1fr) auto auto;
-			align-items: start;
-			gap: 32px;
-		}
+	.right {
+		text-align: right;
 	}
 </style>

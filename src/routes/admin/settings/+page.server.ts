@@ -4,19 +4,27 @@ import { call, get } from '$lib/server/api';
 import { accessAfterParent, readAccess } from '$lib/server/session';
 
 import type { AppliedTheme, PaymentMethod, SettingsOverview, ThemeSummary } from '$lib/api/types';
-import type { StaffMember } from '$lib/admin/types';
+import type { DomainStatus, NotificationPrefs, StaffMember, UsageReport } from '$lib/admin/types';
 import { failedCall } from '$lib/server/form';
 
 export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 	const token = await accessAfterParent(parent, cookies);
 
-	const [payments, themes, applied, staff, overview] = await Promise.all([
-		get<{ payment_methods: PaymentMethod[] | null }>(fetch, '/v1/store/payment-methods'),
-		get<{ themes: ThemeSummary[] }>(fetch, '/v1/admin/themes', { token }),
-		get<AppliedTheme>(fetch, '/v1/admin/theme', { token }),
-		get<{ staff: StaffMember[] }>(fetch, '/v1/admin/staff', { token }),
-		get<SettingsOverview>(fetch, '/v1/admin/settings', { token })
-	]);
+	const [payments, themes, applied, staff, overview, notifications, domain, usage] =
+		await Promise.all([
+			get<{ payment_methods: PaymentMethod[] | null }>(fetch, '/v1/store/payment-methods'),
+			get<{ themes: ThemeSummary[] }>(fetch, '/v1/admin/themes', { token }),
+			get<AppliedTheme>(fetch, '/v1/admin/theme', { token }),
+			get<{ staff: StaffMember[] }>(fetch, '/v1/admin/staff', { token }),
+			get<SettingsOverview>(fetch, '/v1/admin/settings', { token }),
+			get<NotificationPrefs>(fetch, '/v1/admin/notifications', { token }),
+			/* Staff cannot read this endpoint, and settings is open to them — so a
+		   refusal is a state of the page rather than a failure of it. */
+			get<DomainStatus>(fetch, '/v1/admin/domain', { token }).catch(() => null),
+			/* Whether the plan carries a custom domain at all, so the card offers a
+		   box or explains why there is none rather than failing on submit. */
+			get<UsageReport>(fetch, '/v1/admin/usage', { token }).catch(() => null)
+		]);
 
 	return {
 		live: payments.payment_methods ?? [],
@@ -26,7 +34,10 @@ export const load: PageServerLoad = async ({ fetch, cookies, parent }) => {
 		payments: overview.payment ?? [],
 		couriers: overview.courier ?? [],
 		themes: themes.themes ?? [],
-		applied
+		applied,
+		notifications,
+		domain: domain ?? { domain: '', verified: false, claimed_at: null, verified_at: null },
+		domainIncluded: usage?.usage.find((u) => u.feature === 'custom_domain')?.enabled ?? false
 	};
 };
 
@@ -102,6 +113,71 @@ export const actions: Actions = {
 			return failedCall(cause, { section: 'payments' });
 		}
 		return { section: 'payments', done: 'Card and mobile payments are saved.' };
+	},
+
+	/* Which messages go out, and the shop's own SMS account to send them with.
+	   Bangla is unicode — 70 characters a part against 160 — so every message
+	   the shop turns on costs them, and each one is a separate decision. */
+	notifications: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		try {
+			await call(fetch, '/v1/admin/notifications', {
+				method: 'PUT',
+				body: {
+					sms_enabled: form.get('sms_enabled') === 'on',
+					provider: String(form.get('provider') ?? ''),
+					api_key: String(form.get('api_key') ?? ''),
+					sender_id: String(form.get('sender_id') ?? ''),
+					sender_name: String(form.get('sender_name') ?? '').trim(),
+					notify_placed: form.get('notify_placed') === 'on',
+					notify_shipped: form.get('notify_shipped') === 'on',
+					notify_delivered: form.get('notify_delivered') === 'on',
+					notify_cancelled: form.get('notify_cancelled') === 'on'
+				},
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'notifications' });
+		}
+		return { section: 'notifications', done: 'Text messages are saved.' };
+	},
+
+	domainClaim: async ({ request, fetch, cookies }) => {
+		const form = await request.formData();
+		try {
+			await call(fetch, '/v1/admin/domain', {
+				method: 'PUT',
+				body: { domain: String(form.get('domain') ?? '') },
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'domain' });
+		}
+		return { section: 'domain', done: 'Now add the record it shows you.' };
+	},
+
+	domainVerify: async ({ fetch, cookies }) => {
+		try {
+			await call(fetch, '/v1/admin/domain/verify', {
+				method: 'POST',
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'domain' });
+		}
+		return { section: 'domain', done: "That is your shop's address now." };
+	},
+
+	domainRelease: async ({ fetch, cookies }) => {
+		try {
+			await call(fetch, '/v1/admin/domain', {
+				method: 'DELETE',
+				token: readAccess(cookies)
+			});
+		} catch (cause) {
+			return failedCall(cause, { section: 'domain' });
+		}
+		return { section: 'domain', done: 'Your shop is back on its own address only.' };
 	},
 
 	courier: async ({ request, fetch, cookies }) => {

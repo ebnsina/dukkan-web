@@ -18,8 +18,8 @@ import type { Plan } from '$lib/api/types';
  */
 export const load: PageServerLoad = async ({ fetch, url }) => {
 	/* This page sells Dukkàn, so it belongs to nobody. On a shop's own address
-	   the shop is what was asked for — `rahim.dukkan.store` showing our
-	   marketing page instead of Rahim's would be the wrong site entirely. */
+	   the shop is what was asked for — a shop's own address showing our
+	   marketing page instead of their storefront would be the wrong site. */
 	if (shopFromHost(url.host)) redirect(307, '/shop');
 
 	/* "See live stores" has to lead to a live store. `/shop` did, back when the

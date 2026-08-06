@@ -8,7 +8,15 @@ import { failedCall } from '$lib/server/form';
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
 	try {
-		return { product: await get<ProductDetail>(fetch, `/v1/store/products/${params.slug}`) };
+		/* The API builds the JSON-LD, because it holds the price and the price is
+		   never a float — it goes out as a decimal string, and rebuilding it here
+		   would be the one place a rounding error could get back in. A shop with
+		   no structured data still sells, so a failure here is worn, not raised. */
+		const [product, schema] = await Promise.all([
+			get<ProductDetail>(fetch, `/v1/store/products/${params.slug}`),
+			get<unknown>(fetch, `/v1/store/products/${params.slug}/schema`).catch(() => null)
+		]);
+		return { product, schema };
 	} catch (cause) {
 		if (isApiError(cause) && cause.status === 404) error(404, { message: cause.message });
 		throw cause;

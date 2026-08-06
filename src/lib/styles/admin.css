@@ -566,8 +566,14 @@ a.dk-view:hover {
 }
 
 .dk-table td {
-	padding: 13px 14px;
+	padding: 16px 14px;
 	color: var(--d-muted);
+}
+
+/* A row carrying a second line — a Bangla name, a phone number — needs the
+   gap measured from that line, not from the first. */
+.dk-table td:has(span:not(:only-child)) {
+	padding-block: 14px;
 }
 
 /* A hairline between rows, drawn inside the cell so the rounded ends stay
@@ -720,20 +726,58 @@ a.dk-num:hover {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 	margin-bottom: 14px;
 }
 
-.dk-filters .dk-input {
+/* Sitting beside the page title rather than above the table, so it carries no
+   gap of its own and everything in it lines up on one baseline. A search box,
+   a dropdown and a button at three different heights is the first thing the
+   eye catches, and it reads as broken rather than as dense. */
+.dk-title-row .dk-filters {
+	margin-bottom: 0;
+	/* Its natural width, and on one line.
+	 *
+	 * A flex container that may wrap reports its max-content as the widest line
+	 * *after* wrapping, not the sum of its items — so as a flex item it asked
+	 * for less room than it needed and dropped the Search button onto a second
+	 * row even with the whole title bar free beside it. */
+	flex: 0 0 auto;
+	flex-wrap: nowrap;
+}
+
+/* Narrow enough that the title bar stacks anyway; the controls may spread. */
+@media (max-width: 760px) {
+	.dk-title-row .dk-filters {
+		flex: 1 1 100%;
+		flex-wrap: wrap;
+	}
+}
+
+.dk-filters .dk-input,
+.dk-filters .dk-select {
 	width: auto;
-	flex: 0 1 320px;
-	min-width: 220px;
+	/* One height for all three, set here rather than left to each control's own
+	   padding, which differs between an input and a select on every browser. */
+	height: 38px;
+	padding-block: 0;
+	line-height: normal;
+}
+
+.dk-filters .dk-input {
+	/* Wide enough for its own placeholder. Truncated to "Name in English or
+	   Ban…" it read as broken rather than as brief. */
+	flex: 0 0 280px;
 }
 
 .dk-filters .dk-select {
-	width: auto;
-	min-width: 180px;
+	min-width: 0;
+	flex: 0 0 auto;
 }
+
+/* A search box submits on Enter and a dropdown on choosing, so neither needs a
+   button beside it — and the one it had wore the same brand colour as the
+   page's real action, so two things competed to be the obvious one. */
 
 /* ── Messages ─────────────────────────────────────────────────────────── */
 

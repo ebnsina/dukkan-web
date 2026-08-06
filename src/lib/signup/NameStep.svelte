@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { Globe02Icon } from '@hugeicons/core-free-icons';
 	import { Frame } from '$lib/ui';
@@ -64,18 +65,21 @@
 				class="min-w-0 flex-1 bg-transparent font-mk-mono text-[clamp(14px,1.7vw,18px)] text-mk-ink placeholder:text-mk-faint focus:outline-none"
 			/>
 			<span class="shrink-0 font-mk-mono text-[clamp(14px,1.7vw,18px)] text-mk-faint"
-				>.dukkan.store</span
+				>.{PUBLIC_SHOP_DOMAIN}</span
 			>
 		</div>
 	</Frame>
 
-	<p aria-live="polite" class="mt-3 min-h-[18px] font-mk-mono text-[11px] tracking-[0.12em] uppercase">
+	<p
+		aria-live="polite"
+		class="mt-3 min-h-[18px] font-mk-mono text-[11px] tracking-[0.12em] uppercase"
+	>
 		{#if address.checking}
 			<span class="text-mk-muted">Checking…</span>
 		{:else if address.failed}
 			<span class="text-mk-muted">{address.failed}</span>
 		{:else if address.found?.available}
-			<span class="text-mk-brand-type">{address.found.slug}.dukkan.store is free</span>
+			<span class="text-mk-brand-type">{address.found.slug}.{PUBLIC_SHOP_DOMAIN} is free</span>
 		{:else if address.found?.reason}
 			<span class="text-mk-muted">{address.found.reason}</span>
 		{/if}

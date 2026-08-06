@@ -1,50 +1,81 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { HugeiconsIcon } from '@hugeicons/svelte';
-	import { ArrowLeft01Icon, Cancel01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons';
+	import { announce } from '$lib/admin/announce';
+	import {
+		ArrowTurnBackwardIcon,
+		Cancel01Icon,
+		DeliveryTruck01Icon,
+		PrinterIcon
+	} from '@hugeicons/core-free-icons';
 	import Seo from '$lib/seo/Seo.svelte';
-	import { Banner, Button, Confirm, Frame, Status } from '$lib/ui';
+	import { Button, Confirm, Field, Frame, Status } from '$lib/ui';
+	import DataTable from '$lib/admin/DataTable.svelte';
+	import PageTop from '$lib/admin/PageTop.svelte';
+	import PageActions from '$lib/admin/PageActions.svelte';
+	import FormSheet from '$lib/admin/FormSheet.svelte';
 	import OrderTotals from '$lib/shop/OrderTotals.svelte';
 	import { formatMinor } from '$lib/utils/money';
 	import { formatDateTime, formatNumber } from '$lib/utils/format';
 
-	let { data, form } = $props();
+	let { data } = $props();
 
 	const order = $derived(data.order);
 	const canCancel = $derived(!['shipped', 'delivered', 'cancelled'].includes(order.status));
 
+	/* Nothing came in on a pending or failed order, so there is nothing to give
+	   back; once the whole total is returned there is nothing left either. */
+	const canRefund = $derived(
+		['paid', 'partially_refunded'].includes(order.payment_state) &&
+			order.refunded_minor < order.total_minor
+	);
+
+	const METHOD: Record<string, string> = {
+		cash: 'Cash',
+		bkash: 'bKash',
+		nagad: 'Nagad',
+		bank: 'Bank transfer',
+		gateway: 'Through the gateway',
+		manual: 'Some other way'
+	};
+
 	let confirming = $state(false);
+	let refunding = $state(false);
 </script>
 
 <Seo title="Order {order.number}" description="Order detail." noindex />
 
-<a class="back" href="/admin/orders">
-	<span aria-hidden="true"
-		><HugeiconsIcon icon={ArrowLeft01Icon} size={15} strokeWidth={1.6} /></span
-	>
-	All orders
-</a>
+<PageTop trail={[{ label: 'Orders', href: '/admin/orders' }, { label: order.number }]}>
+	<!-- The status is what the order *is*, not something you can do to it, so it
+	     stays here rather than joining the menu. -->
+	{#snippet meta()}
+		{formatDateTime(order.placed_at)} · <Status status={order.status} />
+	{/snippet}
 
-<div class="dk-title-row">
-	<div>
-		<h1 class="dk-h1">{order.number}</h1>
-		<p class="dk-date">{formatDateTime(order.placed_at)}</p>
-	</div>
-	<div class="dk-acts">
-		<Status status={order.status} />
-		{#if canCancel}
-			<Button variant="danger" icon={Cancel01Icon} onclick={() => (confirming = true)}>
-				Cancel order
-			</Button>
-		{/if}
-	</div>
-</div>
-
-{#if form?.message}
-	<div class="msg"><Banner title="That did not work" tone="danger">{form.message}</Banner></div>
-{:else if form?.done}
-	<div class="msg"><Banner title="Done" tone="success">{form.done}</Banner></div>
-{/if}
+	{#snippet actions()}
+		<PageActions
+			label="order {order.number}"
+			items={[
+				{
+					label: 'Invoice',
+					description: 'Open a printable copy to put in the parcel.',
+					icon: PrinterIcon,
+					href: `/admin/orders/${order.id}/invoice`
+				},
+				...(canCancel
+					? [
+							{
+								label: 'Cancel order',
+								description: 'The customer is told and anything reserved goes back into stock.',
+								icon: Cancel01Icon,
+								danger: true,
+								onselect: () => (confirming = true)
+							}
+						]
+					: [])
+			]}
+		/>
+	{/snippet}
+</PageTop>
 
 <div class="cols">
 	<div class="dk-stack">
@@ -54,7 +85,11 @@
 					<div class="pack-head">
 						<Status status={pack.status} />
 						{#if ['pending', 'confirmed', 'packed'].includes(pack.status)}
-							<form method="POST" action="?/ship" use:enhance>
+							<form
+								method="POST"
+								action="?/ship"
+								use:enhance={announce('The courier has been booked.')}
+							>
 								<input type="hidden" name="package_id" value={pack.id} />
 								<input type="hidden" name="note" value="" />
 								<Button type="submit" size="sm" icon={DeliveryTruck01Icon}>Book the courier</Button>
@@ -74,6 +109,55 @@
 				</div>
 			{/each}
 		</Frame>
+
+		{#if canRefund || data.refunds.length > 0}
+			{#if canRefund}
+				<div class="dk-acts">
+					<Button
+						size="sm"
+						variant="quiet"
+						icon={ArrowTurnBackwardIcon}
+						onclick={() => (refunding = true)}
+					>
+						Record a refund
+					</Button>
+				</div>
+			{/if}
+
+			<DataTable
+				title="Money given back"
+				rows={data.refunds}
+				noun="refund"
+				paged={false}
+				emptyTitle="Nothing given back"
+				emptyBody="Give the money back in your gateway or in cash first, then write it down here so the order stops reading as fully paid."
+			>
+				{#snippet head()}
+					<th scope="col" data-numeric>Amount</th>
+					<th scope="col">How</th>
+					<th scope="col">Why</th>
+					<th scope="col">Their reference</th>
+					<th scope="col">When</th>
+				{/snippet}
+
+				{#snippet row(refund)}
+					<tr>
+						<td data-numeric>{formatMinor(refund.amount_minor, refund.currency)}</td>
+						<td>{METHOD[refund.method] ?? refund.method}</td>
+						<td>{refund.reason}</td>
+						<td class="dk-num">{refund.reference || '—'}</td>
+						<td class="dk-quiet">{formatDateTime(refund.created_at)}</td>
+					</tr>
+				{/snippet}
+			</DataTable>
+
+			{#if data.refunds.length > 0}
+				<p class="dk-hint">
+					{formatMinor(order.refunded_minor, order.currency)} of
+					{formatMinor(order.total_minor, order.currency)} returned.
+				</p>
+			{/if}
+		{/if}
 
 		{#if order.events.length > 0}
 			<Frame eyebrow="History" title="What has happened" variant="pad">
@@ -131,6 +215,44 @@
 	</aside>
 </div>
 
+{#if canRefund}
+	<FormSheet
+		bind:open={refunding}
+		title="Record a refund"
+		description="Give the money back in your gateway or in cash first, then write it down here so the order stops reading as fully paid."
+		action="?/refund"
+		saved="The refund is recorded."
+	>
+		<Field label="How much, in taka" required>
+			{#snippet control(props)}
+				<input {...props} class="dk-input" name="amount" inputmode="decimal" required />
+			{/snippet}
+		</Field>
+		<Field label="How you returned it" required>
+			{#snippet control(props)}
+				<select {...props} class="dk-select" name="method" required>
+					<option value="cash">Cash</option>
+					<option value="bkash">bKash</option>
+					<option value="nagad">Nagad</option>
+					<option value="bank">Bank transfer</option>
+					<option value="gateway">Through the payment gateway</option>
+					<option value="manual">Some other way</option>
+				</select>
+			{/snippet}
+		</Field>
+		<Field label="Their reference" hint="Optional — the transaction number.">
+			{#snippet control(props)}
+				<input {...props} class="dk-input" name="reference" />
+			{/snippet}
+		</Field>
+		<Field label="Why" required>
+			{#snippet control(props)}
+				<input {...props} class="dk-input" name="reason" required />
+			{/snippet}
+		</Field>
+	</FormSheet>
+{/if}
+
 <Confirm bind:open={confirming} title="Cancel {order.number}?">
 	The customer will be told. Anything reserved goes back into stock.
 	{#snippet actions()}
@@ -151,23 +273,6 @@
 </Confirm>
 
 <style>
-	.back {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		margin-bottom: 16px;
-		font-size: 12.5px;
-		color: var(--d-faint);
-	}
-
-	.back:hover {
-		color: var(--d-ink);
-	}
-
-	.msg {
-		margin-bottom: 14px;
-	}
-
 	.cols {
 		display: grid;
 		gap: 14px;

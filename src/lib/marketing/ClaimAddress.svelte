@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 	import { Frame } from '$lib/ui';
 	import { HugeiconsIcon } from '@hugeicons/svelte';
 	import { ArrowRight02Icon, CheckmarkBadge01Icon, Globe02Icon } from '@hugeicons/core-free-icons';
@@ -8,7 +9,9 @@
 	/* Front-end only, and a courtesy: the server is the authority on whether a
 	   handle is free. */
 	const TAKEN = ['shop', 'store', 'dukkan', 'test', 'admin', 'demo', 'marigold'];
-	const SUFFIX = '.dukkan.store';
+	/* The shop domain is configuration, not copy. Baked into the markup it
+	   becomes a promise the product breaks the day the name changes. */
+	const SUFFIX = `.${PUBLIC_SHOP_DOMAIN}`;
 
 	let raw = $state('fairyshop');
 	let checking = $state(false);

@@ -36,6 +36,8 @@
 <Seo
 	title={product.title}
 	description={product.summary ?? `${product.title} from ${data.shop.name}.`}
+	image={product.images?.[0]?.urls.large}
+	schema={data.schema}
 />
 
 <article class="wrap container-page">

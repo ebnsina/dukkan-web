@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 	import IphoneFrame from '$lib/marketing/art/IphoneFrame.svelte';
 	import MacBookFrame from '$lib/marketing/art/MacBookFrame.svelte';
 	import MacWindow from '$lib/marketing/art/MacWindow.svelte';
@@ -89,7 +90,7 @@
 	<div class="relative">
 		<MacBookFrame>
 			<!-- The browser fills the desktop, so the shop keeps the room it needs. -->
-			<MacWindow url="yourshop.dukkan.store" class="h-full">
+			<MacWindow url="yourshop.{PUBLIC_SHOP_DOMAIN}" class="h-full">
 				<!-- Colour never transitions: gradients cannot interpolate, so a fade would
 				 land the new accent on the old ground. -->
 				<div {style} class="h-full bg-[var(--shop-bg)] p-3.5 text-[var(--shop-fg)]">

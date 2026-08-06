@@ -23,6 +23,58 @@
 	let method = $state('cod');
 	let district = $state('');
 	let submitting = $state(false);
+
+	/* What delivery costs, fetched the moment a district is picked.
+	 *
+	 * The page used to promise it would be "worked out and added to the total",
+	 * which in a cash-on-delivery market is the wrong place to leave it: the
+	 * charge can be a fifth of a small basket, and a shopper who first meets it
+	 * at the door refuses the parcel — leaving the shop to pay the courier for
+	 * a sale it never made.
+	 *
+	 * The API still prices the order authoritatively at submit. This is the
+	 * shopper's answer, not the ledger's, so a failure is worn quietly. */
+	let shipping = $state<number | null>(null);
+	let quoting = $state(false);
+
+	/* The discount lands before delivery, which is how the API totals it, so
+	   the two agree and free-delivery-above thresholds mean what they say. */
+	const payable = $derived(
+		data.cart.subtotal_minor - (applied?.discount_minor ?? 0) + (shipping ?? 0)
+	);
+
+	$effect(() => {
+		const code = district;
+		if (!code) {
+			shipping = null;
+			return;
+		}
+
+		let cancelled = false;
+		quoting = true;
+		const params = new URLSearchParams({
+			district_code: code,
+			subtotal_minor: String(Math.max(data.cart.subtotal_minor - (applied?.discount_minor ?? 0), 0))
+		});
+
+		fetch(`/checkout/quote?${params}`)
+			.then((r) => (r.ok ? r.json() : null))
+			.then((quote) => {
+				if (cancelled) return;
+				shipping = typeof quote?.shipping_minor === 'number' ? quote.shipping_minor : null;
+			})
+			.catch(() => {
+				if (!cancelled) shipping = null;
+			})
+			.finally(() => {
+				if (!cancelled) quoting = false;
+			});
+
+		// A shopper changing their mind twice must not be shown the first answer.
+		return () => {
+			cancelled = true;
+		};
+	});
 </script>
 
 <Seo title="Checkout" description="Confirm your delivery details." noindex />
@@ -231,9 +283,33 @@
 			{#if couponError}
 				<p class="code-error t-label" aria-live="polite">{couponError}</p>
 			{/if}
-			<p class="delivery t-label">
-				Delivery is worked out from your district and added to the total.
-			</p>
+			<div class="line">
+				<span>Delivery</span>
+				<span class="t-mono" aria-live="polite">
+					{#if !district}
+						<span class="pending">Choose a district</span>
+					{:else if quoting}
+						<span class="pending">Working it out…</span>
+					{:else if shipping === null}
+						<span class="pending">Added at the end</span>
+					{:else if shipping === 0}
+						Free
+					{:else}
+						{formatMinor(shipping, data.cart.currency)}
+					{/if}
+				</span>
+			</div>
+
+			<div class="line total payable">
+				<span>{method === 'cod' ? 'To pay on delivery' : 'To pay'}</span>
+				<span class="t-mono">{formatMinor(payable, data.cart.currency)}</span>
+			</div>
+
+			{#if shipping === null && district}
+				<p class="delivery t-label">
+					We could not work out delivery just now. It is added when your order is placed.
+				</p>
+			{/if}
 		</aside>
 	</div>
 </div>
@@ -252,6 +328,16 @@
 	.code-error {
 		margin-top: 6px;
 		color: var(--muted);
+	}
+
+	.pending {
+		color: var(--muted);
+	}
+
+	/* The number the shopper actually hands over. It carries the weight on this
+	   panel, because on a cash order it is the only figure that matters. */
+	.payable {
+		font-weight: 600;
 	}
 
 	.wrap {

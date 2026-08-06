@@ -66,6 +66,161 @@ export interface Coupon {
 	created_at: string;
 }
 
+/* Grouped by phone, not by account: most shoppers here check out as a guest
+   every time, and to the shop they are plainly the same person. */
+export interface AdminCustomer {
+	user_id: string | null;
+	name: string;
+	phone: string;
+	email: string | null;
+	district: string;
+	order_count: number;
+	spent_minor: number;
+	currency: string;
+	first_order_at: string;
+	last_order_at: string;
+	/** Cancelled and returned. The number that says whether COD is safe here. */
+	failed_count: number;
+}
+
+/* What one courier remittance file turned into. `declared` is what they say
+   they sent, `matched` what our own records say is owed; the gap is the point. */
+export interface SettlementImport {
+	settlement_id: string;
+	reference: string;
+	line_count: number;
+	matched_count: number;
+	declared_minor: number;
+	matched_minor: number;
+	issue_count: number;
+}
+
+/* The SMS account is the shop's own, so the API seals the key and never sends
+   it back — `configured` is the only honest thing it can say about one. */
+export interface NotificationPrefs {
+	sms_enabled: boolean;
+	sms_sender_name: string;
+	notify_placed: boolean;
+	notify_shipped: boolean;
+	notify_delivered: boolean;
+	notify_cancelled: boolean;
+	configured: boolean;
+}
+
+/* A record of money already given back elsewhere, not an instruction to give it
+   back: the money never passed through Dukkàn. */
+export interface Refund {
+	id: string;
+	order_id: string;
+	amount_minor: number;
+	currency: string;
+	method: 'manual' | 'cash' | 'bkash' | 'nagad' | 'bank' | 'gateway';
+	reference: string | null;
+	reason: string;
+	refunded_by: string | null;
+	created_at: string;
+}
+
+/* One line of what the plan grants and where the shop stands against it.
+   `limit: null` is unlimited, which reads differently from a large number. */
+export interface UsageLine {
+	feature:
+		| 'products'
+		| 'orders_per_month'
+		| 'staff_seats'
+		| 'vendors'
+		| 'ai_credits'
+		| 'custom_domain'
+		| 'vendor_subscriptions'
+		| 'webhooks';
+	enabled: boolean;
+	limit: number | null;
+	used: number;
+	/** Metered features reset monthly; counted ones free up when you delete. */
+	metered: boolean;
+	/** Only ever true where going over is allowed — see the orders allowance. */
+	over: boolean;
+}
+
+export interface UsageReport {
+	plan: string;
+	usage: UsageLine[];
+	period_start: string;
+}
+
+/* What the shop is signed up to, and what it has been billed. Nothing here
+   charges a card: an operator marks a bill paid, because collecting from the
+   first customers happens by bKash or bank transfer. */
+export interface Subscription {
+	id: string;
+	plan_code: string;
+	status: 'trialing' | 'active' | 'past_due' | 'cancelled';
+	price_minor: number;
+	currency: string;
+	interval: 'monthly' | 'yearly';
+	current_period_start: string;
+	current_period_end: string;
+	trial_ends_on: string | null;
+}
+
+export interface SubscriptionInvoice {
+	id: string;
+	number: string;
+	period_start: string;
+	period_end: string;
+	plan_minor: number;
+	/** Counted always; charged only if the plan carries an overage price. */
+	overage_orders: number;
+	overage_minor: number;
+	total_minor: number;
+	currency: string;
+	status: 'open' | 'paid' | 'void';
+	due_on: string;
+	paid_at: string | null;
+	paid_method: string | null;
+	paid_reference: string | null;
+}
+
+export interface BillingReport {
+	subscription: Subscription | null;
+	invoices: SubscriptionInvoice[];
+	shop_status: string;
+}
+
+/* Where a shop's storefront lives. Unverified until a TXT record proves the
+   shop owns the name — until then it neither serves nor gets a certificate. */
+export interface DomainStatus {
+	domain: string;
+	verified: boolean;
+	claimed_at: string | null;
+	verified_at: string | null;
+	record_name?: string;
+	record_type?: string;
+	record_value?: string;
+	claim_expires_at?: string;
+}
+
+export interface ShippingRate {
+	id: string;
+	zone_id: string;
+	name: string;
+	price_minor: number;
+	free_above_minor: number | null;
+	min_days: number | null;
+	max_days: number | null;
+	is_active: boolean;
+}
+
+/* A district belongs to exactly one zone, so the areas partition the country
+   and the default zone catches whatever is left. */
+export interface ShippingZone {
+	id: string;
+	name: string;
+	is_default: boolean;
+	districts: string[];
+	rates: ShippingRate[];
+}
+
 export interface StaffMember {
 	user_id: string;
 	phone: string;

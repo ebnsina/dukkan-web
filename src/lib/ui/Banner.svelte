@@ -123,6 +123,28 @@
 		margin-top: 12px;
 	}
 
+	/* A button inside a toned banner borrows the banner's colour. Left to its
+	   own outline it drew a grey box on a red ground and read as something that
+	   had landed there by accident rather than as the way out of the problem. */
+	.banner[data-tone] .banner-acts :global(button),
+	.banner[data-tone] .banner-acts :global(a) {
+		border-color: currentColor;
+		color: inherit;
+		background: transparent;
+	}
+
+	.banner[data-tone] .banner-acts :global(button:hover),
+	.banner[data-tone] .banner-acts :global(a:hover) {
+		background: currentColor;
+	}
+
+	/* The label has to flip against the filled ground on hover; `color-mix`
+	   keeps it legible whichever tone the banner is. */
+	.banner[data-tone] .banner-acts :global(button:hover) :global(*),
+	.banner[data-tone] .banner-acts :global(a:hover) :global(*) {
+		color: var(--surface);
+	}
+
 	.banner-close {
 		margin-left: auto;
 		padding: 0 4px;

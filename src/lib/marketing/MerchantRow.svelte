@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 	let { demoShop }: { demoShop: string } = $props();
 
 	/* Not a wall of names: a directory of live shops.
@@ -45,7 +46,7 @@
 						<span
 							class="mt-2 block font-mk-mono text-[11px] tracking-[0.02em] text-mk-faint underline decoration-transparent decoration-dotted underline-offset-4 transition-colors duration-200 group-hover:decoration-mk-brand-type"
 						>
-							{merchant.slug}<span class="text-mk-muted/60">.dukkan.store</span>
+							{merchant.slug}<span class="text-mk-muted/60">.{PUBLIC_SHOP_DOMAIN}</span>
 						</span>
 						<span class="mt-1.5 block text-[12px] text-mk-muted">{merchant.trade}</span>
 					</a>

@@ -17,9 +17,10 @@ const CART_HEADER = 'x-cart-token';
  * used as it stands. */
 
 /* Signup creates a shop and the price list sells one, so neither belongs to
-   one. Every other surface — store, admin, vendor — is resolved from the host
-   by `Resolver.Middleware`, and must carry it. */
-const TENANTLESS = ['/v1/signup', '/v1/plans'];
+   one. The operator console is about shops rather than from one, and resolves
+   no tenant at all. Every other surface — store, admin, vendor — is resolved
+   from the host by `Resolver.Middleware`, and must carry it. */
+const TENANTLESS = ['/v1/signup', '/v1/plans', '/v1/platform'];
 
 function originFor(path: string): string {
 	const base = new URL(PUBLIC_API_URL);
@@ -44,6 +45,9 @@ export interface CallOptions {
 	token?: string | null;
 	cartToken?: string | null;
 	form?: URLSearchParams;
+	/* A file going to the API as it arrived. The boundary has to be chosen by
+	   fetch, so this is the one body whose Content-Type we must not set. */
+	upload?: FormData;
 }
 
 export interface Reply<T> {
@@ -90,7 +94,7 @@ export async function call<T>(
 	path: string,
 	options: CallOptions = {}
 ): Promise<Reply<T>> {
-	const { method = 'GET', body, query, token, cartToken, form } = options;
+	const { method = 'GET', body, query, token, cartToken, form, upload } = options;
 
 	const headers: Record<string, string> = { Accept: 'application/json' };
 	if (body !== undefined) headers['Content-Type'] = 'application/json';
@@ -103,7 +107,13 @@ export async function call<T>(
 		response = await fetcher(buildUrl(path, query), {
 			method,
 			headers,
-			body: form ? form.toString() : body === undefined ? undefined : JSON.stringify(body)
+			body: upload
+				? upload
+				: form
+					? form.toString()
+					: body === undefined
+						? undefined
+						: JSON.stringify(body)
 		});
 	} catch {
 		throw new ApiError({ kind: 'network', code: 'NETWORK' });
@@ -127,4 +137,33 @@ export async function call<T>(
 
 export async function get<T>(fetcher: typeof fetch, path: string, options: CallOptions = {}) {
 	return (await call<T>(fetcher, path, { ...options, method: 'GET' })).data;
+}
+
+/* A document rather than a payload. The invoice is HTML because it gets
+   printed, so it cannot go through `call`, which parses JSON — but a failure
+   still arrives as the usual error envelope and is read as one. */
+export async function getText(
+	fetcher: typeof fetch,
+	path: string,
+	options: CallOptions = {}
+): Promise<string> {
+	const headers: Record<string, string> = { Accept: 'text/html' };
+	if (options.token) headers.Authorization = `Bearer ${options.token}`;
+
+	let response: Response;
+	try {
+		response = await fetcher(buildUrl(path, options.query), { headers });
+	} catch {
+		throw new ApiError({ kind: 'network', code: 'NETWORK' });
+	}
+
+	const body = await response.text();
+	if (response.ok) return body;
+
+	try {
+		throw normalize(response.status, JSON.parse(body));
+	} catch (cause) {
+		if (cause instanceof ApiError) throw cause;
+		throw new ApiError({ kind: 'http', code: `http_${response.status}`, status: response.status });
+	}
 }

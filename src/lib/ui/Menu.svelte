@@ -4,6 +4,7 @@
 	   `aria-activedescendant` instead of only being painted, and Escape, Tab or
 	   a click anywhere else puts focus back on the button that opened it. */
 	import type { Snippet } from 'svelte';
+	import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/svelte';
 	import { scale } from 'svelte/transition';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { track } from './position';
@@ -12,6 +13,18 @@
 		label: string;
 		onselect?: () => void;
 		href?: string;
+		/* Submits a form the item is not inside — a row's actions post to
+		   different endpoints, and nesting a form per menu item is not possible
+		   inside a menu. The page renders the form; this names it. */
+		formId?: string;
+		/** A glyph so the list is scannable rather than a column of words. */
+		icon?: IconSvgElement;
+		/* One line saying what the action does. On a page's own Actions menu the
+		   labels are terse — "Put on sale" — and the consequence is worth
+		   spelling out before somebody finds it out. */
+		description?: string;
+		/** Removing or taking something down is coloured, not just worded. */
+		danger?: boolean;
 		disabled?: boolean;
 		separatorBefore?: boolean;
 	}
@@ -63,6 +76,10 @@
 		if (item.disabled) return;
 		close();
 		item.onselect?.();
+		if (item.formId) {
+			const form = document.getElementById(item.formId);
+			if (form instanceof HTMLFormElement) form.requestSubmit();
+		}
 	}
 
 	function onkeydown(event: KeyboardEvent) {
@@ -141,10 +158,19 @@
 					class="item"
 					class:is-active={enabled[activeIndex] === item}
 					class:is-disabled={item.disabled}
+					class:is-danger={item.danger}
 					onclick={() => select(item)}
 					onmouseenter={() => (activeIndex = enabled.indexOf(item))}
 				>
-					{item.label}
+					{#if item.icon}
+						<span class="glyph">
+							<HugeiconsIcon icon={item.icon} size={16} strokeWidth={1.7} />
+						</span>
+					{/if}
+					<span class="text">
+						{item.label}
+						{#if item.description}<span class="said">{item.description}</span>{/if}
+					</span>
 				</svelte:element>
 			{/each}
 		</div>
@@ -186,10 +212,37 @@
 		outline: none;
 	}
 
+	.is-danger {
+		color: var(--danger);
+	}
+
+	.glyph {
+		display: inline-flex;
+		flex: 0 0 auto;
+		/* Held to the first line, so a two-line item keeps its glyph beside the
+		   label rather than floating against the middle of the block. */
+		margin-top: 1px;
+		align-self: flex-start;
+	}
+
+	.text {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.said {
+		font-size: 12px;
+		line-height: 1.35;
+		color: var(--faint);
+	}
+
 	.item {
-		display: block;
+		display: flex;
+		align-items: center;
+		gap: 9px;
 		width: 100%;
-		padding: 10px 12px;
+		padding: 9px 12px;
 		border-radius: var(--r-control);
 		text-align: left;
 		font-size: 14px;

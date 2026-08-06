@@ -159,6 +159,9 @@ export interface OrderDetail extends OrderSummary {
 	subtotal_minor: number;
 	shipping_minor: number;
 	discount_minor: number;
+	/* What has been given back. Zero on almost every order, and why the payment
+	   state may read `partially_refunded`. */
+	refunded_minor: number;
 	email: string | null;
 	thana: string;
 	area: string | null;
