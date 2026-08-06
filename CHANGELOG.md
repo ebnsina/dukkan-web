@@ -140,6 +140,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The closing band no longer promises a trial that does not exist.
+  `trial_ends_at` is a column no Go code writes and every shop has empty, and
+  nothing bills anyone, so "Fourteen days, the full platform, no card" was
+  unbacked twice over — there is no clock, and nothing to pay when it runs out.
+  It says what is true instead: the full platform, no card, free while this is
+  a beta.
+
 - **Self-serve signup could not complete.** Sending the code is a successful
   post, and SvelteKit's `enhance` resets the form element on success — which
   took the bound number down with it. The form that creates the shop then

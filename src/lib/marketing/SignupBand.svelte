@@ -14,7 +14,7 @@
 		<p use:reveal use:scramble class="mb-1.5 block mk-kicker text-mk-brand-lift">Get started</p>
 		<h2 use:reveal class="text-mk-h2">Open your dukk&agrave;n today.</h2>
 		<p use:reveal={80} class="mt-[18px] text-[17px] text-mk-cream/60">
-			Fourteen days, the full platform, no card.
+			The full platform. No card, and nothing to cancel.
 		</p>
 
 		<!-- Signup asks for a phone number, not an email: the code arrives by SMS.
@@ -27,7 +27,7 @@
 			use:reveal={200}
 			class="mt-[18px] font-mk-mono text-[11px] tracking-[0.14em] text-mk-cream/40 uppercase"
 		>
-			14-day trial &middot; Cancel anytime
+			Free while we are in beta
 		</p>
 	</div>
 </section>
