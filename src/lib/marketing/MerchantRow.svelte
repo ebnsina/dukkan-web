@@ -1,4 +1,6 @@
 <script lang="ts">
+	let { demoShop }: { demoShop: string } = $props();
+
 	/* Not a wall of names: a directory of live shops.
 	 *
 	 * A grid of eight names in boxes is the logo wall every platform ships,
@@ -32,7 +34,7 @@
 		<ul class="grid grid-cols-2 gap-x-10 gap-y-9 sm:grid-cols-4">
 			{#each merchants as merchant, i (merchant.slug)}
 				<li use:reveal={i * 45}>
-					<a href="/shop" class="group block">
+					<a href={demoShop} class="group block">
 						<span
 							class="block mk-display text-[clamp(16px,1.5vw,19px)] font-bold text-mk-ink transition-colors duration-200 group-hover:text-mk-brand-type"
 						>

@@ -44,9 +44,9 @@
 	<MkNav />
 
 	<main>
-		<MkHero />
+		<MkHero demoShop={data.demoShop} />
 		<ClaimAddress />
-		<MerchantRow />
+		<MerchantRow demoShop={data.demoShop} />
 		<Features />
 		<ThemeGallery />
 		<FeeCalculator />

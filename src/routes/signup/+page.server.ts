@@ -1,8 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import * as v from 'valibot';
-import { PUBLIC_SHOP_DOMAIN } from '$env/static/public';
 import type { Actions, PageServerLoad } from './$types';
 import { call, get } from '$lib/server/api';
+import { storefrontUrl } from '$lib/server/shop';
 import { fieldErrors, toUserMessage } from '$lib/api/errors';
 import type { Industry, SignupResult, ThemeSummary } from '$lib/api/types';
 
@@ -111,15 +111,7 @@ export const actions: Actions = {
 				method: 'POST',
 				body: parsed.output
 			});
-			/* The API names the shop's address; where that address is reachable
-			   depends on where the visitor already is. It hands back
-			   `https://slug.rootdomain` with no port, which is right in
-			   production and unreachable in development — so the link is built
-			   from this request's own scheme and port instead, and is correct in
-			   both without the API having to know either. */
-			const storefront = `${url.protocol}//${reply.data.slug}.${PUBLIC_SHOP_DOMAIN}${
-				url.port ? `:${url.port}` : ''
-			}`;
+			const storefront = storefrontUrl(reply.data.slug, url);
 
 			// The code is spent either way, so the number stays verified for the
 			// next attempt if anything downstream fails.

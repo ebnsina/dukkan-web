@@ -1,5 +1,7 @@
+import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { get, call } from '$lib/server/api';
+import { shopFromHost } from '$lib/server/shop';
 import { readAccess, readCart, writeCart } from '$lib/server/session';
 import type { AppliedTheme, Cart, Category, StoreContext } from '$lib/api/types';
 
@@ -12,7 +14,13 @@ const FALLBACK: AppliedTheme = {
 	tokens: { accent: '#0b0b0d', 'accent-ink': '#ffffff', surface: '#f7f7f8', density: 'compact' }
 };
 
-export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
+export const load: LayoutServerLoad = async ({ fetch, cookies, url }) => {
+	/* A storefront needs a shop, and the shop is the address. Asked for on the
+	   marketing host there is nothing to serve and nothing has gone wrong — it
+	   is the wrong address rather than a broken one, so it goes to the page that
+	   explains what this is. */
+	if (!shopFromHost(url.host)) redirect(307, '/');
+
 	const [shop, categories, theme] = await Promise.all([
 		get<StoreContext>(fetch, '/v1/store/context'),
 		get<{ categories: Category[] }>(fetch, '/v1/store/categories'),

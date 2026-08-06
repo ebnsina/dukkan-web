@@ -1,4 +1,6 @@
 <script lang="ts">
+	let { demoShop }: { demoShop: string } = $props();
+
 	/* Two columns, and a headline that is no longer sized by the column.
 	 *
 	 * On one line "Everything your store needs." needed 10.8px of width per
@@ -55,7 +57,7 @@
 				class="mt-[clamp(28px,2.8vw,40px)] grid w-full gap-3 sm:w-fit sm:auto-cols-fr sm:grid-flow-col"
 			>
 				<Button href="/signup" size="lg">Start free</Button>
-				<Button href="/shop" size="lg" variant="ghost">See live stores</Button>
+				<Button href={demoShop} size="lg" variant="ghost">See live stores</Button>
 			</div>
 
 			<div use:reveal={260} class="mt-[clamp(28px,2.8vw,40px)] flex items-center gap-3.5">

@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { PUBLIC_DEMO_SHOP } from '$env/static/public';
 import { get } from '$lib/server/api';
-import { shopFromHost } from '$lib/server/shop';
+import { shopFromHost, storefrontUrl } from '$lib/server/shop';
 import type { Plan } from '$lib/api/types';
 
 /* The landing page quotes what the API bills.
@@ -21,10 +22,15 @@ export const load: PageServerLoad = async ({ fetch, url }) => {
 	   marketing page instead of Rahim's would be the wrong site entirely. */
 	if (shopFromHost(url.host)) redirect(307, '/shop');
 
+	/* "See live stores" has to lead to a live store. `/shop` did, back when the
+	   environment pinned the whole app to one shop; now that a shop is its
+	   address, that link has no shop in it and resolves to nothing. */
+	const demoShop = storefrontUrl(PUBLIC_DEMO_SHOP, url);
+
 	try {
 		const reply = await get<{ plans: Plan[] }>(fetch, '/v1/plans');
-		return { plans: reply.plans ?? [] };
+		return { plans: reply.plans ?? [], demoShop };
 	} catch {
-		return { plans: [] };
+		return { plans: [], demoShop };
 	}
 };

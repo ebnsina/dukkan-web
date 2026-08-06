@@ -46,6 +46,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   — browsers resolve `*.localhost` to 127.0.0.1, and it was listening on `::1`
   alone, which is its own quiet refusal.
 
+- The landing page links to a live shop rather than to nothing. Nine links —
+  "See live stores" and the eight merchant cards — pointed at `/shop`, which
+  worked only while the environment pinned the whole app to a single shop. Once
+  a shop became its address those links had no shop in them, and the storefront
+  answered a request it could not serve with a 500. They carry a real shop's
+  address now, named by `PUBLIC_DEMO_SHOP`.
+
+  And a storefront asked for on the marketing host redirects rather than
+  failing: there is no shop at that address, which is the wrong address rather
+  than a broken one. `/` and `/shop` now mirror each other — each host serves
+  the one it owns and sends the other home.
+
 - A shop's own address shows the shop. `rahim.dukkan.store/` rendered Dukkàn's
   marketing page — the wrong site, on a domain a merchant hands to customers.
   The landing page belongs to nobody, so on a shop's host it redirects to the
